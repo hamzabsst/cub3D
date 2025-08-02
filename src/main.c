@@ -6,13 +6,13 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:48:34 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/02 17:53:58 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/02 18:45:45 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "cube3D.h"
+# include "cub3D.h"
 
 int main()
 {
-	ft_printf("cube3D");
+	ft_printf("cub3D");
 }

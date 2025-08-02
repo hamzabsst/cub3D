@@ -9,7 +9,7 @@ SRCS 	= src/main.c
 OBJS	= $(SRCS:.c=.o)
 
 INC_DIR	= inc
-HEADERS	= $(INC_DIR)/cube3D.h
+HEADERS	= $(INC_DIR)/cub3D.h
 
 all: $(LIB) $(NAME)
 
