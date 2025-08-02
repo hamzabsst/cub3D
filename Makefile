@@ -1,9 +1,13 @@
 NAME	= cub3D
 CC		= cc
 CFLAGS	= -Wall -Werror -Wextra
+LDFLAGS = -L/usr/X11/lib -lX11 -lXext
 
 LIB_DIR	= mylib
 LIB		= $(LIB_DIR)/myLib.a
+
+MLX_DIR = minilibx
+MLX = $(MLX_DIR)/libmlx.a
 
 SRCS 	= src/main.c
 OBJS	= $(SRCS:.c=.o)
@@ -19,8 +23,8 @@ $(LIB):
 %.o: %.c $(HEADERS)
 	@$(CC) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
-$(NAME): $(OBJS) $(LIB)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME)
+$(NAME): $(OBJS) $(LIB) $(MLX)
+	@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(LIB) $(MLX) -o $(NAME)
 
 clean:
 	@rm -f $(OBJS)
