@@ -3,6 +3,7 @@ CC		= cc
 CFLAGS	= -Wall -Werror -Wextra
 LDFLAGS = -L/usr/X11/lib -lX11 -lXext
 
+
 LIB_DIR	= mylib
 LIB		= $(LIB_DIR)/myLib.a
 
@@ -24,7 +25,7 @@ $(LIB):
 	@$(CC) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
 $(NAME): $(OBJS) $(LIB) $(MLX)
-	@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(LIB) $(MLX) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIB) $(MLX) $(LDFLAGS) -o $(NAME)
 
 clean:
 	@rm -f $(OBJS)
