@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: abchaman <abchaman@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:48:47 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/02 20:15:52 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/08 02:12:14 by abchaman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../mylib/myLib.h"
 # include "../minilibx/mlx.h"
+# include <stdio.h>
 
 typedef struct s_var
 {
@@ -24,4 +25,5 @@ typedef struct s_var
 	void	*win;
 }	t_var;
 
+int	check_name(char *str);
 #endif

@@ -10,7 +10,7 @@ LIB		= $(LIB_DIR)/myLib.a
 MLX_DIR = minilibx
 MLX = $(MLX_DIR)/libmlx.a
 
-SRCS 	= src/main.c
+SRCS 	= src/main.c src/parsing.c
 OBJS	= $(SRCS:.c=.o)
 
 INC_DIR	= inc
