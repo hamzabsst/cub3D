@@ -6,7 +6,7 @@
 /*   By: abchaman <abchaman@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:48:34 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/08 02:48:28 by abchaman         ###   ########.fr       */
+/*   Updated: 2025/08/08 03:30:28 by abchaman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	main(int ac, char **av)
 	{
 		if (check_name(av[1]))
 			return (printf("name of map invalid"), 1);
+		if (open_read(av[1]))
+			return (1);
 		game.mlx = mlx_init();
 		if (!game.mlx)
 			return (1);

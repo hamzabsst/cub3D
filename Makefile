@@ -1,7 +1,7 @@
 NAME	= cub3D
 CC		= cc
 CFLAGS	= -Wall -Werror -Wextra
-LDFLAGS = -L/usr/X11/lib -lX11 -lXext
+LDFLAGS = -L/usr/X11/lib -lX11 -lXext -g
 
 
 LIB_DIR	= mylib

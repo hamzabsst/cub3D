@@ -6,12 +6,11 @@
 /*   By: abchaman <abchaman@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 20:01:28 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/08 02:43:25 by abchaman         ###   ########.fr       */
+/*   Updated: 2025/08/08 03:30:09 by abchaman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cub3D.h"
-
 
 int check_name(char *str)
 {
@@ -37,4 +36,30 @@ int check_name(char *str)
     if (str[last + 4] != '\0')
         return (1);
     return (0);
+}
+int open_read(char *str)
+{
+    char    *buffer;
+    int     fd;
+    int     r;
+    
+    char *buffer = malloc(BUFFER_SIZE);
+    if (!buffer)
+        return (printf("error : malloc failed\n"), 1);
+    fd = open(str, O_RDONLY);
+    if (fd == -1)
+    {
+        free (buffer);
+        return (printf("error : cannot open file\n"), 1);
+    }
+    r = read(fd, buffer, BUFFER_SIZE);
+    if (r <= 0)
+    {
+        free(buffer);
+        close(fd);
+        return (printf("error : read in the file or empty\n"), 1);
+    }
+    free(buffer);
+    close(fd);
+    return (0); 
 }
