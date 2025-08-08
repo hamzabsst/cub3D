@@ -6,7 +6,7 @@
 /*   By: abchaman <abchaman@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:48:47 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/08 03:19:56 by abchaman         ###   ########.fr       */
+/*   Updated: 2025/08/08 17:05:30 by abchaman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_var
 	void	*win;
 }	t_var;
 
-int	check_name(char *str);
-int	open_read(char *str);
+int		check_name(char *str);
+char	**open_read(char *str);
+
 #endif
