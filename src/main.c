@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abchaman <abchaman@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:48:34 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/08 18:16:57 by abchaman         ###   ########.fr       */
+/*   Updated: 2025/08/09 02:07:15 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int ac, char **av)
 	if (ac == 2)
 	{
 		if (check_name(av[1]))
-			return (printf("name of map invalid"), 1);
+			return (ft_putstr_fd("name of map invalid", 2), 1);
 		lines = open_read(av[1]);
 		if (!lines)
 			return (1);
