@@ -1,51 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   load_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/02 20:01:28 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/09 02:10:08 by hbousset         ###   ########.fr       */
+/*   Created: 2025/08/10 16:01:09 by hbousset          #+#    #+#             */
+/*   Updated: 2025/08/10 16:01:13 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cub3D.h"
 
-int check_name(char *str)
+static int	validate_filename(char *filename)
 {
-	int i;
-	int last;
+	int	i;
+	int	last;
 
 	i = 0;
 	last = -1;
-	if (!str || !str[0])
+	if (!filename || !filename[0])
 		return (1);
-	while (str[i])
+	while (filename[i])
 	{
-		if (str[i] == '.' && str[i + 1] == '.')
+		if (filename[i] == '.' && filename[i + 1] == '.')
 			return (1);
-		if (str[i] == '.')
+		if (filename[i] == '.')
 			last = i;
 		i++;
 	}
 	if (last <= 0)
 		return (1);
-	if (ft_strncmp(&str[last], ".cub", 4))
-			return (1);
-	if (str[last + 4] != '\0')
+	if (ft_strncmp(&filename[last], ".cub", 4))
+		return (1);
+	if (filename[last + 4] != '\0')
 		return (1);
 	return (0);
 }
 
-static int count_lines(char *str)
+static int	count_file_lines(char *filename)
 {
-	int	 fd;
-	int	 count;
+	int		fd;
+	int		count;
 	char	*line;
 
 	count = 0;
-	fd = open(str, O_RDONLY);
+	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		return (-1);
 	while ((line = get_next_line(fd)) != NULL)
@@ -56,24 +56,27 @@ static int count_lines(char *str)
 	close(fd);
 	return (count);
 }
-char	**open_read(char *str)
+
+char	**load_file(char *filename)
 {
-	int	 	fd;
+	int		fd;
 	char	**lines;
 	char	*line;
 	int		count;
 
-	count = count_lines(str);
+	if (validate_filename(filename))
+		return (ft_error("Invalid filename"), NULL);
+	count = count_file_lines(filename);
 	if (count <= 0)
-		return (ft_putstr_fd("error: empty file or cannot read\n", 2), NULL);
+		return (ft_error("Empty file or cannot read"), NULL);
 	lines = malloc(sizeof(char *) * (count + 1));
 	if (!lines)
 		return (NULL);
-	fd = open(str, O_RDONLY);
+	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
 		free(lines);
-		return (ft_putstr_fd("error : cannot open file\n", 2), NULL);
+		return (ft_error("Cannot open file"), NULL);
 	}
 	count = 0;
 	while ((line = get_next_line(fd)) != NULL)

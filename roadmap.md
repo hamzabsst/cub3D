@@ -1,30 +1,33 @@
 # 🧭 Cub3D Roadmap
 
-## 🚧 Phase 1: Parsing the .cub file
-- [ ] Read .cub line by line
-- [ ] Identify and store:
-  - [ ] NO path
-  - [ ] SO path
-  - [ ] WE path
-  - [ ] EA path
-  - [ ] F color
-  - [ ] C color
-- [ ] Extract map lines and store in 2D array
-- [ ] Validate map:
-  - [ ] Only `0`, `1`, `N`, `S`, `E`, `W`, and spaces
-  - [ ] Exactly 1 player start
-  - [ ] Map is surrounded by walls
-- [ ] Normalize map (padding for jagged lines)
-- [ ] Handle file format errors and exit with `Error\n<msg>`
+## ✅ Phase 1: Parsing the .cub file (COMPLETED)
+- [x] Read .cub line by line
+- [x] Identify and store:
+  - [x] NO path
+  - [x] SO path
+  - [x] WE path
+  - [x] EA path
+  - [x] F color
+  - [x] C color
+- [x] Extract map lines and store in 2D array
+- [x] Validate map:
+  - [x] Only `0`, `1`, `N`, `S`, `E`, `W`, and spaces
+  - [x] Exactly 1 player start
+  - [x] Map is surrounded by walls (no holes in interior)
+- [x] Normalize map (padding for jagged lines)
+- [x] Handle file format errors and exit with `Error\n<msg>`
+
+**Note**: Current test map has interior holes (spaces inside map area). Need valid test map.
 
 ---
 
-## 🚧 Phase 2: Init Game State
-- [ ] Init MiniLibX
-- [ ] Open window
-- [ ] Init player direction & camera plane based on N/S/E/W
-- [ ] Load textures with `mlx_xpm_file_to_image`
-- [ ] Store floor and ceiling colors in RGB format
+## ✅ Phase 2: Init Game State (COMPLETED)
+- [x] Init MiniLibX
+- [x] Open window (1024x768)
+- [x] Init player direction & camera plane based on N/S/E/W
+- [x] Load textures with `mlx_xpm_file_to_image`
+- [x] Store floor and ceiling colors in RGB format
+- [x] Create rendering buffer for fast pixel manipulation
 
 ---
 
