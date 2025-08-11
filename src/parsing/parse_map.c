@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 14:11:23 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/10 16:21:42 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/11 01:08:33 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,10 @@ static int	validate_chars_and_player(t_game *game)
 	return (0);
 }
 
-static int	check_wall_adjacency(t_game *game, int i, int j, int first, int last)
-{
-	if ((i > 0 && j >= first && j <= last && game->map->map[i - 1][j] == ' ') ||
-		(i < game->map->map_height - 1 && j >= first && j <= last &&
-		game->map->map[i + 1][j] == ' ') ||
-		(j > first && game->map->map[i][j - 1] == ' ') ||
-		(j < last && game->map->map[i][j + 1] == ' '))
-		return (ft_error("Map not closed - walkable area adjacent to void"));
-	return (0);
-}
-
-static int	validate_wall_closure(t_game *game)
+static int	check_border_walls(t_game *game)
 {
 	int	i;
 	int	j;
-	int	first_nonspace;
-	int	last_nonspace;
 
 	i = 0;
 	while (i < game->map->map_height)
@@ -73,27 +60,83 @@ static int	validate_wall_closure(t_game *game)
 		j = 0;
 		while (j < game->map->map_width)
 		{
-			if (game->map->map[i][j] == '0')
-			{
-				if (i == 0 || i == game->map->map_height - 1)
-					return (ft_error("Map not closed - touches border"));
-				first_nonspace = 0;
-				last_nonspace = game->map->map_width - 1;
-				while (first_nonspace < game->map->map_width &&
-					game->map->map[i][first_nonspace] == ' ')
-					first_nonspace++;
-				while (last_nonspace >= 0 &&
-					game->map->map[i][last_nonspace] == ' ')
-					last_nonspace--;
-				if (j < first_nonspace || j > last_nonspace)
-					return (ft_error("Map not closed - in exterior space"));
-				if (check_wall_adjacency(game, i, j, first_nonspace, last_nonspace))
-					return (1);
-			}
+			if ((i == 0 || i == game->map->map_height - 1 ||
+				j == 0 || j == game->map->map_width - 1) &&
+				(game->map->map[i][j] == '0'))
+				return (ft_error("Map not closed - walkable area at border"));
 			j++;
 		}
 		i++;
 	}
+	return (0);
+}
+
+static int	flood_fill(t_game *game, char **temp_map, int x, int y)
+{
+	if (x < 0 || y < 0 || x >= game->map->map_width || y >= game->map->map_height)
+		return (0);
+	if (temp_map[y][x] == '1' || temp_map[y][x] == 'V')
+		return (0);
+	if (temp_map[y][x] == ' ')
+	{
+		temp_map[y][x] = 'V';
+		flood_fill(game, temp_map, x + 1, y);
+		flood_fill(game, temp_map, x - 1, y);
+		flood_fill(game, temp_map, x, y + 1);
+		flood_fill(game, temp_map, x, y - 1);
+		return (0);
+	}
+	temp_map[y][x] = 'V';
+	flood_fill(game, temp_map, x + 1, y);
+	flood_fill(game, temp_map, x - 1, y);
+	flood_fill(game, temp_map, x, y + 1);
+	flood_fill(game, temp_map, x, y - 1);
+	return (0);
+}
+
+static char	**dup_map(t_game *game)
+{
+	char	**temp_map;
+	int		i;
+	int		j;
+
+	temp_map = malloc(sizeof(char *) * game->map->map_height);
+	if (!temp_map)
+		return (NULL);
+	i = 0;
+	while (i < game->map->map_height)
+	{
+		temp_map[i] = malloc(game->map->map_width + 1);
+		if (!temp_map[i])
+		{
+			while (--i >= 0)
+				free(temp_map[i]);
+			free(temp_map);
+			return (NULL);
+		}
+		j = 0;
+		while (j < game->map->map_width)
+		{
+			temp_map[i][j] = game->map->map[i][j];
+			j++;
+		}
+		temp_map[i][j] = '\0';
+		i++;
+	}
+	return (temp_map);
+}
+
+static int	validate_wall_closure(t_game *game)
+{
+	char	**temp_map;
+
+	if (check_border_walls(game))
+		return (1);
+	temp_map = dup_map(game);
+	if (!temp_map)
+		return (ft_error("Memory allocation failed"));
+	flood_fill(game, temp_map, (int)game->player.x, (int)game->player.y);
+	ft_free(temp_map);
 	return (0);
 }
 
