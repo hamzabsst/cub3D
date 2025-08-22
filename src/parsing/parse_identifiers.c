@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 15:58:00 by hamza             #+#    #+#             */
-/*   Updated: 2025/08/10 16:07:40 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:16:56 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,32 @@ static int	parse_texture(char *line, char **texture_path)
 
 static int	parse_color(char *line, int *color)
 {
-	char	**split;
+	char	*color_part;
 	char	**rgb;
+	char	*trimmed;
 	int		i;
+	int		count;
 
-	split = ft_split(line, ' ');
-	if (!split || !split[1])
-		return (ft_free(split), 1);
-	rgb = ft_split(split[1], ',');
-	ft_free(split);
+	color_part = ft_strchr(line, ' ');
+	if (!color_part)
+		return (1);
+	color_part++;
+	rgb = ft_split(color_part, ',');
 	if (!rgb)
 		return (1);
-	i = 0;
-	while (rgb[i])
-		i++;
-	if (i != 3)
+	count = 0;
+	while (rgb[count])
+		count++;
+	if (count != 3)
 		return (ft_free(rgb), 1);
 	i = 0;
 	while (i < 3)
 	{
-		color[i] = ft_atoi(rgb[i]);
+		trimmed = ft_strtrim(rgb[i], " \t");
+		if (!trimmed)
+			return (ft_free(rgb), 1);
+		color[i] = ft_atoi(trimmed);
+		free(trimmed);
 		if (color[i] < 0 || color[i] > 255)
 			return (ft_free(rgb), 1);
 		i++;
