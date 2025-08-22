@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 14:11:23 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/11 01:08:33 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:04:06 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static char	**dup_map(t_game *game)
 	int		i;
 	int		j;
 
-	temp_map = malloc(sizeof(char *) * game->map->map_height);
+	temp_map = malloc(sizeof(char *) * (game->map->map_height + 1));
 	if (!temp_map)
 		return (NULL);
 	i = 0;
@@ -123,6 +123,7 @@ static char	**dup_map(t_game *game)
 		temp_map[i][j] = '\0';
 		i++;
 	}
+	temp_map[i] = NULL;
 	return (temp_map);
 }
 
