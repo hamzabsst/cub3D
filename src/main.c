@@ -6,13 +6,53 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:48:34 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/23 10:00:07 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/23 11:32:39 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	init_game(t_game *game)
+static void	set_direction(t_game *game, double x, double y, double plane_x)
+{
+	game->player.dir.x = x;
+	game->player.dir.y = y;
+	game->player.plane.x = plane_x;
+	if (plane_x == 0)
+	{
+		if (x == 0)
+			game->player.plane.y = 0;
+		else
+			game->player.plane.y = 0.66 * x;
+	}
+	else
+		game->player.plane.y = 0;
+}
+
+static int	init_player(t_game *game)
+{
+	if (game->player.start_dir == 'N')
+		set_direction(game, 0, -1, 0.66);
+	else if (game->player.start_dir == 'S')
+		set_direction(game, 0, 1, -0.66);
+	else if (game->player.start_dir == 'E')
+		set_direction(game, 1, 0, 0);
+	else if (game->player.start_dir == 'W')
+		set_direction(game, -1, 0, 0);
+	return (0);
+}
+
+static int	init_mlx(t_game *game)
+{
+	game->mlx.mlx = mlx_init();
+	if (!game->mlx.mlx)
+		return (ft_error("Failed to initialize MiniLibX"));
+	game->mlx.window = mlx_new_window(game->mlx.mlx, WIDTH, HEIGHT, "cub3D");
+	if (!game->mlx.window)
+		return (ft_error("Failed to create window"));
+	return (0);
+}
+
+static void	init_game(t_game *game)
 {
 	int	i;
 
@@ -32,35 +72,6 @@ void	init_game(t_game *game)
 	}
 }
 
-static int	test_parsing(t_game *game)
-{
-	int	i;
-
-	if (game->no_texture)
-		ft_printf("NO: %s\n", game->no_texture);
-	if (game->so_texture)
-		ft_printf("SO: %s\n", game->so_texture);
-	if (game->we_texture)
-		ft_printf("WE: %s\n", game->we_texture);
-	if (game->ea_texture)
-		ft_printf("EA: %s\n", game->ea_texture);
-	ft_printf("F: %d,%d,%d\nC: %d,%d,%d\n", game->floor_color[0],
-		game->floor_color[1], game->floor_color[2],
-		game->ceiling_color[0], game->ceiling_color[1],
-		game->ceiling_color[2]);
-	ft_printf("Map size: %dx%d\n",
-		game->map->map_width, game->map->map_height);
-	ft_printf("Player at (%.1f,%.1f) facing %c\n",
-		game->player.x, game->player.y, game->player.start_dir);
-	i = 0;
-	while (i < game->map->map_height)
-	{
-		ft_printf("%s\n", game->map->map[i]);
-		i++;
-	}
-	return (0);
-}
-
 int	main(int ac, char **av)
 {
 	char	**lines;
@@ -74,7 +85,17 @@ int	main(int ac, char **av)
 	init_game(&game);
 	if (parse_file(lines, &game))
 		return (ft_free(lines), ft_error("Parsing failed"));
-	test_parsing(&game);
 	ft_free(lines);
+	if (init_mlx(&game))
+		return (cleanup_game(&game), 1);
+	if (init_player(&game))
+		return (cleanup_game(&game), 1);
+	if (load_textures(&game))
+		return (cleanup_game(&game), 1);
+	setup_colors(&game);
+	if (render_buffer(&game))
+		return (cleanup_game(&game), 1);
+	run_game(&game);
+	cleanup_game(&game);
 	return (0);
 }
