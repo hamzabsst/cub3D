@@ -54,12 +54,9 @@ static void	init_game(t_game *game)
 	int	i;
 
 	ft_bzero(game, sizeof(t_game));
-	game->map = (t_map *)ft_calloc(1, sizeof(t_map));
-	if (!game->map)
-		ft_error("Map alloc failed");
-	game->player.x = -1;
-	game->player.y = -1;
-	game->player.start_dir = '\0';
+	game->player_x = -1;
+	game->player_y = -1;
+	game->start_dir = '\0';
 	i = 0;
 	while (i < 3)
 	{

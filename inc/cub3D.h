@@ -19,13 +19,6 @@
 
 # define WIDTH 1024
 # define HEIGHT 768
-# define SIZE 64
-
-typedef struct s_vector
-{
-	double	x;
-	double	y;
-}			t_vector;
 
 typedef struct s_image
 {
@@ -38,47 +31,40 @@ typedef struct s_image
 	int		height;
 }			t_image;
 
-typedef struct s_player
-{
-	double		x;
-	double		y;
-	char		start_dir;
-	t_vector	dir;
-	t_vector	plane;
-}			t_player;
-
-typedef struct s_map
-{
-	char	**map;
-	int		map_width;
-	int		map_height;
-}			t_map;
-
-typedef struct s_textures
-{
-	t_image	north;
-	t_image	south;
-	t_image	west;
-	t_image	east;
-}			t_textures;
-
-typedef struct s_mlx
-{
-	void	*mlx;
-	void	*window;
-	t_image	buffer;
-}			t_mlx;
-
 typedef struct s_game
 {
-	t_map		*map;
-	t_player	player;
-	t_mlx		mlx;
-	t_textures	textures;
-	char		*no_texture;
-	char		*so_texture;
-	char		*we_texture;
-	char		*ea_texture;
+	// MLX
+	void		*mlx;
+	void		*window;
+	t_image		buffer;
+
+	// Map
+	char		**map;
+	int			map_width;
+	int			map_height;
+
+	// Player
+	double		player_x;
+	double		player_y;
+	char		start_dir;
+	double		dir_x;
+	double		dir_y;
+	double		plane_x;
+	double		plane_y;
+
+	// Textures
+	t_image		north_texture;
+	t_image		south_texture;
+	t_image		west_texture;
+	t_image		east_texture;
+
+	// Texture paths
+	char		*no_texture_path;
+	char		*so_texture_path;
+	char		*we_texture_path;
+	char		*ea_texture_path;
+
+	// Colors
 	int			floor_color[3];
 	int			ceiling_color[3];
 	int			floor_rgb;
