@@ -18,12 +18,7 @@ static void	set_direction(t_game *game, double x, double y, double plane_x)
 	game->player.dir.y = y;
 	game->player.plane.x = plane_x;
 	if (plane_x == 0)
-	{
-		if (x == 0)
-			game->player.plane.y = 0;
-		else
-			game->player.plane.y = 0.66 * x;
-	}
+		game->player.plane.y = 0.66;
 	else
 		game->player.plane.y = 0;
 }
@@ -38,6 +33,8 @@ static int	init_player(t_game *game)
 		set_direction(game, 1, 0, 0);
 	else if (game->player.start_dir == 'W')
 		set_direction(game, -1, 0, 0);
+	else
+		return (ft_error("Invalid player start direction"));
 	return (0);
 }
 
