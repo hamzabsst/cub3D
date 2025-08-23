@@ -1,4 +1,4 @@
-# 🧭 Cub3D Roadmap
+# 🧭 Cub3D Roadmap - Updated Based on Subject Requirements
 
 ## ✅ Phase 1: Parsing the .cub file (COMPLETED)
 - [x] Read .cub line by line
@@ -17,8 +17,6 @@
 - [x] Normalize map (padding for jagged lines)
 - [x] Handle file format errors and exit with `Error\n<msg>`
 
-**Note**: Current test map has interior holes (spaces inside map area). Need valid test map.
-
 ---
 
 ## ✅ Phase 2: Init Game State (COMPLETED)
@@ -31,45 +29,105 @@
 
 ---
 
-## 🚧 Phase 3: Raycasting Engine
-- [ ] For each column on screen:
-  - [ ] Calculate ray direction
-  - [ ] Run DDA to find wall hit
-  - [ ] Calculate perpendicular distance
-  - [ ] Choose wall texture (NO, SO, EA, WE)
-  - [ ] Compute texture x coordinate
-  - [ ] Render vertical strip using `mlx_pixel_put` or image buffer
-- [ ] Display floor and ceiling
+## 🚧 Phase 3: Raycasting Engine (CRITICAL - MANDATORY REQUIREMENT)
+**THIS IS YOUR MAIN FOCUS - Without this, the project fails completely**
+- [ ] **Core Algorithm Implementation:**
+  - [ ] For each screen column (x = 0 to WIDTH):
+    - [ ] Calculate ray direction from player position
+    - [ ] Run DDA (Digital Differential Analyzer) to find wall hit
+    - [ ] Calculate perpendicular distance to avoid fisheye effect
+    - [ ] Determine wall height on screen
+    - [ ] Choose correct wall texture (NO/SO/EA/WE based on hit side)
+    - [ ] Calculate texture x-coordinate
+    - [ ] Render textured vertical strip pixel by pixel
+- [ ] **Wall Texture Rendering:**
+  - [ ] Extract texture pixel data from loaded images
+  - [ ] Apply correct texture based on wall orientation
+  - [ ] Handle texture scaling and positioning
+- [ ] **Performance:**
+  - [ ] Use image buffer instead of mlx_pixel_put for speed
+  - [ ] Render ceiling and floor efficiently
 
 ---
 
-## 🚧 Phase 4: Controls and Events
-- [ ] WASD movement
-- [ ] Left/Right arrow rotation
-- [ ] ESC exits cleanly
-- [ ] Red cross exit (window close hook)
-- [ ] Collision detection (optional if bonus)
+## 🚧 Phase 4: Controls and Events (MANDATORY REQUIREMENT)
+**Required by subject - Must be implemented before submission**
+- [ ] **Movement Controls (WASD):**
+  - [ ] W: Move forward in direction vector
+  - [ ] S: Move backward
+  - [ ] A: Strafe left (perpendicular to direction)
+  - [ ] D: Strafe right
+- [ ] **Camera Rotation (Arrow Keys):**
+  - [ ] Left Arrow: Rotate camera left
+  - [ ] Right Arrow: Rotate camera right
+  - [ ] Update both direction vector and camera plane
+- [ ] **Exit Controls:**
+  - [ ] ESC key: Close window and exit cleanly
+  - [ ] Red cross (X): Close window and exit cleanly
+- [ ] **Smooth Movement:**
+  - [ ] Handle multiple key presses
+  - [ ] Consistent movement speed
 
 ---
 
-## 🚧 Phase 5: Rendering Optimization
-- [ ] Use `mlx_new_image`, `mlx_get_data_addr`, `mlx_put_image_to_window`
-- [ ] Avoid `mlx_pixel_put` for full frame
+## 🚧 Phase 5: Rendering Optimization (MANDATORY REQUIREMENT)
+**Required for proper performance**
+- [ ] **Image Buffer Usage:**
+  - [ ] Use mlx_new_image, mlx_get_data_addr, mlx_put_image_to_window
+  - [ ] Avoid mlx_pixel_put for full frame rendering
+  - [ ] Double buffering for smooth display
+- [ ] **Window Management:**
+  - [ ] Smooth window switching, minimizing, etc.
+  - [ ] Proper event handling
 
 ---
 
-## ✅ Phase 6: Final Touches
-- [ ] Error handling for all cases
-- [ ] Leak check (valgrind)
-- [ ] Norminette OK
-- [ ] Proper exit with free()
+## ✅ Phase 6: Final Touches (MANDATORY REQUIREMENT)
+**Required for project submission**
+- [ ] **Error Handling:**
+  - [ ] All error cases return "Error\n" + message
+  - [ ] Proper file validation
+  - [ ] Handle invalid maps, textures, colors
+- [ ] **Memory Management:**
+  - [ ] No memory leaks (valgrind clean)
+  - [ ] Proper cleanup on exit
+  - [ ] Free all allocated resources
+- [ ] **Code Quality:**
+  - [ ] Norminette compliance
+  - [ ] Makefile with all, clean, fclean, re rules
+  - [ ] Proper error exit codes
 
 ---
 
-## ⭐ Bonus (only if mandatory is perfect)
+## 🎯 **IMMEDIATE PRIORITY (Next Steps):**
+
+### 1. **Fix Camera Plane Setup (URGENT)**
+Your current `set_direction` function has incorrect camera plane calculations:
+- East/West directions need perpendicular camera planes
+- The plane should always be perpendicular to direction vector
+
+### 2. **Implement Basic Raycasting (CRITICAL)**
+Create a new file `src/raycasting.c` with:
+- Ray direction calculation
+- DDA algorithm implementation
+- Wall hit detection
+- Distance calculation
+- Basic wall rendering
+
+### 3. **Add Movement Controls (REQUIRED)**
+Update your game loop to handle:
+- Key press events for WASD movement
+- Arrow key rotation
+- Update player position and direction
+
+---
+
+## ⭐ Bonus (ONLY after mandatory is 100% complete)
 - [ ] Wall collision (movement blocked on `1`)
 - [ ] Minimap
 - [ ] Open/close doors
 - [ ] Mouse movement to rotate view
-- [ ] Sprites (e.g. fire, objects, enemies)
+- [ ] Animated sprites
+
+**⚠️ WARNING: Bonuses are IGNORED if mandatory part is not perfect!**
 
