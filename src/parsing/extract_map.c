@@ -6,43 +6,50 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:11:53 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/10 16:12:10 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/23 09:49:27 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static int	count_map_lines(char **lines, int start, int *count, int *max_w)
+static int	process_line(char *line, int *count, int *max_w)
+{
+	char	*trimmed;
+	int		j;
+
+	trimmed = ft_strtrim(line, "\n");
+	if (!trimmed || trimmed[0] == '\0')
+	{
+		if (*count > 0)
+			return (free(trimmed), ft_error("Empty line in map"));
+		free(trimmed);
+		return (0);
+	}
+	j = 0;
+	while (trimmed[j])
+	{
+		if (trimmed[j] == '\t')
+			trimmed[j] = ' ';
+		j++;
+	}
+	if ((int)ft_strlen(trimmed) > *max_w)
+		*max_w = ft_strlen(trimmed);
+	(*count)++;
+	free(trimmed);
+	return (0);
+}
+
+static int	count_lines(char **lines, int start, int *count, int *max_w)
 {
 	int		i;
-	int		j;
-	char	*trimmed;
 
 	i = start;
 	*count = 0;
 	*max_w = 0;
 	while (lines[i])
 	{
-		trimmed = ft_strtrim(lines[i], "\n");
-		if (!trimmed || trimmed[0] == '\0')
-		{
-			if (*count > 0)
-				return (free(trimmed), ft_error("Empty line in map"));
-			free(trimmed);
-			i++;
-			continue;
-		}
-		j = 0;
-		while (trimmed[j])
-		{
-			if (trimmed[j] == '\t')
-				trimmed[j] = ' ';
-			j++;
-		}
-		if ((int)ft_strlen(trimmed) > *max_w)
-			*max_w = ft_strlen(trimmed);
-		(*count)++;
-		free(trimmed);
+		if (process_line(lines[i], count, max_w))
+			return (1);
 		i++;
 	}
 	if (*count == 0)
@@ -50,11 +57,35 @@ static int	count_map_lines(char **lines, int start, int *count, int *max_w)
 	return (0);
 }
 
-static int	copy_map_lines(char **lines, int start, t_game *game)
+static int	process_and_copy_line(char *trimmed, t_game *game, int j)
+{
+	int		k;
+
+	k = 0;
+	while (trimmed[k])
+	{
+		if (trimmed[k] == '\t')
+			trimmed[k] = ' ';
+		k++;
+	}
+	game->map->map[j] = malloc(game->map->map_width + 1);
+	if (!game->map->map[j])
+		return (1);
+	ft_strcpy(game->map->map[j], trimmed);
+	k = ft_strlen(trimmed);
+	while (k < game->map->map_width)
+	{
+		game->map->map[j][k] = ' ';
+		k++;
+	}
+	game->map->map[j][game->map->map_width] = '\0';
+	return (0);
+}
+
+static int	copy_lines(char **lines, int start, t_game *game)
 {
 	int		i;
 	int		j;
-	int		k;
 	char	*trimmed;
 
 	i = start;
@@ -64,24 +95,8 @@ static int	copy_map_lines(char **lines, int start, t_game *game)
 		trimmed = ft_strtrim(lines[i], "\n");
 		if (trimmed && trimmed[0] != '\0')
 		{
-			k = 0;
-			while (trimmed[k])
-			{
-				if (trimmed[k] == '\t')
-					trimmed[k] = ' ';
-				k++;
-			}
-			game->map->map[j] = malloc(game->map->map_width + 1);
-			if (!game->map->map[j])
+			if (process_and_copy_line(trimmed, game, j))
 				return (free(trimmed), ft_error("Line allocation failed"));
-			ft_strcpy(game->map->map[j], trimmed);
-			k = ft_strlen(trimmed);
-			while (k < game->map->map_width)
-			{
-				game->map->map[j][k] = ' ';
-				k++;
-			}
-			game->map->map[j][game->map->map_width] = '\0';
 			j++;
 		}
 		free(trimmed);
@@ -96,14 +111,14 @@ int	extract_map(char **lines, int start, t_game *game)
 	int	count;
 	int	max_width;
 
-	if (count_map_lines(lines, start, &count, &max_width))
+	if (count_lines(lines, start, &count, &max_width))
 		return (1);
 	game->map->map_height = count;
 	game->map->map_width = max_width;
 	game->map->map = malloc(sizeof(char *) * (count + 1));
 	if (!game->map->map)
 		return (ft_error("Map allocation failed"));
-	if (copy_map_lines(lines, start, game))
+	if (copy_lines(lines, start, game))
 		return (1);
 	return (0);
 }
