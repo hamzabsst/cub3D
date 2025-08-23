@@ -60,22 +60,22 @@ static int	process_textures(char *trimmed, t_game *game)
 {
 	if (!ft_strncmp(trimmed, "NO ", 3))
 	{
-		if (!parse_texture(trimmed, &game->no_texture))
+		if (!parse_texture(trimmed, &game->no_texture_path))
 			return (1);
 	}
 	else if (!ft_strncmp(trimmed, "SO ", 3))
 	{
-		if (!parse_texture(trimmed, &game->so_texture))
+		if (!parse_texture(trimmed, &game->so_texture_path))
 			return (1);
 	}
 	else if (!ft_strncmp(trimmed, "WE ", 3))
 	{
-		if (!parse_texture(trimmed, &game->we_texture))
+		if (!parse_texture(trimmed, &game->we_texture_path))
 			return (1);
 	}
 	else if (!ft_strncmp(trimmed, "EA ", 3))
 	{
-		if (!parse_texture(trimmed, &game->ea_texture))
+		if (!parse_texture(trimmed, &game->ea_texture_path))
 			return (1);
 	}
 	return (0);

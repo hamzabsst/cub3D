@@ -27,13 +27,13 @@ static int	load_texture_image(t_game *game, t_image *texture, char *path)
 
 int	load_textures(t_game *game)
 {
-	if (load_texture_image(game, &game->textures.north, game->no_texture))
+	if (load_texture_image(game, &game->north_texture, game->no_texture_path))
 		return (ft_error("Failed to load north texture"));
-	if (load_texture_image(game, &game->textures.south, game->so_texture))
+	if (load_texture_image(game, &game->south_texture, game->so_texture_path))
 		return (ft_error("Failed to load south texture"));
-	if (load_texture_image(game, &game->textures.west, game->we_texture))
+	if (load_texture_image(game, &game->west_texture, game->we_texture_path))
 		return (ft_error("Failed to load west texture"));
-	if (load_texture_image(game, &game->textures.east, game->ea_texture))
+	if (load_texture_image(game, &game->east_texture, game->ea_texture_path))
 		return (ft_error("Failed to load east texture"));
 	return (0);
 }
