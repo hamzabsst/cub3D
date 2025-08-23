@@ -6,11 +6,11 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:01:09 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/10 16:01:13 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/23 09:55:25 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "cub3D.h"
+#include "cub3D.h"
 
 static int	validate_filename(char *filename)
 {
@@ -48,10 +48,12 @@ static int	count_file_lines(char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		return (-1);
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
 		count++;
 		free(line);
+		line = get_next_line(fd);
 	}
 	close(fd);
 	return (count);
@@ -74,14 +76,13 @@ char	**load_file(char *filename)
 		return (NULL);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-	{
-		free(lines);
-		return (ft_error("Cannot open file"), NULL);
-	}
+		return (free(lines), ft_error("Cannot open file"), NULL);
 	count = 0;
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (line)
+	{
 		lines[count++] = line;
-	lines[count] = NULL;
-	close(fd);
-	return (lines);
+		line = get_next_line(fd);
+	}
+	return (lines[count] = NULL, close(fd), lines);
 }
