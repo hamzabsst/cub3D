@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:11:53 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/23 09:49:27 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/23 18:17:17 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,17 @@ static int	process_and_copy_line(char *trimmed, t_game *game, int j)
 			trimmed[k] = ' ';
 		k++;
 	}
-	game->map->map[j] = malloc(game->map->map_width + 1);
-	if (!game->map->map[j])
+	game->map[j] = malloc(game->map_width + 1);
+	if (!game->map[j])
 		return (1);
-	ft_strcpy(game->map->map[j], trimmed);
+	ft_strcpy(game->map[j], trimmed);
 	k = ft_strlen(trimmed);
-	while (k < game->map->map_width)
+	while (k < game->map_width)
 	{
-		game->map->map[j][k] = ' ';
+		game->map[j][k] = ' ';
 		k++;
 	}
-	game->map->map[j][game->map->map_width] = '\0';
+	game->map[j][game->map_width] = '\0';
 	return (0);
 }
 
@@ -90,7 +90,7 @@ static int	copy_lines(char **lines, int start, t_game *game)
 
 	i = start;
 	j = 0;
-	while (lines[i] && j < game->map->map_height)
+	while (lines[i] && j < game->map_height)
 	{
 		trimmed = ft_strtrim(lines[i], "\n");
 		if (trimmed && trimmed[0] != '\0')
@@ -102,7 +102,7 @@ static int	copy_lines(char **lines, int start, t_game *game)
 		free(trimmed);
 		i++;
 	}
-	game->map->map[game->map->map_height] = NULL;
+	game->map[game->map_height] = NULL;
 	return (0);
 }
 
@@ -113,10 +113,10 @@ int	extract_map(char **lines, int start, t_game *game)
 
 	if (count_lines(lines, start, &count, &max_width))
 		return (1);
-	game->map->map_height = count;
-	game->map->map_width = max_width;
-	game->map->map = malloc(sizeof(char *) * (count + 1));
-	if (!game->map->map)
+	game->map_height = count;
+	game->map_width = max_width;
+	game->map = malloc(sizeof(char *) * (count + 1));
+	if (!game->map)
 		return (ft_error("Map allocation failed"));
 	if (copy_lines(lines, start, game))
 		return (1);
