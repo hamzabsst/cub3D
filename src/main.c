@@ -14,24 +14,24 @@
 
 static void	set_direction(t_game *game, double x, double y, double plane_x)
 {
-	game->player.dir.x = x;
-	game->player.dir.y = y;
-	game->player.plane.x = plane_x;
+	game->dir_x = x;
+	game->dir_y = y;
+	game->plane_x = plane_x;
 	if (plane_x == 0)
-		game->player.plane.y = 0.66;
+		game->plane_y = 0.66;
 	else
-		game->player.plane.y = 0;
+		game->plane_y = 0;
 }
 
 static int	init_player(t_game *game)
 {
-	if (game->player.start_dir == 'N')
+	if (game->start_dir == 'N')
 		set_direction(game, 0, -1, 0.66);
-	else if (game->player.start_dir == 'S')
+	else if (game->start_dir == 'S')
 		set_direction(game, 0, 1, -0.66);
-	else if (game->player.start_dir == 'E')
+	else if (game->start_dir == 'E')
 		set_direction(game, 1, 0, 0);
-	else if (game->player.start_dir == 'W')
+	else if (game->start_dir == 'W')
 		set_direction(game, -1, 0, 0);
 	else
 		return (ft_error("Invalid player start direction"));
@@ -40,11 +40,11 @@ static int	init_player(t_game *game)
 
 static int	init_mlx(t_game *game)
 {
-	game->mlx.mlx = mlx_init();
-	if (!game->mlx.mlx)
+	game->mlx = mlx_init();
+	if (!game->mlx)
 		return (ft_error("Failed to initialize MiniLibX"));
-	game->mlx.window = mlx_new_window(game->mlx.mlx, WIDTH, HEIGHT, "cub3D");
-	if (!game->mlx.window)
+	game->window = mlx_new_window(game->mlx, WIDTH, HEIGHT, "cub3D");
+	if (!game->window)
 		return (ft_error("Failed to create window"));
 	return (0);
 }
