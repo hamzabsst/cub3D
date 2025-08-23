@@ -14,7 +14,7 @@
 
 static int	load_texture_image(t_game *game, t_image *texture, char *path)
 {
-	texture->img = mlx_xpm_file_to_image(game->mlx.mlx, path,
+	texture->img = mlx_xpm_file_to_image(game->mlx, path,
 			&texture->width, &texture->height);
 	if (!texture->img)
 		return (1);
@@ -48,16 +48,16 @@ void	setup_colors(t_game *game)
 
 int	render_buffer(t_game *game)
 {
-	game->mlx.buffer.img = mlx_new_image(game->mlx.mlx, WIDTH, HEIGHT);
-	if (!game->mlx.buffer.img)
+	game->buffer.img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
+	if (!game->buffer.img)
 		return (ft_error("Failed to create render buffer"));
-	game->mlx.buffer.addr = mlx_get_data_addr(game->mlx.buffer.img,
-			&game->mlx.buffer.bits_per_pixel,
-			&game->mlx.buffer.line_length,
-			&game->mlx.buffer.endian);
-	if (!game->mlx.buffer.addr)
+	game->buffer.addr = mlx_get_data_addr(game->buffer.img,
+			&game->buffer.bits_per_pixel,
+			&game->buffer.line_length,
+			&game->buffer.endian);
+	if (!game->buffer.addr)
 		return (ft_error("Failed to get buffer address"));
-	game->mlx.buffer.width = WIDTH;
-	game->mlx.buffer.height = HEIGHT;
+	game->buffer.width = WIDTH;
+	game->buffer.height = HEIGHT;
 	return (0);
 }
