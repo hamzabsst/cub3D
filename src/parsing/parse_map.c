@@ -24,10 +24,10 @@ static int	process_player(t_game *game, char c, int coords, int *players)
 		(*players)++;
 		i = coords / 1000;
 		j = coords % 1000;
-		game->player.x = j + 0.5;
-		game->player.y = i + 0.5;
-		game->player.start_dir = c;
-		game->map->map[i][j] = '0';
+		game->player_x = j + 0.5;
+		game->player_y = i + 0.5;
+		game->start_dir = c;
+		game->map[i][j] = '0';
 	}
 	return (0);
 }
@@ -41,12 +41,12 @@ static int	validate_player(t_game *game)
 
 	players = 0;
 	i = 0;
-	while (i < game->map->map_height)
+	while (i < game->map_height)
 	{
 		j = 0;
-		while (j < game->map->map_width)
+		while (j < game->map_width)
 		{
-			c = game->map->map[i][j];
+			c = game->map[i][j];
 			if (c != '0' && c != '1' && c != 'N' && c != 'S'
 				&& c != 'E' && c != 'W' && c != ' ')
 				return (ft_error("Invalid character in map"));
