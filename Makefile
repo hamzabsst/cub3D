@@ -10,7 +10,7 @@ LIB		= $(LIB_DIR)/myLib.a
 MLX_DIR = minilibx
 MLX = $(MLX_DIR)/libmlx.a
 
-SRCS 	=	src/main.c src/utils.c src/parsing/load_map.c src/parsing/parse_file.c src/parsing/parse_identifiers.c \
+SRCS 	=	src/main.c src/utils.c src/parsing/load_map.c src/parsing/parse_file.c src/parsing/parse_identifiers.c src/parsing/validate_wall.c \
 			src/parsing/parse_map.c src/parsing/extract_map.c
 OBJS	= $(SRCS:.c=.o)
 
