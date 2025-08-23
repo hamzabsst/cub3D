@@ -117,7 +117,7 @@ Create a new file `src/raycasting.c` with:
 - Distance calculation
 - Basic wall rendering
 
-### 3. **Add Movement Controls (REQUIRED)**
+### 🔥 **3. Add Movement Controls (REQUIRED)**
 Update your game loop to handle:
 - Key press events for WASD movement
 - Arrow key rotation
