@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 10:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/23 11:41:34 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/23 12:45:07 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	setup_colors(t_game *game)
 		| (game->floor_color[1] << 8) | game->floor_color[2];
 	game->ceiling_rgb = (game->ceiling_color[0] << 16)
 		| (game->ceiling_color[1] << 8) | game->ceiling_color[2];
-	// ft_printf("%d", game->ceiling_rgb);
 }
 
 int	render_buffer(t_game *game)

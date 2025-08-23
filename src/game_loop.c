@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 10:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/23 11:51:26 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/23 12:44:58 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	handle_keypress(int keycode, t_game *game)
 	return (0);
 }
 
-static void	render_ceiling_and_floor(t_game *game)
+static int	game_loop(t_game *game)
 {
 	int	x;
 	int	y;
@@ -48,11 +48,6 @@ static void	render_ceiling_and_floor(t_game *game)
 		}
 		y++;
 	}
-}
-
-static int	game_loop(t_game *game)
-{
-	render_ceiling_and_floor(game);
 	mlx_put_image_to_window(game->mlx.mlx, game->mlx.window,
 		game->mlx.buffer.img, 0, 0);
 	return (0);
