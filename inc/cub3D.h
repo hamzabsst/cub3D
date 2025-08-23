@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:00:31 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/22 13:56:57 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/23 09:30:36 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ typedef struct s_game
 
 char	**load_file(char *filename);
 int		parse_file(char **lines, t_game *game);
-int		parse_identifiers(char **lines, t_game *game);
+int		process_identifier(char *trimmed, t_game *game);
+int		parse_texture(char *line, char **texture_path);
+int		validate_wall(t_game *game);
 int		parse_map(char **lines, t_game *game);
 int		extract_map(char **lines, int start, t_game *game);
 int		ft_error(char *msg);
