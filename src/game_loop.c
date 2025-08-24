@@ -33,15 +33,15 @@ static int	game_loop(t_game *game)
 	int	color;
 
 	y = 0;
-	while (y < HEIGHT)
+	while (y < WIN_HEIGHT)
 	{
 		x = 0;
-		while (x < WIDTH)
+		while (x < WIN_WIDTH)
 		{
-			if (y < HEIGHT / 2)
-				color = game->ceiling_rgb;
+			if (y < WIN_HEIGHT / 2)
+				color = game->c_rgb;
 			else
-				color = game->floor_rgb;
+				color = game->f_rgb;
 			*(int *)(game->buffer.addr + (y * game->buffer.line_length
 						+ x * (game->buffer.bits_per_pixel / 8))) = color;
 			x++;
