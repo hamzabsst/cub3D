@@ -16,12 +16,12 @@ static int	close_window(t_game *game)
 {
 	cleanup(game);
 	exit(0);
-	return (0);
 }
 
 static int	handle_keypress(int keycode, t_game *game)
 {
-	if (keycode == 65307)
+	manage_player(keycode, game);
+	if (keycode == ESC)
 		close_window(game);
 	return (0);
 }
@@ -56,7 +56,7 @@ static int	game_loop(t_game *game)
 int	run_game(t_game *game)
 {
 	mlx_hook(game->window, 17, 0, close_window, game);
-	mlx_hook(game->window, 2, 1L << 0, handle_keypress, game);
+	mlx_hook(game->window, 2, 1L, handle_keypress, game);
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 	return (0);
