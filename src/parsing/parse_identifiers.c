@@ -60,22 +60,22 @@ static int	process_textures(char *trimmed, t_game *game)
 {
 	if (!ft_strncmp(trimmed, "NO ", 3))
 	{
-		if (!parse_texture(trimmed, &game->no_texture_path))
+		if (!parse_texture(trimmed, &game->no_path))
 			return (1);
 	}
 	else if (!ft_strncmp(trimmed, "SO ", 3))
 	{
-		if (!parse_texture(trimmed, &game->so_texture_path))
+		if (!parse_texture(trimmed, &game->so_path))
 			return (1);
 	}
 	else if (!ft_strncmp(trimmed, "WE ", 3))
 	{
-		if (!parse_texture(trimmed, &game->we_texture_path))
+		if (!parse_texture(trimmed, &game->we_path))
 			return (1);
 	}
 	else if (!ft_strncmp(trimmed, "EA ", 3))
 	{
-		if (!parse_texture(trimmed, &game->ea_texture_path))
+		if (!parse_texture(trimmed, &game->ea_path))
 			return (1);
 	}
 	return (0);
@@ -85,12 +85,12 @@ static int	process_colors(char *trimmed, t_game *game)
 {
 	if (!ft_strncmp(trimmed, "F ", 2))
 	{
-		if (!parse_color(trimmed, game->floor_color))
+		if (!parse_color(trimmed, game->f_color))
 			return (1);
 	}
 	else if (!ft_strncmp(trimmed, "C ", 2))
 	{
-		if (!parse_color(trimmed, game->ceiling_color))
+		if (!parse_color(trimmed, game->c_color))
 			return (1);
 	}
 	return (0);
