@@ -14,7 +14,7 @@
 
 static int	close_window(t_game *game)
 {
-	cleanup_game(game);
+	cleanup(game);
 	exit(0);
 	return (0);
 }
