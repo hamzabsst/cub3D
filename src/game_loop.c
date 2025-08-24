@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 10:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/24 08:20:58 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/24 10:45:35 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static int	game_loop(t_game *game)
 {
 	int	x;
 	int	y;
-	int	color;
 
 	y = 0;
 	while (y < WIN_HEIGHT)
@@ -39,15 +38,16 @@ static int	game_loop(t_game *game)
 		while (x < WIN_WIDTH)
 		{
 			if (y < WIN_HEIGHT / 2)
-				color = game->c_rgb;
+				*(int *)(game->buffer.addr + (y * game->buffer.line_length
+							+ x * (game->buffer.bits_per_pixel / 8))) = game->c_rgb;
 			else
-				color = game->f_rgb;
-			*(int *)(game->buffer.addr + (y * game->buffer.line_length
-						+ x * (game->buffer.bits_per_pixel / 8))) = color;
+				*(int *)(game->buffer.addr + (y * game->buffer.line_length
+							+ x * (game->buffer.bits_per_pixel / 8))) = game->f_rgb;
 			x++;
 		}
 		y++;
 	}
+	raycast(game);
 	mlx_put_image_to_window(game->mlx, game->window,
 		game->buffer.img, 0, 0);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:00:31 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/24 08:20:26 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/24 10:38:41 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@
 
 # define WIN_WIDTH 1024
 # define WIN_HEIGHT 768
+# define ESC 65307
+# define W 119
+# define S 115
+# define A 97
+# define D 100
+# define left 65363
+# define right 65361
 
 typedef struct s_image
 {
@@ -84,9 +91,11 @@ int		init_game(t_game *game);
 
 //game
 int		run_game(t_game *game);
+void	manage_player(int keycode, t_game *game);
 
 //utils
 void	cleanup(t_game *game);
 int		ft_error(char *msg);
+void	raycast(t_game *game);
 
 #endif
