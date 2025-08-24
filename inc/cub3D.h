@@ -17,8 +17,8 @@
 # include "../minilibx/mlx.h"
 # include <math.h>
 
-# define WIDTH 1024
-# define HEIGHT 768
+# define WIN_WIDTH 1024
+# define WIN_HEIGHT 768
 
 typedef struct s_image
 {
