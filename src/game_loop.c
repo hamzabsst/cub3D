@@ -62,28 +62,30 @@ int	run_game(t_game *game)
 	return (0);
 }
 
-void	cleanup_game(t_game *game)
+void	cleanup(t_game *game)
 {
-	if (game->north_texture.img)
-		mlx_destroy_image(game->mlx, game->north_texture.img);
-	if (game->south_texture.img)
-		mlx_destroy_image(game->mlx, game->south_texture.img);
-	if (game->west_texture.img)
-		mlx_destroy_image(game->mlx, game->west_texture.img);
-	if (game->east_texture.img)
-		mlx_destroy_image(game->mlx, game->east_texture.img);
+	if (game->no_texture.img)
+		mlx_destroy_image(game->mlx, game->no_texture.img);
+	if (game->so_texture.img)
+		mlx_destroy_image(game->mlx, game->so_texture.img);
+	if (game->we_texture.img)
+		mlx_destroy_image(game->mlx, game->we_texture.img);
+	if (game->ea_texture.img)
+		mlx_destroy_image(game->mlx, game->ea_texture.img);
 	if (game->buffer.img)
 		mlx_destroy_image(game->mlx, game->buffer.img);
 	if (game->window)
 		mlx_destroy_window(game->mlx, game->window);
-	if (game->no_texture_path)
-		free(game->no_texture_path);
-	if (game->so_texture_path)
-		free(game->so_texture_path);
-	if (game->we_texture_path)
-		free(game->we_texture_path);
-	if (game->ea_texture_path)
-		free(game->ea_texture_path);
+	if (game->mlx)
+		(mlx_destroy_display(game->mlx), free(game->mlx));
+	if (game->no_path)
+		free(game->no_path);
+	if (game->so_path)
+		free(game->so_path);
+	if (game->we_path)
+		free(game->we_path);
+	if (game->ea_path)
+		free(game->ea_path);
 	if (game->map)
 		ft_free(game->map);
 }
