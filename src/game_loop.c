@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 10:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/24 10:45:35 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:20:53 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,23 @@ static int	handle_keypress(int keycode, t_game *game)
 
 static int	game_loop(t_game *game)
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
+	char	*row_addr;
+	int		*pixel;
 
 	y = 0;
 	while (y < WIN_HEIGHT)
 	{
+		row_addr = game->buffer.addr + (y * game->buffer.line_len);
 		x = 0;
 		while (x < WIN_WIDTH)
 		{
+			pixel = (int *)(row_addr + x * (game->buffer.bpp / 8));
 			if (y < WIN_HEIGHT / 2)
-				*(int *)(game->buffer.addr + (y * game->buffer.line_length
-							+ x * (game->buffer.bits_per_pixel / 8))) = game->c_rgb;
+				*pixel = game->c_rgb;
 			else
-				*(int *)(game->buffer.addr + (y * game->buffer.line_length
-							+ x * (game->buffer.bits_per_pixel / 8))) = game->f_rgb;
+				*pixel = game->f_rgb;
 			x++;
 		}
 		y++;

@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:48:34 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/24 08:20:23 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:08:32 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static int	render_buffer(t_game *game)
 	if (!game->buffer.img)
 		return (ft_error("Failed to create render buffer"));
 	game->buffer.addr = mlx_get_data_addr(game->buffer.img,
-			&game->buffer.bits_per_pixel,
-			&game->buffer.line_length,
+			&game->buffer.bpp,
+			&game->buffer.line_len,
 			&game->buffer.endian);
 	if (!game->buffer.addr)
 		return (ft_error("Failed to get buffer address"));

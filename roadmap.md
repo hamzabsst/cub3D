@@ -30,24 +30,29 @@
 
 ---
 
-## 🚧 Phase 3: Raycasting Engine (CRITICAL - MANDATORY REQUIREMENT)
+## ✅ Phase 3: Raycasting Engine (COMPLETED - MANDATORY REQUIREMENT)
 **THIS IS YOUR MAIN FOCUS - Without this, the project fails completely**
-- [ ] **Core Algorithm Implementation:**
-  - [ ] For each screen column (x = 0 to WIDTH):
-    - [ ] Calculate ray direction from player position
-    - [ ] Run DDA (Digital Differential Analyzer) to find wall hit
-    - [ ] Calculate perpendicular distance to avoid fisheye effect
-    - [ ] Determine wall height on screen
-    - [ ] Choose correct wall texture (NO/SO/EA/WE based on hit side)
-    - [ ] Calculate texture x-coordinate
-    - [ ] Render textured vertical strip pixel by pixel
-- [ ] **Wall Texture Rendering:**
-  - [ ] Extract texture pixel data from loaded images
-  - [ ] Apply correct texture based on wall orientation
-  - [ ] Handle texture scaling and positioning
-- [ ] **Performance:**
-  - [ ] Use image buffer instead of mlx_pixel_put for speed
-  - [ ] Render ceiling and floor efficiently
+- [x] **Core Algorithm Implementation:**
+  - [x] For each screen column (x = 0 to WIDTH):
+    - [x] Calculate ray direction from player position
+    - [x] Run simple stepping algorithm to find wall hit
+    - [x] Calculate distance to avoid fisheye effect ✅ **FIXED!**
+    - [x] Determine wall height on screen
+    - [x] Choose correct wall texture (NO/SO/EA/WE based on hit side)
+    - [x] Calculate texture x-coordinate
+    - [x] Render textured vertical strip pixel by pixel
+- [x] **Wall Texture Rendering:**
+  - [x] Extract texture pixel data from loaded images
+  - [x] Apply correct texture based on wall orientation
+  - [x] Handle texture scaling and positioning
+- [x] **Performance:**
+  - [x] Use image buffer instead of mlx_pixel_put for speed
+  - [x] Render ceiling and floor efficiently
+- [x] **Fixed Issues:**
+  - [x] Segmentation faults in raycast and player movement ✅
+  - [x] Empty spaces in irregular maps (jagged.cub) ✅
+  - [x] Fisheye effect correction ✅
+  - [x] Code simplification and optimization ✅
 
 ---
 

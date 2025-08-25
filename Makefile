@@ -1,7 +1,7 @@
 NAME	= cub3D
 CC		= cc
 CFLAGS	= -Wall -Werror -Wextra
-LDFLAGS = -L/usr/X11/lib -lX11 -lXext -lm -g
+LDFLAGS = -L/usr/X11/lib -lX11 -lXext -lm
 
 
 LIB_DIR	= mylib
@@ -12,7 +12,7 @@ MLX = $(MLX_DIR)/libmlx.a
 
 SRCS 	=	src/main.c src/utils.c src/parsing/load_map.c src/parsing/parse_file.c src/parsing/parse_identifiers.c \
 			src/parsing/validate_wall.c src/parsing/parse_map.c src/parsing/extract_map.c \
-			src/game_loop.c src/init_data.c src/raycast.c src/manage_player.c \
+			src/game_loop.c src/init_data.c src/raycast.c src/draw_wall.c src/manage_player.c \
 
 OBJS	= $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 08:04:47 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/24 12:32:50 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:21:01 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static int	load_texture_image(t_game *game, t_image *texture, char *path)
 			&texture->width, &texture->height);
 	if (!texture->img)
 		return (1);
-	texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel,
-			&texture->line_length, &texture->endian);
+	texture->addr = mlx_get_data_addr(texture->img, &texture->bpp,
+			&texture->line_len, &texture->endian);
 	if (!texture->addr)
 		return (1);
 	return (0);
@@ -65,22 +65,13 @@ int	init_game(t_game *game)
 	return (0);
 }
 
-static void	init_texture(t_game *game)
+void	init_variables(t_game *game)
 {
 	int	i;
 
-	game->no_texture.img = NULL;
-	game->no_texture.addr = NULL;
-	game->so_texture.img = NULL;
-	game->so_texture.addr = NULL;
-	game->we_texture.img = NULL;
-	game->we_texture.addr = NULL;
-	game->ea_texture.img = NULL;
-	game->ea_texture.addr = NULL;
-	game->no_path = NULL;
-	game->so_path = NULL;
-	game->we_path = NULL;
-	game->ea_path = NULL;
+	ft_bzero(game, sizeof(t_game));
+	game->player_x = -1.0;
+	game->player_y = -1.0;
 	i = 0;
 	while (i < 3)
 	{
@@ -88,31 +79,4 @@ static void	init_texture(t_game *game)
 		game->c_color[i] = -1;
 		i++;
 	}
-	game->f_rgb = 0;
-	game->c_rgb = 0;
-}
-
-void	init_variables(t_game *game)
-{
-	ft_bzero(game, sizeof(t_game));
-	game->map = NULL;
-	game->map_width = 0;
-	game->map_height = 0;
-	game->player_x = -1.0;
-	game->player_y = -1.0;
-	game->start_dir = '\0';
-	game->dir_x = 0.0;
-	game->dir_y = 0.0;
-	game->plane_x = 0.0;
-	game->plane_y = 0.0;
-	game->mlx = NULL;
-	game->window = NULL;
-	game->buffer.img = NULL;
-	game->buffer.addr = NULL;
-	game->buffer.bits_per_pixel = 0;
-	game->buffer.line_length = 0;
-	game->buffer.endian = 0;
-	game->buffer.width = 0;
-	game->buffer.height = 0;
-	init_texture(game);
 }
