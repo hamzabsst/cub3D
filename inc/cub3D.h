@@ -17,8 +17,8 @@
 # include "../minilibx/mlx.h"
 # include <math.h>
 
-# define WIN_WIDTH 1024
-# define WIN_HEIGHT 720
+# define WIN_WIDTH 1920
+# define WIN_HEIGHT 1080
 # define ESC 65307
 # define W 119
 # define S 115
