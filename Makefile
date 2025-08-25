@@ -17,7 +17,7 @@ SRCS 	=	src/main.c src/utils.c src/parsing/load_map.c src/parsing/parse_file.c s
 OBJS	= $(SRCS:.c=.o)
 
 INC_DIR	= inc
-HEADERS	= $(INC_DIR)/cub3D.h
+HEADERS	= $(INC_DIR)/cub3D_bonus.h
 
 all: $(LIB) $(NAME)
 
