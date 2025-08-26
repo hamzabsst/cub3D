@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:00:31 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/25 10:18:54 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/26 09:25:40 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB3D_H
 
 # include "../mylib/myLib.h"
-# include "../minilibx/mlx.h"
+# include "/home/hbousset/minilibx/mlx.h"
 # include <math.h>
 
 # define WIN_WIDTH 1920
