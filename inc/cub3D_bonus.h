@@ -27,7 +27,6 @@
 # define LEFT 65363
 # define RIGHT 65361
 # define SPACE 32
-
 # define MINIMAP_SIZE 200
 # define MINIMAP_X 20
 # define MINIMAP_Y 20
