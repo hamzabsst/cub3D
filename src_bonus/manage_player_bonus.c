@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 10:32:57 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/26 09:02:01 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/27 13:19:10 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,6 @@ void	manage_player(int keycode, t_game *game)
 	move_speed = 0.15;
 	move_right_left(keycode, game, move_speed);
 	move_up_down(keycode, game, move_speed);
-	if (keycode == SPACE)
+	if (keycode == 101)
 		toggle_door(game);
 }

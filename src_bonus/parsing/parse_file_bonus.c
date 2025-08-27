@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 15:58:00 by hamza             #+#    #+#             */
-/*   Updated: 2025/08/25 10:53:00 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/27 13:50:23 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,22 @@ int	parse_file(char **lines, t_game *game)
 		return (1);
 	if (parse_map(lines, game))
 		return (1);
+	int i = 0;
+	char *found;
+	while (lines[i])
+	{
+		if ((found = ft_strrchr(lines[i], ' ')))
+		{
+			ft_printf("%s", found);
+			if (found[ i -1] == '0' && found[i+1] == '0')
+			{
+				ft_error("space");
+				return (1);
+				/* code */
+			}
+
+		}
+		i++;
+	}
 	return (0);
 }

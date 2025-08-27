@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 09:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/26 09:02:01 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/27 13:22:57 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ void	init_door_states(t_game *game)
 
 static int	find_door_near_player(t_game *game, int *door_x, int *door_y)
 {
-	int	px;
-	int	py;
-	int	dx;
-	int	dy;
+	double	px;
+	double	py;
+	double	dx;
+	double	dy;
 
 	px = (int)game->player_x;
 	py = (int)game->player_y;
@@ -71,16 +71,16 @@ static int	find_door_near_player(t_game *game, int *door_x, int *door_y)
 			if (px + dx >= 0 && px + dx < game->map_width &&
 				py + dy >= 0 && py + dy < game->map_height)
 			{
-				if (game->map[py + dy][px + dx] == 'D')
+				if (game->map[(int)(py + dy)][(int)(px + dx)] == 'D')
 				{
 					*door_x = px + dx;
 					*door_y = py + dy;
 					return (1);
 				}
 			}
-			dx++;
+			dx+= 0.5;
 		}
-		dy++;
+		dy+= 0.5;
 	}
 	return (0);
 }

@@ -6,11 +6,19 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 08:04:47 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/26 08:41:42 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/27 13:09:07 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+void	setup_colors(t_game *game)
+{
+	game->f_rgb = (game->f_color[0] << 16)
+		| (game->f_color[1] << 8) | game->f_color[2];
+	game->c_rgb = (game->c_color[0] << 16)
+		| (game->c_color[1] << 8) | game->c_color[2];
+}
 
 static void	set_direction(t_game *game, double x, double y, double plane_x)
 {

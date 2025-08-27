@@ -6,11 +6,22 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:01:09 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/23 09:55:25 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/27 13:07:41 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+int	ft_error(char *msg)
+{
+	char	*full;
+
+	full = ft_strjoin("Error: ", msg);
+	ft_putstr_fd(msg, 2);
+	ft_putstr_fd("\n", 2);
+	free(full);
+	return (1);
+}
 
 static int	validate_filename(char *filename)
 {

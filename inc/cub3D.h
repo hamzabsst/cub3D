@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:00:31 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/26 09:25:40 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/27 13:10:47 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_ray
 	int		step_x;
 	int		step_y;
 }	t_ray;
+
 //parsing
 char	**load_file(char *filename);
 void	init_variables(t_game *game);
@@ -96,6 +97,8 @@ int		validate_wall(t_game *game);
 int		parse_map(char **lines, t_game *game);
 int		extract_map(char **lines, int start, t_game *game);
 int		init_game(t_game *game);
+int		render_buffer(t_game *game);
+void	setup_colors(t_game *game);
 //game
 int		run_game(t_game *game);
 void	manage_player(int keycode, t_game *game);
