@@ -6,23 +6,20 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 10:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/27 11:24:26 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/28 11:02:51 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static int	close_window(t_game *game)
-{
-	cleanup(game);
-	exit(0);
-}
-
 static int	handle_keypress(int keycode, t_game *game)
 {
 	manage_player(keycode, game);
 	if (keycode == ESC)
-		close_window(game);
+	{
+		cleanup(game);
+		exit(0);
+	}
 	return (0);
 }
 
@@ -57,7 +54,6 @@ static int	game_loop(t_game *game)
 
 int	run_game(t_game *game)
 {
-	mlx_hook(game->window, 17, 0, close_window, game);
 	mlx_hook(game->window, 2, 1L, handle_keypress, game);
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);

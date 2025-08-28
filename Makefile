@@ -11,7 +11,7 @@ LIB			= $(LIB_DIR)/myLib.a
 MLX_DIR 	= /home/hbousset/minilibx/
 MLX 		= $(MLX_DIR)/libmlx.a
 
-SRCS 		=	src/parsing/load_map.c src/parsing/parse_file.c src/parsing/parse_identifiers.c \
+SRCS 		=	src/parsing/load_file.c src/parsing/parse_file.c src/parsing/parse_identifiers.c \
 				src/parsing/validate_wall.c src/parsing/parse_map.c src/parsing/extract_map.c \
 				src/main.c src/game_loop.c src/parsing/init_data.c src/raycast.c src/draw_wall.c src/manage_player.c
 
