@@ -6,11 +6,27 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 07:31:07 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/25 10:53:00 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 09:41:13 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
+
+int	render_buffer(t_game *game)
+{
+	game->buffer.img = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
+	if (!game->buffer.img)
+		return (ft_error("Failed to create render buffer"));
+	game->buffer.addr = mlx_get_data_addr(game->buffer.img,
+			&game->buffer.bpp,
+			&game->buffer.line_len,
+			&game->buffer.endian);
+	if (!game->buffer.addr)
+		return (ft_error("Failed to get buffer address"));
+	game->buffer.width = WIN_WIDTH;
+	game->buffer.height = WIN_HEIGHT;
+	return (0);
+}
 
 static void	wall_column(t_game *game, int screen_x, t_hit hit, int wall[4])
 {

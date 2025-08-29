@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:00:31 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/26 09:53:47 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 09:46:42 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@
 # define S 115
 # define A 97
 # define D 100
-# define LEFT 65363
-# define RIGHT 65361
-# define SPACE 32
+# define E 101
 # define MINIMAP_SIZE 200
 # define MINIMAP_X 20
 # define MINIMAP_Y 20
@@ -63,7 +61,7 @@ typedef struct s_game
 	int			mouse_x;
 	int			mouse_y;
 	int			prev_mouse_x;
-	double		mouse_sensitivity;
+	double		mouse_sens;
 	t_image		no_texture;
 	t_image		so_texture;
 	t_image		we_texture;
@@ -108,6 +106,8 @@ int		validate_wall(t_game *game);
 int		parse_map(char **lines, t_game *game);
 int		extract_map(char **lines, int start, t_game *game);
 int		init_game(t_game *game);
+void	setup_colors(t_game *game);
+int		render_buffer(t_game *game);
 //game
 int		run_game(t_game *game);
 void	manage_player(int keycode, t_game *game);

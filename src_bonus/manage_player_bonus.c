@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 10:32:57 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/27 13:19:10 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 09:46:30 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	handle_mouse_motion(int x, int y, t_game *game)
 	delta_x = x - center_x;
 	if (delta_x != 0)
 	{
-		rotation_angle = delta_x * game->mouse_sensitivity;
+		rotation_angle = delta_x * game->mouse_sens;
 		rotate_player_mouse(game, rotation_angle);
 		mlx_mouse_move(game->mlx, game->window, center_x, WIN_HEIGHT / 2);
 	}
@@ -50,36 +50,30 @@ static int	can_move_to(t_game *game, double new_x, double new_y)
 	int		map_y;
 
 	buffer = 0.15;
-
-	// Check all four corners with buffer
 	map_x = (int)(new_x + buffer);
 	map_y = (int)(new_y + buffer);
 	if (game->map[map_y][map_x] == '1' || game->map[map_y][map_x] == ' ')
 		return (0);
 	if (game->map[map_y][map_x] == 'D' && is_door_closed(game, map_x, map_y))
 		return (0);
-
 	map_x = (int)(new_x - buffer);
 	map_y = (int)(new_y - buffer);
 	if (game->map[map_y][map_x] == '1' || game->map[map_y][map_x] == ' ')
 		return (0);
 	if (game->map[map_y][map_x] == 'D' && is_door_closed(game, map_x, map_y))
 		return (0);
-
 	map_x = (int)(new_x + buffer);
 	map_y = (int)(new_y - buffer);
 	if (game->map[map_y][map_x] == '1' || game->map[map_y][map_x] == ' ')
 		return (0);
 	if (game->map[map_y][map_x] == 'D' && is_door_closed(game, map_x, map_y))
 		return (0);
-
 	map_x = (int)(new_x - buffer);
 	map_y = (int)(new_y + buffer);
 	if (game->map[map_y][map_x] == '1' || game->map[map_y][map_x] == ' ')
 		return (0);
 	if (game->map[map_y][map_x] == 'D' && is_door_closed(game, map_x, map_y))
 		return (0);
-
 	return (1);
 }
 
@@ -140,6 +134,6 @@ void	manage_player(int keycode, t_game *game)
 	move_speed = 0.15;
 	move_right_left(keycode, game, move_speed);
 	move_up_down(keycode, game, move_speed);
-	if (keycode == 101)
+	if (keycode == E)
 		toggle_door(game);
 }

@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 09:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/27 13:22:57 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 09:45:40 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	init_door_states(t_game *game)
 		while (x < game->map_width && game->map[y][x])
 		{
 			if (game->map[y][x] == 'D')
-				game->door_states[y][x] = '1';  // 1 = closed, 0 = open
+				game->door_states[y][x] = '1';
 			else
 				game->door_states[y][x] = '0';
 			x++;
@@ -55,8 +55,6 @@ static int	find_door_near_player(t_game *game, int *door_x, int *door_y)
 
 	px = (int)game->player_x;
 	py = (int)game->player_y;
-
-	// Check all adjacent cells (including diagonals)
 	dy = -1;
 	while (dy <= 1)
 	{
@@ -92,13 +90,12 @@ void	toggle_door(t_game *game)
 
 	if (!game->door_states)
 		return ;
-
 	if (find_door_near_player(game, &door_x, &door_y))
 	{
 		if (game->door_states[door_y][door_x] == '1')
-			game->door_states[door_y][door_x] = '0';  // Open door
+			game->door_states[door_y][door_x] = '0';
 		else
-			game->door_states[door_y][door_x] = '1';  // Close door
+			game->door_states[door_y][door_x] = '1';
 	}
 }
 

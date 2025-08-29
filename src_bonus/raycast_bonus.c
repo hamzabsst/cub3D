@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 08:30:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/26 09:02:01 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 09:33:52 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static int	perform_dda(t_game *game, t_ray *data)
 			hit = 1;
 		else if (game->map[data->map_y][data->map_x] == 'D')
 		{
-			// Check if door is closed
 			if (is_door_closed(game, data->map_x, data->map_y))
 				hit = 1;
 		}

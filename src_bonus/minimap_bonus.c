@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 11:35:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/25 15:12:45 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 09:44:48 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,6 @@ static void	draw_fov_lines(t_game *game)
 	scale = calculate_minimap_scale(game);
 	player_screen_x = MINIMAP_X + (int)(game->player_x * scale);
 	player_screen_y = MINIMAP_Y + (int)(game->player_y * scale);
-
 	i = 0;
 	while (i < FOV_LINES)
 	{

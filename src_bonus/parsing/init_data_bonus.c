@@ -6,11 +6,19 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 08:04:47 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/26 09:06:33 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 09:43:53 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
+
+void	setup_colors(t_game *game)
+{
+	game->f_rgb = (game->f_color[0] << 16)
+		| (game->f_color[1] << 8) | game->f_color[2];
+	game->c_rgb = (game->c_color[0] << 16)
+		| (game->c_color[1] << 8) | game->c_color[2];
+}
 
 static void	set_direction(t_game *game, double x, double y, double plane_x)
 {
@@ -76,7 +84,7 @@ void	init_variables(t_game *game)
 	game->player_x = -1.0;
 	game->player_y = -1.0;
 	game->prev_mouse_x = -1;
-	game->mouse_sensitivity = 0.001;
+	game->mouse_sens = 0.001;
 	i = 0;
 	while (i < 3)
 	{

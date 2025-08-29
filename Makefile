@@ -11,14 +11,24 @@ LIB			= $(LIB_DIR)/myLib.a
 MLX_DIR 	= /home/hbousset/minilibx/
 MLX 		= $(MLX_DIR)/libmlx.a
 
-SRCS 		=	src/parsing/load_file.c src/parsing/parse_file.c src/parsing/parse_identifiers.c \
-				src/parsing/validate_wall.c src/parsing/parse_map.c src/parsing/extract_map.c \
-				src/main.c src/game_loop.c src/parsing/init_data.c src/raycast.c src/draw_wall.c src/manage_player.c
+SRCS 		=	src/parsing/load_file.c src/parsing/parse_file.c \
+				src/parsing/parse_identifiers.c \
+				src/parsing/validate_wall.c src/parsing/parse_map.c \
+				src/parsing/extract_map.c src/main.c src/game_loop.c \
+				src/parsing/init_data.c src/raycast.c \
+				src/draw_wall.c src/manage_player.c
 
-SRCS_BONUS 	=	src_bonus/parsing/load_map_bonus.c src_bonus/parsing/parse_file_bonus.c src_bonus/parsing/parse_identifiers_bonus.c \
-				src_bonus/parsing/validate_wall_bonus.c src_bonus/parsing/parse_map_bonus.c src_bonus/parsing/extract_map_bonus.c \
-				src_bonus/game_loop_bonus.c src_bonus/parsing/init_data_bonus.c src_bonus/raycast_bonus.c \
-				src_bonus/main_bonus.c src_bonus/utils_bonus.c src_bonus/draw_wall_bonus.c src_bonus/manage_player_bonus.c \
+SRCS_BONUS 	=	src_bonus/parsing/load_map_bonus.c \
+				src_bonus/parsing/parse_file_bonus.c \
+				src_bonus/parsing/parse_identifiers_bonus.c \
+				src_bonus/parsing/validate_wall_bonus.c \
+				src_bonus/parsing/parse_map_bonus.c \
+				src_bonus/parsing/extract_map_bonus.c \
+				src_bonus/game_loop_bonus.c \
+				src_bonus/parsing/init_data_bonus.c \
+				src_bonus/raycast_bonus.c \
+				src_bonus/main_bonus.c src_bonus/draw_wall_bonus.c \
+				src_bonus/manage_player_bonus.c \
 				src_bonus/minimap_bonus.c src_bonus/doors_bonus.c
 
 OBJS		= $(SRCS:.c=.o)

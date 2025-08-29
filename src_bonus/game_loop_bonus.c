@@ -6,23 +6,20 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 10:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/25 12:38:08 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 09:43:19 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-static int	close_window(t_game *game)
-{
-	cleanup(game);
-	exit(0);
-}
-
 static int	handle_keypress(int keycode, t_game *game)
 {
 	manage_player(keycode, game);
 	if (keycode == ESC)
-		close_window(game);
+	{
+		cleanup(game);
+		exit(0);
+	}
 	return (0);
 }
 
@@ -49,8 +46,7 @@ static int	game_loop(t_game *game)
 		}
 		y++;
 	}
-	raycast(game);
-	draw_minimap(game);
+	(raycast(game), draw_minimap(game));
 	mlx_put_image_to_window(game->mlx, game->window,
 		game->buffer.img, 0, 0);
 	return (0);
@@ -58,7 +54,6 @@ static int	game_loop(t_game *game)
 
 int	run_game(t_game *game)
 {
-	mlx_hook(game->window, 17, 0, close_window, game);
 	mlx_hook(game->window, 2, 1L, handle_keypress, game);
 	mlx_hook(game->window, 6, 1L << 6, handle_mouse_motion, game);
 	mlx_mouse_hide(game->mlx, game->window);
@@ -79,6 +74,8 @@ void	cleanup(t_game *game)
 		mlx_destroy_image(game->mlx, game->ea_texture.img);
 	if (game->buffer.img)
 		mlx_destroy_image(game->mlx, game->buffer.img);
+	if (game->door_texture.img)
+		mlx_destroy_image(game->mlx, game->door_texture.img);
 	if (game->window)
 		mlx_destroy_window(game->mlx, game->window);
 	if (game->mlx)
