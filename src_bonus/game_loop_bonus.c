@@ -6,22 +6,11 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 10:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 10:01:27 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:20:10 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
-
-static int	handle_keypress(int keycode, t_game *game)
-{
-	manage_player(keycode, game);
-	if (keycode == ESC)
-	{
-		cleanup(game);
-		exit(0);
-	}
-	return (0);
-}
 
 static int	game_loop(t_game *game)
 {
@@ -49,6 +38,37 @@ static int	game_loop(t_game *game)
 	(raycast(game), draw_minimap(game));
 	mlx_put_image_to_window(game->mlx, game->window,
 		game->buffer.img, 0, 0);
+	return (0);
+}
+
+static void	rotate_player(t_game *game, double angle)
+{
+	double	old_dir_x;
+	double	old_plane_x;
+
+	old_dir_x = game->dir_x;
+	game->dir_x = old_dir_x * cos(angle) - game->dir_y * sin(angle);
+	game->dir_y = old_dir_x * sin(angle) + game->dir_y * cos(angle);
+	old_plane_x = game->plane_x;
+	game->plane_x = old_plane_x * cos(angle) - game->plane_y * sin(angle);
+	game->plane_y = old_plane_x * sin(angle) + game->plane_y * cos(angle);
+}
+
+static int	handle_mouse(int x, int y, t_game *game)
+{
+	int		center_x;
+	int		delta_x;
+	double	rot_angle;
+
+	(void)y;
+	center_x = WIN_WIDTH / 2;
+	delta_x = x - center_x;
+	if (delta_x != 0)
+	{
+		rot_angle = delta_x * game->mouse_sens;
+		rotate_player(game, rot_angle);
+		mlx_mouse_move(game->mlx, game->window, center_x, WIN_HEIGHT / 2);
+	}
 	return (0);
 }
 
