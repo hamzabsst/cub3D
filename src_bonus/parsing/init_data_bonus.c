@@ -49,7 +49,7 @@ int	init_game(t_game *game)
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		return (ft_error("Failed to initialize MiniLibX"));
-	game->window = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
+	game->window = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D_bonus");
 	if (!game->window)
 		return (ft_error("Failed to create window"));
 	if (load_texture_image(game, &game->no_texture, game->no_path))
