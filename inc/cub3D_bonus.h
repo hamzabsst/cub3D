@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:00:31 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 10:03:04 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:40:12 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,21 @@ typedef struct s_ray
 	int		step_x;
 	int		step_y;
 }	t_ray;
+
+typedef struct s_square
+{
+	int	x;
+	int	y;
+	int	color;
+	int	scale;
+}	t_square;
+
+typedef struct s_point
+{
+	int	x;
+	int	y;
+	int	scale;
+}	t_point;
 //parsing
 char	**load_file(char *filename);
 void	init_var(t_game *game);
