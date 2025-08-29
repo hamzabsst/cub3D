@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 09:29:05 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 09:57:19 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:36:00 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	is_valid_door(t_game *game)
 		j = 0;
 		while (j < game->map_width)
 		{
-			if (game->map[i][j] == 'D')
+			if (game->map[i][j] == 'D' || game->map[i][j] == 'd')
 			{
 				wall_count = 0;
 				if (i > 0 && game->map[i - 1][j] == '1')
@@ -36,7 +36,7 @@ static int	is_valid_door(t_game *game)
 				if (j < game->map_width - 1 && game->map[i][j + 1] == '1')
 					wall_count++;
 				if (wall_count < 2)
-					return (ft_error("door must be adjacent to at least 2 walls"));
+					return (ft_error("door must be adjacent to 2 walls"));
 			}
 			j++;
 		}
@@ -62,7 +62,7 @@ static int	check_walls(t_game *game)
 				return (ft_error("map not closed - walkable area at border"));
 			if ((i == 0 || i == game->map_height - 1
 					|| j == 0 || j == game->map_width - 1)
-				&& (game->map[i][j] == 'D'))
+				&& (game->map[i][j] == 'D' || game->map[i][j] == 'd'))
 				return (ft_error("door cannot be placed on map border"));
 			j++;
 		}
@@ -76,7 +76,8 @@ static int	flood_fill(t_game *game, char **temp_map, int x, int y)
 	if (x < 0 || y < 0 || x >= game->map_width
 		|| y >= game->map_height)
 		return (0);
-	if (temp_map[y][x] == '1' || temp_map[y][x] == 'V' || temp_map[y][x] == 'D')
+	if (temp_map[y][x] == '1' || temp_map[y][x] == 'V' ||
+		temp_map[y][x] == 'D' || temp_map[y][x] == 'd')
 		return (0);
 	if (temp_map[y][x] == ' ')
 	{

@@ -6,19 +6,11 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 08:04:47 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 10:02:19 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:07:47 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
-
-void	setup_colors(t_game *game)
-{
-	game->f_rgb = (game->f_color[0] << 16)
-		| (game->f_color[1] << 8) | game->f_color[2];
-	game->c_rgb = (game->c_color[0] << 16)
-		| (game->c_color[1] << 8) | game->c_color[2];
-}
 
 static void	set_direction(t_game *game, double x, double y, double plane_x)
 {
@@ -44,14 +36,8 @@ static int	load_texture_image(t_game *game, t_image *texture, char *path)
 	return (0);
 }
 
-int	init_game(t_game *game)
+static int	load_texture(t_game *game)
 {
-	game->mlx = mlx_init();
-	if (!game->mlx)
-		return (ft_error("Failed to initialize MiniLibX"));
-	game->window = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D_bonus");
-	if (!game->window)
-		return (ft_error("Failed to create window"));
 	if (load_texture_image(game, &game->no_texture, game->no_path))
 		return (ft_error("Failed to load north texture"));
 	if (load_texture_image(game, &game->so_texture, game->so_path))
@@ -62,7 +48,19 @@ int	init_game(t_game *game)
 		return (ft_error("Failed to load east texture"));
 	if (load_texture_image(game, &game->door_texture, "./textures/door.xpm"))
 		return (ft_error("Failed to load door texture"));
-	init_door(game);
+	return (0);
+}
+
+int	init_game(t_game *game)
+{
+	game->mlx = mlx_init();
+	if (!game->mlx)
+		return (ft_error("Failed to initialize MiniLibX"));
+	game->window = mlx_new_window(game->mlx, WIN_WIDTH,
+			WIN_HEIGHT, "cub3D_bonus");
+	if (!game->window)
+		return (ft_error("Failed to create window"));
+	load_texture(game);
 	if (game->start_dir == 'N')
 		set_direction(game, 0, -1, 0.66);
 	else if (game->start_dir == 'S')

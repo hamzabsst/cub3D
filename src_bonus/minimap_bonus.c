@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 11:35:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 10:37:58 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:36:57 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	draw_square(t_game *game, t_square sq)
 			if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
 			{
 				pixel = (int *)(game->buffer.addr + (y * game->buffer.line_len
-						+ x * (game->buffer.bpp / 8)));
+							+ x * (game->buffer.bpp / 8)));
 				*pixel = sq.color;
 			}
 			x++;
@@ -115,7 +115,7 @@ void	draw_minimap(t_game *game)
 			if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
 			{
 				pixel = (int *)(game->buffer.addr + (y * game->buffer.line_len
-						+ x * (game->buffer.bpp / 8)));
+							+ x * (game->buffer.bpp / 8)));
 				*pixel = 0XFF0000;
 			}
 			x++;
