@@ -6,13 +6,13 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 09:29:05 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/23 18:17:17 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 09:57:19 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static int	check_border_walls(t_game *game)
+static int	check_walls(t_game *game)
 {
 	int	i;
 	int	j;
@@ -91,7 +91,7 @@ int	validate_wall(t_game *game)
 {
 	char	**temp_map;
 
-	if (check_border_walls(game))
+	if (check_walls(game))
 		return (1);
 	temp_map = dup_map(game);
 	if (!temp_map)
