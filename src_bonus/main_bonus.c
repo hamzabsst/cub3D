@@ -6,11 +6,19 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:48:34 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 10:01:55 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:56:26 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
+
+void	setup_colors(t_game *game)
+{
+	game->f_rgb = (game->f_color[0] << 16)
+		| (game->f_color[1] << 8) | game->f_color[2];
+	game->c_rgb = (game->c_color[0] << 16)
+		| (game->c_color[1] << 8) | game->c_color[2];
+}
 
 int	main(int ac, char **av)
 {
