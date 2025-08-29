@@ -6,13 +6,13 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 09:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 09:45:40 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:03:04 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-void	init_door_states(t_game *game)
+void	init_door(t_game *game)
 {
 	int	y;
 	int	x;
@@ -46,7 +46,7 @@ void	init_door_states(t_game *game)
 	game->door_states[y] = NULL;
 }
 
-static int	find_door_near_player(t_game *game, int *door_x, int *door_y)
+static int	find_door(t_game *game, int *door_x, int *door_y)
 {
 	double	px;
 	double	py;
@@ -90,7 +90,7 @@ void	toggle_door(t_game *game)
 
 	if (!game->door_states)
 		return ;
-	if (find_door_near_player(game, &door_x, &door_y))
+	if (find_door(game, &door_x, &door_y))
 	{
 		if (game->door_states[door_y][door_x] == '1')
 			game->door_states[door_y][door_x] = '0';
@@ -99,7 +99,7 @@ void	toggle_door(t_game *game)
 	}
 }
 
-int	is_door_open(t_game *game, int x, int y)
+int	door_open(t_game *game, int x, int y)
 {
 	if (!game->door_states || y < 0 || y >= game->map_height ||
 		x < 0 || x >= game->map_width)
@@ -109,7 +109,7 @@ int	is_door_open(t_game *game, int x, int y)
 	return (0);
 }
 
-int	is_door_closed(t_game *game, int x, int y)
+int	door_closed(t_game *game, int x, int y)
 {
 	if (!game->door_states || y < 0 || y >= game->map_height ||
 		x < 0 || x >= game->map_width)

@@ -6,13 +6,13 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 10:32:57 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 09:46:30 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:03:04 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-static void	rotate_player_mouse(t_game *game, double angle)
+static void	rotate_player(t_game *game, double angle)
 {
 	double	old_dir_x;
 	double	old_plane_x;
@@ -25,7 +25,7 @@ static void	rotate_player_mouse(t_game *game, double angle)
 	game->plane_y = old_plane_x * sin(angle) + game->plane_y * cos(angle);
 }
 
-int	handle_mouse_motion(int x, int y, t_game *game)
+int	handle_mouse(int x, int y, t_game *game)
 {
 	int		center_x;
 	int		delta_x;
@@ -37,7 +37,7 @@ int	handle_mouse_motion(int x, int y, t_game *game)
 	if (delta_x != 0)
 	{
 		rotation_angle = delta_x * game->mouse_sens;
-		rotate_player_mouse(game, rotation_angle);
+		rotate_player(game, rotation_angle);
 		mlx_mouse_move(game->mlx, game->window, center_x, WIN_HEIGHT / 2);
 	}
 	return (0);
@@ -54,25 +54,25 @@ static int	can_move_to(t_game *game, double new_x, double new_y)
 	map_y = (int)(new_y + buffer);
 	if (game->map[map_y][map_x] == '1' || game->map[map_y][map_x] == ' ')
 		return (0);
-	if (game->map[map_y][map_x] == 'D' && is_door_closed(game, map_x, map_y))
+	if (game->map[map_y][map_x] == 'D' && door_closed(game, map_x, map_y))
 		return (0);
 	map_x = (int)(new_x - buffer);
 	map_y = (int)(new_y - buffer);
 	if (game->map[map_y][map_x] == '1' || game->map[map_y][map_x] == ' ')
 		return (0);
-	if (game->map[map_y][map_x] == 'D' && is_door_closed(game, map_x, map_y))
+	if (game->map[map_y][map_x] == 'D' && door_closed(game, map_x, map_y))
 		return (0);
 	map_x = (int)(new_x + buffer);
 	map_y = (int)(new_y - buffer);
 	if (game->map[map_y][map_x] == '1' || game->map[map_y][map_x] == ' ')
 		return (0);
-	if (game->map[map_y][map_x] == 'D' && is_door_closed(game, map_x, map_y))
+	if (game->map[map_y][map_x] == 'D' && door_closed(game, map_x, map_y))
 		return (0);
 	map_x = (int)(new_x - buffer);
 	map_y = (int)(new_y + buffer);
 	if (game->map[map_y][map_x] == '1' || game->map[map_y][map_x] == ' ')
 		return (0);
-	if (game->map[map_y][map_x] == 'D' && is_door_closed(game, map_x, map_y))
+	if (game->map[map_y][map_x] == 'D' && door_closed(game, map_x, map_y))
 		return (0);
 	return (1);
 }

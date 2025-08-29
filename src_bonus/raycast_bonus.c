@@ -59,7 +59,7 @@ static int	perform_dda(t_game *game, t_ray *data)
 			hit = 1;
 		else if (game->map[data->map_y][data->map_x] == 'D')
 		{
-			if (is_door_closed(game, data->map_x, data->map_y))
+			if (door_closed(game, data->map_x, data->map_y))
 				hit = 1;
 		}
 	}

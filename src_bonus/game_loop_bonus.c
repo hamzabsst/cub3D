@@ -55,7 +55,7 @@ static int	game_loop(t_game *game)
 int	run_game(t_game *game)
 {
 	mlx_hook(game->window, 2, 1L, handle_keypress, game);
-	mlx_hook(game->window, 6, 1L << 6, handle_mouse_motion, game);
+	mlx_hook(game->window, 6, 1L << 6, handle_mouse, game);
 	mlx_mouse_hide(game->mlx, game->window);
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);

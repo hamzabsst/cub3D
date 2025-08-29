@@ -6,13 +6,13 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 11:35:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 09:44:48 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:14:32 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-static int	calculate_minimap_scale(t_game *game)
+static int	minimap_scale(t_game *game)
 {
 	int	scale_x;
 	int	scale_y;
@@ -33,22 +33,11 @@ static int	calculate_minimap_scale(t_game *game)
 	return (scale);
 }
 
-static void	put_pixel_minimap(t_game *game, int x, int y, int color)
-{
-	int	*pixel;
-
-	if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
-	{
-		pixel = (int *)(game->buffer.addr + (y * game->buffer.line_len
-					+ x * (game->buffer.bpp / 8)));
-		*pixel = color;
-	}
-}
-
 static void	draw_square(t_game *game, int start_x, int start_y, int color, int scale)
 {
 	int	x;
 	int	y;
+	int	*pixel;
 
 	y = start_y;
 	while (y < start_y + scale && y < MINIMAP_Y + MINIMAP_SIZE)
@@ -56,7 +45,12 @@ static void	draw_square(t_game *game, int start_x, int start_y, int color, int s
 		x = start_x;
 		while (x < start_x + scale && x < MINIMAP_X + MINIMAP_SIZE)
 		{
-			put_pixel_minimap(game, x, y, color);
+			if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
+			{
+				pixel = (int *)(game->buffer.addr + (y * game->buffer.line_len
+					+ x * (game->buffer.bpp / 8)));
+				*pixel = color;
+			}
 			x++;
 		}
 		y++;
@@ -72,7 +66,7 @@ static void	draw_map_grid(t_game *game)
 	int	color;
 	int	scale;
 
-	scale = calculate_minimap_scale(game);
+	scale = minimap_scale(game);
 	map_y = 0;
 	while (map_y < game->map_height && map_y * scale < MINIMAP_SIZE)
 	{
@@ -101,77 +95,37 @@ static void	draw_map_grid(t_game *game)
 
 static void	draw_player_dot(t_game *game)
 {
-	int	player_screen_x;
-	int	player_screen_y;
+	int	player_x;
+	int	player_y;
 	int	x;
 	int	y;
 	int	scale;
+	int	*pixel;
 
-	scale = calculate_minimap_scale(game);
-	player_screen_x = MINIMAP_X + (int)(game->player_x * scale);
-	player_screen_y = MINIMAP_Y + (int)(game->player_y * scale);
+	scale = minimap_scale(game);
+	player_x = MINIMAP_X + (int)(game->player_x * scale);
+	player_y = MINIMAP_Y + (int)(game->player_y * scale);
 
-	y = player_screen_y - PLAYER_SIZE;
-	while (y <= player_screen_y + PLAYER_SIZE)
+	y = player_y - PLAYER_SIZE;
+	while (y <= player_y + PLAYER_SIZE)
 	{
-		x = player_screen_x - PLAYER_SIZE;
-		while (x <= player_screen_x + PLAYER_SIZE)
+		x = player_x - PLAYER_SIZE;
+		while (x <= player_x + PLAYER_SIZE)
 		{
-			put_pixel_minimap(game, x, y, 0xFF0000);
+			if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
+			{
+				pixel = (int *)(game->buffer.addr + (y * game->buffer.line_len
+					+ x * (game->buffer.bpp / 8)));
+				*pixel = 0XFF0000;
+			}
 			x++;
 		}
 		y++;
 	}
 }
 
-static void	draw_fov_lines(t_game *game)
-{
-	int		i;
-	double	ray_x;
-	double	ray_y;
-	int		line_x;
-	int		line_y;
-	int		player_screen_x;
-	int		player_screen_y;
-	int		scale;
-
-	scale = calculate_minimap_scale(game);
-	player_screen_x = MINIMAP_X + (int)(game->player_x * scale);
-	player_screen_y = MINIMAP_Y + (int)(game->player_y * scale);
-	i = 0;
-	while (i < FOV_LINES)
-	{
-		double camera_x = 2.0 * i / FOV_LINES - 1.0;
-		ray_x = game->dir_x + game->plane_x * camera_x;
-		ray_y = game->dir_y + game->plane_y * camera_x;
-		line_x = player_screen_x + (int)(ray_x * 30);
-		line_y = player_screen_y + (int)(ray_y * 30);
-		double dx = line_x - player_screen_x;
-		double dy = line_y - player_screen_y;
-		double steps = fmax(fabs(dx), fabs(dy));
-		if (steps > 0)
-		{
-			dx /= steps;
-			dy /= steps;
-
-			double x = player_screen_x;
-			double y = player_screen_y;
-			int j = 0;
-			while (j <= (int)steps)
-			{
-				put_pixel_minimap(game, (int)x, (int)y, 0x00FF00);
-				x += dx;
-				y += dy;
-				j++;
-			}
-		}
-		i += 5;
-	}
-}
-
 void	draw_minimap(t_game *game)
 {
 	draw_map_grid(game);
-	draw_fov_lines(game);
 	draw_player_dot(game);
 }

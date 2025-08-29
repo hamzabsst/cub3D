@@ -111,14 +111,14 @@ int		render_buffer(t_game *game);
 //game
 int		run_game(t_game *game);
 void	manage_player(int keycode, t_game *game);
-int		handle_mouse_motion(int x, int y, t_game *game);
+int		handle_mouse(int x, int y, t_game *game);
 void	raycast(t_game *game);
 void	draw_wall(t_game *game, int screen_x, t_hit hit);
 void	draw_minimap(t_game *game);
 void	toggle_door(t_game *game);
-void	init_door_states(t_game *game);
-int		is_door_open(t_game *game, int x, int y);
-int		is_door_closed(t_game *game, int x, int y);
+void	init_door(t_game *game);
+int		door_open(t_game *game, int x, int y);
+int		door_closed(t_game *game, int x, int y);
 //utils
 void	cleanup(t_game *game);
 int		ft_error(char *msg);

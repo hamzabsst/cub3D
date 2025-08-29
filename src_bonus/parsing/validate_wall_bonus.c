@@ -6,13 +6,46 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 09:29:05 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/25 10:53:00 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 09:57:19 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-static int	check_border_walls(t_game *game)
+static int	is_valid_door(t_game *game)
+{
+	int	i;
+	int	j;
+	int	wall_count;
+
+	i = 0;
+	while (i < game->map_height)
+	{
+		j = 0;
+		while (j < game->map_width)
+		{
+			if (game->map[i][j] == 'D')
+			{
+				wall_count = 0;
+				if (i > 0 && game->map[i - 1][j] == '1')
+					wall_count++;
+				if (i < game->map_height - 1 && game->map[i + 1][j] == '1')
+					wall_count++;
+				if (j > 0 && game->map[i][j - 1] == '1')
+					wall_count++;
+				if (j < game->map_width - 1 && game->map[i][j + 1] == '1')
+					wall_count++;
+				if (wall_count < 2)
+					return (ft_error("door must be adjacent to at least 2 walls"));
+			}
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+static int	check_walls(t_game *game)
 {
 	int	i;
 	int	j;
@@ -26,7 +59,11 @@ static int	check_border_walls(t_game *game)
 			if ((i == 0 || i == game->map_height - 1
 					|| j == 0 || j == game->map_width - 1)
 				&& (game->map[i][j] == '0'))
-				return (ft_error("Map not closed - walkable area at border"));
+				return (ft_error("map not closed - walkable area at border"));
+			if ((i == 0 || i == game->map_height - 1
+					|| j == 0 || j == game->map_width - 1)
+				&& (game->map[i][j] == 'D'))
+				return (ft_error("door cannot be placed on map border"));
 			j++;
 		}
 		i++;
@@ -39,7 +76,7 @@ static int	flood_fill(t_game *game, char **temp_map, int x, int y)
 	if (x < 0 || y < 0 || x >= game->map_width
 		|| y >= game->map_height)
 		return (0);
-	if (temp_map[y][x] == '1' || temp_map[y][x] == 'V')
+	if (temp_map[y][x] == '1' || temp_map[y][x] == 'V' || temp_map[y][x] == 'D')
 		return (0);
 	if (temp_map[y][x] == ' ')
 	{
@@ -91,7 +128,9 @@ int	validate_wall(t_game *game)
 {
 	char	**temp_map;
 
-	if (check_border_walls(game))
+	if (check_walls(game))
+		return (1);
+	if (is_valid_door(game))
 		return (1);
 	temp_map = dup_map(game);
 	if (!temp_map)

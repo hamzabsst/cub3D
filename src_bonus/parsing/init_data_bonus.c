@@ -62,7 +62,7 @@ int	init_game(t_game *game)
 		return (ft_error("Failed to load east texture"));
 	if (load_texture_image(game, &game->door_texture, "./textures/door.xpm"))
 		return (ft_error("Failed to load door texture"));
-	init_door_states(game);
+	init_door(game);
 	if (game->start_dir == 'N')
 		set_direction(game, 0, -1, 0.66);
 	else if (game->start_dir == 'S')
