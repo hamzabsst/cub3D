@@ -6,44 +6,22 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 09:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 10:39:30 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:37:19 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-void	init_door(t_game *game)
+static int	is_door_at(t_game *game, double px, double py, double dx, double dy)
 {
-	int	y;
-	int	x;
-
-	game->door_states = malloc(sizeof(char *) * (game->map_height + 1));
-	if (!game->door_states)
-		return ;
-	y = 0;
-	while (y < game->map_height)
+	if (px + dx >= 0 && px + dx < game->map_width
+		&& py + dy >= 0 && py + dy < game->map_height)
 	{
-		game->door_states[y] = malloc(sizeof(char) * (game->map_width + 1));
-		if (!game->door_states[y])
-			return ;
-		x = 0;
-		while (x < game->map_width && game->map[y][x])
-		{
-			if (game->map[y][x] == 'D')
-				game->door_states[y][x] = '1';
-			else
-				game->door_states[y][x] = '0';
-			x++;
-		}
-		while (x < game->map_width)
-		{
-			game->door_states[y][x] = '0';
-			x++;
-		}
-		game->door_states[y][x] = '\0';
-		y++;
+		if (game->map[(int)(py + dy)][(int)(px + dx)] == 'D'
+			|| game->map[(int)(py + dy)][(int)(px + dx)] == 'd')
+			return (1);
 	}
-	game->door_states[y] = NULL;
+	return (0);
 }
 
 static int	find_door(t_game *game, int *door_x, int *door_y)
@@ -61,24 +39,15 @@ static int	find_door(t_game *game, int *door_x, int *door_y)
 		dx = -1;
 		while (dx <= 1)
 		{
-			if (dx == 0 && dy == 0)
+			if (!(dx == 0 && dy == 0) && is_door_at(game, px, py, dx, dy))
 			{
-				dx++;
-				continue;
+				*door_x = px + dx;
+				*door_y = py + dy;
+				return (1);
 			}
-			if (px + dx >= 0 && px + dx < game->map_width &&
-				py + dy >= 0 && py + dy < game->map_height)
-			{
-				if (game->map[(int)(py + dy)][(int)(px + dx)] == 'D')
-				{
-					*door_x = px + dx;
-					*door_y = py + dy;
-					return (1);
-				}
-			}
-			dx+= 0.5;
+			dx += 0.5;
 		}
-		dy+= 0.5;
+		dy += 0.5;
 	}
 	return (0);
 }
@@ -88,23 +57,20 @@ void	toggle_door(t_game *game)
 	int	door_x;
 	int	door_y;
 
-	if (!game->door_states)
-		return ;
 	if (find_door(game, &door_x, &door_y))
 	{
-		if (game->door_states[door_y][door_x] == '1')
-			game->door_states[door_y][door_x] = '0';
-		else
-			game->door_states[door_y][door_x] = '1';
+		if (game->map[door_y][door_x] == 'D')
+			game->map[door_y][door_x] = 'd';
+		else if (game->map[door_y][door_x] == 'd'
+			&& game->map[door_y][door_x]
+			!= game->map[(int)game->player_y][(int)game->player_x])
+			game->map[door_y][door_x] = 'D';
 	}
 }
 
 int	door_closed(t_game *game, int x, int y)
 {
-	if (!game->door_states || y < 0 || y >= game->map_height ||
-		x < 0 || x >= game->map_width)
+	if (y < 0 || y >= game->map_height || x < 0 || x >= game->map_width)
 		return (0);
-	if (game->map[y][x] == 'D')
-		return (game->door_states[y][x] == '1');
-	return (0);
+	return (game->map[y][x] == 'D');
 }
