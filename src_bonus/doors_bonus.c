@@ -6,19 +6,17 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 09:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 11:37:19 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:44:33 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-static int	is_door_at(t_game *game, double px, double py, double dx, double dy)
+static int	is_door_at(t_game *game, int x, int y)
 {
-	if (px + dx >= 0 && px + dx < game->map_width
-		&& py + dy >= 0 && py + dy < game->map_height)
+	if (x >= 0 && x < game->map_width && y >= 0 && y < game->map_height)
 	{
-		if (game->map[(int)(py + dy)][(int)(px + dx)] == 'D'
-			|| game->map[(int)(py + dy)][(int)(px + dx)] == 'd')
+		if (game->map[y][x] == 'D' || game->map[y][x] == 'd')
 			return (1);
 	}
 	return (0);
@@ -39,7 +37,7 @@ static int	find_door(t_game *game, int *door_x, int *door_y)
 		dx = -1;
 		while (dx <= 1)
 		{
-			if (!(dx == 0 && dy == 0) && is_door_at(game, px, py, dx, dy))
+			if (!(dx == 0 && dy == 0) && is_door_at(game, px + dx, py + dy))
 			{
 				*door_x = px + dx;
 				*door_y = py + dy;

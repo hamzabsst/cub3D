@@ -37,7 +37,8 @@ SRCS_BONUS 	=	src_bonus/main_bonus.c \
 				src_bonus/draw_wall_bonus.c \
 				src_bonus/manage_player_bonus.c \
 				src_bonus/minimap_bonus.c \
-				src_bonus/doors_bonus.c
+				src_bonus/doors_bonus.c \
+				src_bonus/cleanup_bonus.c
 
 OBJS		= $(SRCS:.c=.o)
 OBJS_BONUS	= $(SRCS_BONUS:.c=.o)

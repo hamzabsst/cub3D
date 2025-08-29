@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 10:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 10:20:10 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:45:52 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,34 +80,4 @@ int	run_game(t_game *game)
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 	return (0);
-}
-
-void	cleanup(t_game *game)
-{
-	if (game->no_texture.img)
-		mlx_destroy_image(game->mlx, game->no_texture.img);
-	if (game->so_texture.img)
-		mlx_destroy_image(game->mlx, game->so_texture.img);
-	if (game->we_texture.img)
-		mlx_destroy_image(game->mlx, game->we_texture.img);
-	if (game->ea_texture.img)
-		mlx_destroy_image(game->mlx, game->ea_texture.img);
-	if (game->buffer.img)
-		mlx_destroy_image(game->mlx, game->buffer.img);
-	if (game->door_texture.img)
-		mlx_destroy_image(game->mlx, game->door_texture.img);
-	if (game->window)
-		mlx_destroy_window(game->mlx, game->window);
-	if (game->mlx)
-		(mlx_destroy_display(game->mlx), free(game->mlx));
-	if (game->no_path)
-		free(game->no_path);
-	if (game->so_path)
-		free(game->so_path);
-	if (game->we_path)
-		free(game->we_path);
-	if (game->ea_path)
-		free(game->ea_path);
-	if (game->map)
-		ft_free(game->map);
 }

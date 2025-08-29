@@ -6,11 +6,27 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 09:29:05 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 11:36:00 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:47:32 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
+
+static int	coun_walls(t_game *game, int i, int j)
+{
+	int	wall_count;
+
+	wall_count = 0;
+	if (i > 0 && game->map[i - 1][j] == '1')
+		wall_count++;
+	if (i < game->map_height - 1 && game->map[i + 1][j] == '1')
+		wall_count++;
+	if (j > 0 && game->map[i][j - 1] == '1')
+		wall_count++;
+	if (j < game->map_width - 1 && game->map[i][j + 1] == '1')
+		wall_count++;
+	return (wall_count);
+}
 
 static int	is_valid_door(t_game *game)
 {
@@ -26,15 +42,7 @@ static int	is_valid_door(t_game *game)
 		{
 			if (game->map[i][j] == 'D' || game->map[i][j] == 'd')
 			{
-				wall_count = 0;
-				if (i > 0 && game->map[i - 1][j] == '1')
-					wall_count++;
-				if (i < game->map_height - 1 && game->map[i + 1][j] == '1')
-					wall_count++;
-				if (j > 0 && game->map[i][j - 1] == '1')
-					wall_count++;
-				if (j < game->map_width - 1 && game->map[i][j + 1] == '1')
-					wall_count++;
+				wall_count = coun_walls(game, i, j);
 				if (wall_count < 2)
 					return (ft_error("door must be adjacent to 2 walls"));
 			}
@@ -94,35 +102,6 @@ static int	flood_fill(t_game *game, char **temp_map, int x, int y)
 	flood_fill(game, temp_map, x, y + 1);
 	flood_fill(game, temp_map, x, y - 1);
 	return (0);
-}
-
-static char	**dup_map(t_game *game)
-{
-	char	**temp_map;
-	int		i;
-	int		j;
-
-	temp_map = malloc(sizeof(char *) * (game->map_height + 1));
-	if (!temp_map)
-		return (NULL);
-	i = 0;
-	while (i < game->map_height)
-	{
-		temp_map[i] = malloc(game->map_width + 1);
-		if (!temp_map[i])
-		{
-			while (--i >= 0)
-				free(temp_map[i]);
-			return (free(temp_map), NULL);
-		}
-		j = -1;
-		while (++j < game->map_width)
-			temp_map[i][j] = game->map[i][j];
-		temp_map[i][j] = '\0';
-		i++;
-	}
-	temp_map[i] = NULL;
-	return (temp_map);
 }
 
 int	validate_wall(t_game *game)

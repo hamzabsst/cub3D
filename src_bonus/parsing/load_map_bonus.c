@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:01:09 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 09:30:10 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:47:36 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,35 @@ int	ft_error(char *msg)
 	ft_putstr_fd("\n", 2);
 	free(full);
 	return (1);
+}
+
+char	**dup_map(t_game *game)
+{
+	char	**temp_map;
+	int		i;
+	int		j;
+
+	temp_map = malloc(sizeof(char *) * (game->map_height + 1));
+	if (!temp_map)
+		return (NULL);
+	i = 0;
+	while (i < game->map_height)
+	{
+		temp_map[i] = malloc(game->map_width + 1);
+		if (!temp_map[i])
+		{
+			while (--i >= 0)
+				free(temp_map[i]);
+			return (free(temp_map), NULL);
+		}
+		j = -1;
+		while (++j < game->map_width)
+			temp_map[i][j] = game->map[i][j];
+		temp_map[i][j] = '\0';
+		i++;
+	}
+	temp_map[i] = NULL;
+	return (temp_map);
 }
 
 static int	validate_filename(char *filename)

@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 08:30:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 11:34:46 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:49:18 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	set_texture(t_game *game, t_hit *result, t_ray *data, int side)
 	}
 }
 
+//i removed this || game->map[data->map_y][data->map_x] == ' '
 static int	perform_dda(t_game *game, t_ray *data)
 {
 	int	side;
@@ -54,14 +55,11 @@ static int	perform_dda(t_game *game, t_ray *data)
 			data->map_y += data->step_y;
 			side = 1;
 		}
-		if (game->map[data->map_y][data->map_x] == '1'
-			|| game->map[data->map_y][data->map_x] == ' ')
+		if (game->map[data->map_y][data->map_x] == '1')
 			hit = 1;
 		else if (game->map[data->map_y][data->map_x] == 'D')
-		{
 			if (door_closed(game, data->map_x, data->map_y))
 				hit = 1;
-		}
 	}
 	return (side);
 }
