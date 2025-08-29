@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 09:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 10:03:04 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:39:30 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,16 +97,6 @@ void	toggle_door(t_game *game)
 		else
 			game->door_states[door_y][door_x] = '1';
 	}
-}
-
-int	door_open(t_game *game, int x, int y)
-{
-	if (!game->door_states || y < 0 || y >= game->map_height ||
-		x < 0 || x >= game->map_width)
-		return (0);
-	if (game->map[y][x] == 'D')
-		return (game->door_states[y][x] == '0');
-	return (0);
 }
 
 int	door_closed(t_game *game, int x, int y)
