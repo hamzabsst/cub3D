@@ -76,7 +76,7 @@ int	init_game(t_game *game)
 	return (0);
 }
 
-void	init_variables(t_game *game)
+void	init_var(t_game *game)
 {
 	int	i;
 

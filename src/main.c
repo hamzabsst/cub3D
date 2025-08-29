@@ -22,7 +22,7 @@ int	main(int ac, char **av)
 	lines = load_file(av[1]);
 	if (!lines)
 		return (1);
-	init_variables(&game);
+	init_var(&game);
 	if (parse_file(lines, &game))
 		return (ft_free(lines), ft_error("parsing failed"));
 	ft_free(lines);

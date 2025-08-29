@@ -89,7 +89,7 @@ typedef struct s_ray
 
 //parsing
 char	**load_file(char *filename);
-void	init_variables(t_game *game);
+void	init_var(t_game *game);
 int		parse_file(char **lines, t_game *game);
 int		process_identifier(char *trimmed, t_game *game);
 int		parse_texture(char *line, char **texture_path);
