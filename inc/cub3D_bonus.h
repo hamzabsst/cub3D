@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:00:31 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 10:40:12 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:19:08 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef struct s_game
 	void		*window;
 	t_image		buffer;
 	char		**map;
-	char		**door_states;
 	int			map_width;
 	int			map_height;
 	double		player_x;
@@ -58,8 +57,6 @@ typedef struct s_game
 	double		dir_y;
 	double		plane_x;
 	double		plane_y;
-	int			mouse_x;
-	int			mouse_y;
 	int			prev_mouse_x;
 	double		mouse_sens;
 	t_image		no_texture;
@@ -130,7 +127,6 @@ void	raycast(t_game *game);
 void	draw_wall(t_game *game, int screen_x, t_hit hit);
 void	draw_minimap(t_game *game);
 void	toggle_door(t_game *game);
-void	init_door(t_game *game);
 int		door_closed(t_game *game, int x, int y);
 //utils
 void	cleanup(t_game *game);
