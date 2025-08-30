@@ -86,14 +86,6 @@ int	calculate_boss_screen_pos(t_game *game, t_point *screen_data)
 	return (1);
 }
 
-typedef struct s_pixel_data
-{
-	int	screen_x;
-	int	screen_y;
-	int	sprite_x;
-	int	sprite_y;
-}	t_pixel_data;
-
 static void	draw_boss_pixel(t_game *game, t_image *frame,
 					t_point screen_data, t_pixel_data pixel)
 {

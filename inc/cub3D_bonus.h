@@ -128,6 +128,15 @@ typedef struct s_point
 	double	distance;
 	int		size;
 }	t_point;
+
+typedef struct s_pixel_data
+{
+	int	screen_x;
+	int	screen_y;
+	int	sprite_x;
+	int	sprite_y;
+}	t_pixel_data;
+
 //parsing
 char	**load_file(char *filename);
 void	init_var(t_game *game);
