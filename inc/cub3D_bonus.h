@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:00:31 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 11:47:47 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/30 14:20:10 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../mylib/myLib.h"
 # include "/home/hbousset/minilibx/mlx.h"
 # include <math.h>
+# include <sys/time.h>
 
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
@@ -29,7 +30,7 @@
 # define MINIMAP_X 20
 # define MINIMAP_Y 20
 # define PLAYER_SIZE 2
-# define FOV_LINES 50
+# define M_PI 3.14159265358979323846
 
 typedef struct s_image
 {
@@ -41,6 +42,19 @@ typedef struct s_image
 	int		width;
 	int		height;
 }			t_image;
+
+typedef struct s_boss
+{
+	double		x;
+	double		y;
+	double		speed;
+	int			frame;
+	int			counter;
+	int			delay;
+	t_image		frames[6];
+	int			active;
+	double		last_hit;
+}				t_boss;
 
 typedef struct s_game
 {
@@ -72,6 +86,10 @@ typedef struct s_game
 	int			c_color[3];
 	int			f_rgb;
 	int			c_rgb;
+	t_boss		boss;
+	int			player_health;
+	double		last_damage_time;
+	double		*z_buffer;
 }				t_game;
 
 typedef struct s_hit
@@ -104,9 +122,11 @@ typedef struct s_square
 
 typedef struct s_point
 {
-	int	x;
-	int	y;
-	int	scale;
+	int		x;
+	int		y;
+	int		scale;
+	double	distance;
+	int		size;
 }	t_point;
 //parsing
 char	**load_file(char *filename);
@@ -129,6 +149,12 @@ void	draw_wall(t_game *game, int screen_x, t_hit hit);
 void	draw_minimap(t_game *game);
 void	toggle_door(t_game *game);
 int		door_closed(t_game *game, int x, int y);
+//boss
+int		init_boss(t_game *game);
+void	update_boss(t_game *game);
+void	render_boss(t_game *game);
+void	check_boss_collision(t_game *game);
+double	get_current_time(void);
 //utils
 void	cleanup(t_game *game);
 int		ft_error(char *msg);

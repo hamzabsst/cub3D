@@ -1,0 +1,170 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   boss.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/30 00:00:00 by hbousset          #+#    #+#             */
+/*   Updated: 2025/08/30 14:21:04 by hbousset         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3D_bonus.h"
+
+static void	move_boss_towards_player(t_game *game)
+{
+	double	dx;
+	double	dy;
+	double	distance;
+	double	new_x;
+	double	new_y;
+
+	dx = game->player_x - game->boss.x;
+	dy = game->player_y - game->boss.y;
+	distance = sqrt(dx * dx + dy * dy);
+	if (distance < 0.1)
+		return ;
+	dx /= distance;
+	dy /= distance;
+	new_x = game->boss.x + dx * game->boss.speed;
+	new_y = game->boss.y + dy * game->boss.speed;
+	if (game->map[(int)new_y][(int)game->boss.x] != '1')
+		game->boss.y = new_y;
+	if (game->map[(int)game->boss.y][(int)new_x] != '1')
+		game->boss.x = new_x;
+}
+
+void	check_boss_collision(t_game *game)
+{
+	double	dx;
+	double	dy;
+	double	distance;
+	double	current_time;
+
+	if (!game->boss.active || game->player_health <= 0)
+		return ;
+	dx = game->player_x - game->boss.x;
+	dy = game->player_y - game->boss.y;
+	distance = sqrt(dx * dx + dy * dy);
+	current_time = get_current_time();
+	if (distance < 0.8 && (current_time - game->last_damage_time) > 1.0)
+	{
+		game->player_health--;
+		game->last_damage_time = current_time;
+		ft_printf("Boss hit you! Health remaining: %d\n", game->player_health);
+		if (game->player_health <= 0)
+		{
+			ft_printf("Game Over! The boss has defeated you!\n");
+			exit(0);
+		}
+	}
+}
+
+static int	calculate_boss_screen_pos(t_game *game, t_point *screen_data)
+{
+	double	dx;
+	double	dy;
+	double	angle;
+
+	if (!game->boss.active)
+		return (0);
+	dx = game->boss.x - game->player_x;
+	dy = game->boss.y - game->player_y;
+	screen_data->distance = sqrt(dx * dx + dy * dy);
+	if (screen_data->distance > 10.0)
+		return (0);
+	angle = atan2(dy, dx) - atan2(game->dir_y, game->dir_x);
+	while (angle > M_PI)
+		angle -= 2 * M_PI;
+	while (angle < -M_PI)
+		angle += 2 * M_PI;
+	if (angle > M_PI / 3 || angle < -M_PI / 3)
+		return (0);
+	screen_data->x = (int)(WIN_WIDTH / 2 * (1 + angle / (M_PI / 3)));
+	screen_data->size = (int)(WIN_HEIGHT / screen_data->distance * 0.5);
+	return (1);
+}
+
+typedef struct s_pixel_data
+{
+	int	screen_x;
+	int	screen_y;
+	int	sprite_x;
+	int	sprite_y;
+}	t_pixel_data;
+
+static void	draw_boss_pixel(t_game *game, t_image *frame,
+					t_point screen_data, t_pixel_data pixel)
+{
+	int	tex_x;
+	int	tex_y;
+	int	color;
+
+	tex_x = pixel.sprite_x * frame->width / screen_data.size;
+	tex_y = pixel.sprite_y * frame->height / screen_data.size;
+	if (tex_x >= frame->width)
+		tex_x = frame->width - 1;
+	if (tex_y >= frame->height)
+		tex_y = frame->height - 1;
+	color = *(int *)(frame->addr + (tex_y * frame->line_len
+				+ tex_x * (frame->bpp / 8)));
+	if ((unsigned int)color != 0x000000 && (unsigned int)color != 0xFF000000
+		&& screen_data.distance < game->z_buffer[pixel.screen_x])
+	{
+		*(int *)(game->buffer.addr + (pixel.screen_y * game->buffer.line_len
+					+ pixel.screen_x * (game->buffer.bpp / 8))) = color;
+	}
+}
+
+static void	draw_boss_sprite(t_game *game, t_point screen_data)
+{
+	t_pixel_data	pixel;
+	int				start_x;
+	int				start_y;
+
+	start_x = screen_data.x - screen_data.size / 2;
+	start_y = WIN_HEIGHT / 2 - screen_data.size / 2;
+	pixel.sprite_y = -1;
+	while (++pixel.sprite_y < screen_data.size
+		&& start_y + pixel.sprite_y < WIN_HEIGHT)
+	{
+		if (start_y + pixel.sprite_y >= 0)
+		{
+			pixel.sprite_x = -1;
+			while (++pixel.sprite_x < screen_data.size
+				&& start_x + pixel.sprite_x < WIN_WIDTH)
+			{
+				if (start_x + pixel.sprite_x >= 0)
+				{
+					pixel.screen_x = start_x + pixel.sprite_x;
+					pixel.screen_y = start_y + pixel.sprite_y;
+					draw_boss_pixel(game,&game->boss.frames[game->boss.frame],
+						screen_data, pixel);
+				}
+			}
+		}
+	}
+}
+
+void	render_boss(t_game *game)
+{
+	t_point	screen_data;
+
+	if (calculate_boss_screen_pos(game, &screen_data))
+		draw_boss_sprite(game, screen_data);
+}
+
+void	update_boss(t_game *game)
+{
+	if (!game->boss.active)
+		return ;
+	game->boss.counter++;
+	if (game->boss.counter >= game->boss.delay)
+	{
+		game->boss.frame = (game->boss.frame + 1) % 6;
+		game->boss.counter = 0;
+	}
+	move_boss_towards_player(game);
+	check_boss_collision(game);
+}

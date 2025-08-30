@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:48:34 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 10:01:55 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 12:57:15 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int ac, char **av)
 		return (1);
 	init_var(&game);
 	if (parse_file(lines, &game))
-		return (ft_free(lines), ft_error("parsing failed"));
+		return (ft_free(lines), 1);
 	ft_free(lines);
 	if (init_game(&game))
 		return (cleanup(&game), 1);

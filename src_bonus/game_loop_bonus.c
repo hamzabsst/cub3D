@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 10:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 11:45:52 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/30 11:46:00 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,22 @@ static int	game_loop(t_game *game)
 	char	*row_addr;
 	int		*pixel;
 
-	y = 0;
-	while (y < WIN_HEIGHT)
+	y = -1;
+	while (++y < WIN_HEIGHT)
 	{
 		row_addr = game->buffer.addr + (y * game->buffer.line_len);
-		x = 0;
-		while (x < WIN_WIDTH)
+		x = -1;
+		while (++x < WIN_WIDTH)
 		{
 			pixel = (int *)(row_addr + x * (game->buffer.bpp / 8));
 			if (y < WIN_HEIGHT / 2)
 				*pixel = game->c_rgb;
 			else
 				*pixel = game->f_rgb;
-			x++;
 		}
-		y++;
 	}
-	(raycast(game), draw_minimap(game));
+	(raycast(game), update_boss(game), render_boss(game));
+	draw_minimap(game);
 	mlx_put_image_to_window(game->mlx, game->window,
 		game->buffer.img, 0, 0);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 11:35:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 11:36:57 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/30 11:36:32 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,31 +95,42 @@ static void	draw_map_grid(t_game *game, int scale)
 	}
 }
 
-void	draw_minimap(t_game *game)
+static void	draw_minimap_entity(t_game *game, t_point pos, int color)
 {
 	int		x;
 	int		y;
 	int		*pixel;
-	t_point	p;
 
-	p.scale = minimap_scale(game);
-	p.x = MINIMAP_X + (int)(game->player_x * p.scale);
-	p.y = MINIMAP_Y + (int)(game->player_y * p.scale);
-	y = p.y - PLAYER_SIZE;
-	draw_map_grid(game, p.scale);
-	while (y <= p.y + PLAYER_SIZE)
+	y = pos.y - PLAYER_SIZE;
+	while (y <= pos.y + PLAYER_SIZE)
 	{
-		x = p.x - PLAYER_SIZE;
-		while (x <= p.x + PLAYER_SIZE)
+		x = pos.x - PLAYER_SIZE;
+		while (x <= pos.x + PLAYER_SIZE)
 		{
 			if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
 			{
 				pixel = (int *)(game->buffer.addr + (y * game->buffer.line_len
 							+ x * (game->buffer.bpp / 8)));
-				*pixel = 0XFF0000;
+				*pixel = color;
 			}
 			x++;
 		}
 		y++;
 	}
+}
+
+void	draw_minimap(t_game *game)
+{
+	t_point	p;
+	t_point	boss_p;
+
+	p.scale = minimap_scale(game);
+	p.x = MINIMAP_X + (int)(game->player_x * p.scale);
+	p.y = MINIMAP_Y + (int)(game->player_y * p.scale);
+	boss_p.x = MINIMAP_X + (int)(game->boss.x * p.scale);
+	boss_p.y = MINIMAP_Y + (int)(game->boss.y * p.scale);
+	draw_map_grid(game, p.scale);
+	draw_minimap_entity(game, p, 0XFF0000);
+	if (game->boss.active)
+		draw_minimap_entity(game, boss_p, 0xFF00FF);
 }

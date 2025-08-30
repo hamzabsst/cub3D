@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 14:11:23 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 11:03:30 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 14:10:25 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	validate_player(t_game *game)
 		{
 			c = game->map[i][j];
 			if (c != '0' && c != '1' && c != 'N' && c != 'S'
-				&& c != 'E' && c != 'W' && c != ' ' && c != 'D' && c != 'd')
+				&& c != 'E' && c != 'W' && c != 'D' && c != 'd' && c != ' ')
 				return (ft_error("Invalid character in map"));
 			if (process_player(game, c, i * 1000 + j, &players))
 				return (1);

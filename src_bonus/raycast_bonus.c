@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 08:30:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 11:49:18 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/30 11:33:52 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ void	raycast(t_game *game)
 		ray_x = game->dir_x + game->plane_x * camera_pos;
 		ray_y = game->dir_y + game->plane_y * camera_pos;
 		hit = cast_ray(game, ray_x, ray_y);
+		game->z_buffer[x] = hit.dis;
 		draw_wall(game, x, hit);
 		x++;
 	}

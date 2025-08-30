@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 15:58:00 by hamza             #+#    #+#             */
-/*   Updated: 2025/08/23 09:51:17 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 12:59:31 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	parse_identifiers(char **lines, t_game *game)
 int	parse_file(char **lines, t_game *game)
 {
 	if (parse_identifiers(lines, game))
-		return (1);
+		return (ft_error("invalid identifiers"));
 	if (parse_map(lines, game))
 		return (1);
 	return (0);

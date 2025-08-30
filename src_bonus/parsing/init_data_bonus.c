@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 08:04:47 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 11:07:47 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/30 11:33:01 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ int	init_game(t_game *game)
 			WIN_HEIGHT, "cub3D_bonus");
 	if (!game->window)
 		return (ft_error("Failed to create window"));
+	game->z_buffer = malloc(sizeof(double) * WIN_WIDTH);
+	if (!game->z_buffer)
+		return (ft_error("Failed to allocate z-buffer"));
 	load_texture(game);
 	if (game->start_dir == 'N')
 		set_direction(game, 0, -1, 0.66);
@@ -83,6 +86,7 @@ void	init_var(t_game *game)
 	game->player_y = -1.0;
 	game->prev_mouse_x = -1;
 	game->mouse_sens = 0.001;
+	game->player_health = 3;
 	i = 0;
 	while (i < 3)
 	{
