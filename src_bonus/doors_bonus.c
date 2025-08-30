@@ -6,11 +6,35 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 09:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 11:44:33 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/30 17:45:42 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
+
+void	draw_minimap_entity(t_game *game, t_point pos, int color)
+{
+	int		x;
+	int		y;
+	int		*pixel;
+
+	y = pos.y - PLAYER_SIZE;
+	while (y <= pos.y + PLAYER_SIZE)
+	{
+		x = pos.x - PLAYER_SIZE;
+		while (x <= pos.x + PLAYER_SIZE)
+		{
+			if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
+			{
+				pixel = (int *)(game->buffer.addr + (y * game->buffer.line_len
+							+ x * (game->buffer.bpp / 8)));
+				*pixel = color;
+			}
+			x++;
+		}
+		y++;
+	}
+}
 
 static int	is_door_at(t_game *game, int x, int y)
 {

@@ -95,30 +95,6 @@ static void	draw_map_grid(t_game *game, int scale)
 	}
 }
 
-static void	draw_minimap_entity(t_game *game, t_point pos, int color)
-{
-	int		x;
-	int		y;
-	int		*pixel;
-
-	y = pos.y - PLAYER_SIZE;
-	while (y <= pos.y + PLAYER_SIZE)
-	{
-		x = pos.x - PLAYER_SIZE;
-		while (x <= pos.x + PLAYER_SIZE)
-		{
-			if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
-			{
-				pixel = (int *)(game->buffer.addr + (y * game->buffer.line_len
-							+ x * (game->buffer.bpp / 8)));
-				*pixel = color;
-			}
-			x++;
-		}
-		y++;
-	}
-}
-
 void	draw_minimap(t_game *game)
 {
 	t_point	p;
