@@ -61,7 +61,7 @@ void	check_boss_collision(t_game *game)
 	}
 }
 
-static int	calculate_boss_screen_pos(t_game *game, t_point *screen_data)
+int	calculate_boss_screen_pos(t_game *game, t_point *screen_data)
 {
 	double	dx;
 	double	dy;
@@ -117,7 +117,7 @@ static void	draw_boss_pixel(t_game *game, t_image *frame,
 	}
 }
 
-static void	draw_boss_sprite(t_game *game, t_point screen_data)
+void	draw_boss_sprite(t_game *game, t_point screen_data)
 {
 	t_pixel_data	pixel;
 	int				start_x;
@@ -139,32 +139,10 @@ static void	draw_boss_sprite(t_game *game, t_point screen_data)
 				{
 					pixel.screen_x = start_x + pixel.sprite_x;
 					pixel.screen_y = start_y + pixel.sprite_y;
-					draw_boss_pixel(game,&game->boss.frames[game->boss.frame],
+					draw_boss_pixel(game, &game->boss.frames[game->boss.frame],
 						screen_data, pixel);
 				}
 			}
 		}
 	}
-}
-
-void	render_boss(t_game *game)
-{
-	t_point	screen_data;
-
-	if (calculate_boss_screen_pos(game, &screen_data))
-		draw_boss_sprite(game, screen_data);
-}
-
-void	update_boss(t_game *game)
-{
-	if (!game->boss.active)
-		return ;
-	game->boss.counter++;
-	if (game->boss.counter >= game->boss.delay)
-	{
-		game->boss.frame = (game->boss.frame + 1) % 6;
-		game->boss.counter = 0;
-	}
-	move_boss_towards_player(game);
-	check_boss_collision(game);
 }

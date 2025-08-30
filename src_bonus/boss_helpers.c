@@ -87,3 +87,11 @@ int	init_boss(t_game *game)
 	ft_printf("Player health: %d\n", game->player_health);
 	return (0);
 }
+
+void	render_boss(t_game *game)
+{
+	t_point	screen_data;
+
+	if (calculate_boss_screen_pos(game, &screen_data))
+		draw_boss_sprite(game, screen_data);
+}

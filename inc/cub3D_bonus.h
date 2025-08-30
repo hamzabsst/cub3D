@@ -149,11 +149,14 @@ void	draw_wall(t_game *game, int screen_x, t_hit hit);
 void	draw_minimap(t_game *game);
 void	toggle_door(t_game *game);
 int		door_closed(t_game *game, int x, int y);
+void	draw_minimap_entity(t_game *game, t_point pos, int color);
 //boss
 int		init_boss(t_game *game);
 void	update_boss(t_game *game);
 void	render_boss(t_game *game);
 void	check_boss_collision(t_game *game);
+int		calculate_boss_screen_pos(t_game *game, t_point *screen_data);
+void	draw_boss_sprite(t_game *game, t_point screen_data);
 double	get_current_time(void);
 //utils
 void	cleanup(t_game *game);

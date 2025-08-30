@@ -6,11 +6,25 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 07:31:07 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 09:41:13 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/30 17:45:09 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
+
+void	update_boss(t_game *game)
+{
+	if (!game->boss.active)
+		return ;
+	game->boss.counter++;
+	if (game->boss.counter >= game->boss.delay)
+	{
+		game->boss.frame = (game->boss.frame + 1) % 6;
+		game->boss.counter = 0;
+	}
+	move_boss_towards_player(game);
+	check_boss_collision(game);
+}
 
 int	render_buffer(t_game *game)
 {
