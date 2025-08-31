@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 11:41:04 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/30 17:43:51 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/31 18:42:45 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	load_boss_frames(t_game *game)
 int	init_boss(t_game *game)
 {
 	find_boss_position(game);
-	game->boss.speed = 0.02;
+	game->boss.speed = 0.01;
 	game->boss.frame = 0;
 	game->boss.counter = 0;
 	game->boss.delay = 8;
@@ -88,10 +88,16 @@ int	init_boss(t_game *game)
 	return (0);
 }
 
-void	render_boss(t_game *game)
+void	update_boss(t_game *game)
 {
-	t_point	screen_data;
-
-	if (calculate_boss_screen_pos(game, &screen_data))
-		draw_boss_sprite(game, screen_data);
+	if (!game->boss.active)
+		return ;
+	game->boss.counter++;
+	if (game->boss.counter >= game->boss.delay)
+	{
+		game->boss.frame = (game->boss.frame + 1) % 6;
+		game->boss.counter = 0;
+	}
+	move_boss_towards_player(game);
+	check_boss_collision(game);
 }

@@ -8,7 +8,7 @@ LDFLAGS 	= -L/usr/X11/lib -lX11 -lXext -lm
 LIB_DIR		= mylib
 LIB			= $(LIB_DIR)/myLib.a
 
-MLX_DIR 	= /home/hbousset/minilibx/
+MLX_DIR 	= /goinfre/minilibx/
 MLX 		= $(MLX_DIR)/libmlx.a
 
 SRCS 		=	src/main.c \

@@ -6,24 +6,43 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 07:31:07 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/30 17:45:09 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/31 18:42:52 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-void	update_boss(t_game *game)
+static int	calculate_boss_screen_pos(t_game *game, t_point *screen_data)
 {
+	double	dx;
+	double	dy;
+	double	angle;
+
 	if (!game->boss.active)
-		return ;
-	game->boss.counter++;
-	if (game->boss.counter >= game->boss.delay)
-	{
-		game->boss.frame = (game->boss.frame + 1) % 6;
-		game->boss.counter = 0;
-	}
-	move_boss_towards_player(game);
-	check_boss_collision(game);
+		return (0);
+	dx = game->boss.x - game->player_x;
+	dy = game->boss.y - game->player_y;
+	screen_data->distance = sqrt(dx * dx + dy * dy);
+	if (screen_data->distance > 10.0)
+		return (0);
+	angle = atan2(dy, dx) - atan2(game->dir_y, game->dir_x);
+	while (angle > M_PI)
+		angle -= 2 * M_PI;
+	while (angle < -M_PI)
+		angle += 2 * M_PI;
+	if (angle > M_PI / 3 || angle < -M_PI / 3)
+		return (0);
+	screen_data->x = (int)(WIN_WIDTH / 2 * (1 + angle / (M_PI / 3)));
+	screen_data->size = (int)(WIN_HEIGHT / screen_data->distance * 0.5);
+	return (1);
+}
+
+void	render_boss(t_game *game)
+{
+	t_point	screen_data;
+
+	if (calculate_boss_screen_pos(game, &screen_data))
+		draw_boss_sprite(game, screen_data);
 }
 
 int	render_buffer(t_game *game)

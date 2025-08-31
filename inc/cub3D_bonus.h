@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:00:31 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/30 17:45:31 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/08/31 18:45:36 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB3D_BONUS_H
 
 # include "../mylib/myLib.h"
-# include "/home/hbousset/minilibx/mlx.h"
+# include "/goinfre/minilibx/mlx.h"
 # include <math.h>
 # include <sys/time.h>
 
@@ -164,9 +164,9 @@ int		init_boss(t_game *game);
 void	update_boss(t_game *game);
 void	render_boss(t_game *game);
 void	check_boss_collision(t_game *game);
-int		calculate_boss_screen_pos(t_game *game, t_point *screen_data);
 void	draw_boss_sprite(t_game *game, t_point screen_data);
 double	get_current_time(void);
+void	move_boss_towards_player(t_game *game);
 //utils
 void	cleanup(t_game *game);
 int		ft_error(char *msg);
