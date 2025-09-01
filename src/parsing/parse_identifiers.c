@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_identifiers.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: abchaman <abchaman@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 15:58:00 by hamza             #+#    #+#             */
-/*   Updated: 2025/08/24 07:59:49 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/09/01 15:51:03 by abchaman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,25 @@ static int	convert_rgb(char **rgb, int *color)
 
 static int	parse_color(char *line, int *color)
 {
-	char	*color_part;
 	char	**rgb;
 	int		count;
 
-	color_part = ft_strchr(line, ' ');
-	if (!color_part)
+	count = 0;
+	while (*line == ' ')
+		line++;
+	if (*line != 'F' && *line != 'C')
 		return (1);
-	color_part++;
-	rgb = ft_split(color_part, ',');
+	line++;
+	while (*line == ' ')
+		line++;
+	if (!*line)
+		return (1);
+	rgb = ft_split(line, ',');
 	if (!rgb)
 		return (1);
-	count = 0;
 	while (rgb[count])
 		count++;
-	if (count != 3)
-		return (ft_free(rgb), 1);
-	if (convert_rgb(rgb, color))
+	if (count != 3 || convert_rgb(rgb, color))
 		return (ft_free(rgb), 1);
 	ft_free(rgb);
 	return (0);
