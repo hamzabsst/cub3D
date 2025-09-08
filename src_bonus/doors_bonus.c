@@ -38,8 +38,8 @@ void	draw_minimap_entity(t_game *game, t_point pos, int color)
 
 static int	is_door_at(t_game *game, int x, int y)
 {
-	if (x >= 0 && x < game->map_width && y >= 0 && y < game->map_height &&
-		game->map[y] && x < (int)ft_strlen(game->map[y]))
+	if (x >= 0 && x < game->map_width && y >= 0 && y < game->map_height
+		&& game->map[y] && x < (int)ft_strlen(game->map[y]))
 	{
 		if (game->map[y][x] == 'D' || game->map[y][x] == 'd')
 			return (1);
@@ -75,6 +75,24 @@ static int	find_door(t_game *game, int *door_x, int *door_y)
 	return (0);
 }
 
+static void	close_door(t_game *game, int door_x, int door_y)
+{
+	int	py;
+	int	px;
+
+	py = (int)game->player_y;
+	px = (int)game->player_x;
+	if (py >= 0 && py < game->map_height
+		&& px >= 0 && px < game->map_width
+		&& game->map[py] && px < (int)ft_strlen(game->map[py]))
+	{
+		if (game->map[door_y][door_x] != game->map[py][px])
+			game->map[door_y][door_x] = 'D';
+	}
+	else
+		game->map[door_y][door_x] = 'D';
+}
+
 void	toggle_door(t_game *game)
 {
 	int	door_x;
@@ -82,35 +100,15 @@ void	toggle_door(t_game *game)
 
 	if (find_door(game, &door_x, &door_y))
 	{
-		if (door_y >= 0 && door_y < game->map_height &&
-			door_x >= 0 && door_x < game->map_width &&
-			game->map[door_y] &&
-			door_x < (int)ft_strlen(game->map[door_y]))
+		if (door_y >= 0 && door_y < game->map_height
+			&& door_x >= 0 && door_x < game->map_width
+			&& game->map[door_y]
+			&& door_x < (int)ft_strlen(game->map[door_y]))
 		{
 			if (game->map[door_y][door_x] == 'D')
 				game->map[door_y][door_x] = 'd';
 			else if (game->map[door_y][door_x] == 'd')
-			{
-				int py = (int)game->player_y;
-				int px = (int)game->player_x;
-				if (py >= 0 && py < game->map_height &&
-					px >= 0 && px < game->map_width &&
-					game->map[py] && px < (int)ft_strlen(game->map[py]))
-				{
-					if (game->map[door_y][door_x] != game->map[py][px])
-						game->map[door_y][door_x] = 'D';
-				}
-				else
-					game->map[door_y][door_x] = 'D';
-			}
+				close_door(game, door_x, door_y);
 		}
 	}
-}
-
-int	door_closed(t_game *game, int x, int y)
-{
-	if (y < 0 || y >= game->map_height || x < 0 || x >= game->map_width ||
-		!game->map[y] || x >= (int)ft_strlen(game->map[y]))
-		return (0);
-	return (game->map[y][x] == 'D');
 }
