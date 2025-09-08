@@ -6,28 +6,35 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 11:41:04 by hbousset          #+#    #+#             */
-/*   Updated: 2025/09/08 13:16:23 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:00:02 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-static void	find_boss_position(t_game *game)
+static int	valid_boss_pos(t_game *game, double x, double y)
 {
-	int	boss_x, boss_y;
+	int	boss_x;
+	int	boss_y;
 
+	boss_x = (int)x;
+	boss_y = (int)y;
+	if (boss_y >= 0 && boss_y < game->map_height
+		&& boss_x >= 0 && boss_x < game->map_width
+		&& game->map[boss_y] && boss_x < (int)ft_strlen(game->map[boss_y])
+		&& game->map[boss_y][boss_x] == '0')
+		return (1);
+	return (0);
+}
+
+void	find_boss_position(t_game *game)
+{
 	game->boss.x = game->map_width - 2.5;
 	game->boss.y = game->map_height - 2.5;
 	while (1)
 	{
-		boss_x = (int)game->boss.x;
-		boss_y = (int)game->boss.y;
-		if (boss_y >= 0 && boss_y < game->map_height &&
-			boss_x >= 0 && boss_x < game->map_width &&
-			game->map[boss_y] &&
-			boss_x < (int)ft_strlen(game->map[boss_y]) &&
-			game->map[boss_y][boss_x] == '0')
-			break;
+		if (valid_boss_pos(game, game->boss.x, game->boss.y))
+			break ;
 		game->boss.x -= 1.0;
 		if (game->boss.x < 1.0)
 		{
@@ -43,7 +50,7 @@ static void	find_boss_position(t_game *game)
 	}
 }
 
-static int	load_boss_frame(t_game *game, int frame_num, char *path)
+int	load_boss_frame(t_game *game, int frame_num, char *path)
 {
 	game->boss.frames[frame_num].img = mlx_xpm_file_to_image(game->mlx, path,
 			&game->boss.frames[frame_num].width,
