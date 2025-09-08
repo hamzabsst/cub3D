@@ -59,17 +59,20 @@ static void	draw_square(t_game *game, t_square sq)
 
 static int	get_cell_color(t_game *game, int map_y, int map_x)
 {
-	if (map_y < game->map_height && map_x < (int)ft_strlen(game->map[map_y]))
-	{
-		if (game->map[map_y][map_x] == '1')
-			return (0x808080);
-		else if (game->map[map_y][map_x] == ' ')
-			return ((game->c_color[0] << 16)
-				| (game->c_color[1] << 8) | game->c_color[2]);
-		else
-			return (0xFFFFFF);
-	}
-	return (0x000000);
+	if (map_y < 0 || map_y >= game->map_height ||
+		map_x < 0 || map_x >= game->map_width)
+		return (0x000000);
+	if (!game->map[map_y])
+		return (0x000000);
+	if (map_x >= (int)ft_strlen(game->map[map_y]))
+		return (0x000000);
+	if (game->map[map_y][map_x] == '1')
+		return (0x808080);
+	else if (game->map[map_y][map_x] == ' ')
+		return ((game->c_color[0] << 16)
+			| (game->c_color[1] << 8) | game->c_color[2]);
+	else
+		return (0xFFFFFF);
 }
 
 static void	draw_map_grid(t_game *game, int scale)
