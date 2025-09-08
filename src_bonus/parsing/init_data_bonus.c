@@ -86,7 +86,7 @@ void	init_var(t_game *game)
 	game->player_y = -1.0;
 	game->prev_mouse_x = -1;
 	game->mouse_sens = 0.001;
-	game->player_health = 3;
+	game->hp = 3;
 	i = 0;
 	while (i < 3)
 	{
