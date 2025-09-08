@@ -70,15 +70,26 @@ static void	wall_column(t_game *game, int screen_x, t_hit hit, int wall[4])
 
 	tex_x = wall[3];
 	y = wall[0];
-	while (y <= wall[1])
+	while (y <= wall[1] && y < WIN_HEIGHT)
 	{
-		tex_y = (y - wall[0]) * hit.txtr->height / wall[2];
-		if (tex_y >= hit.txtr->height)
-			tex_y = hit.txtr->height - 1;
-		color = *(int *)(hit.txtr->addr
-				+ (tex_y * hit.txtr->line_len + tex_x * (hit.txtr->bpp / 8)));
-		*(int *)(game->buffer.addr + (y * game->buffer.line_len
-					+ screen_x * (game->buffer.bpp / 8))) = color;
+		if (y >= 0 && screen_x >= 0 && screen_x < WIN_WIDTH)
+		{
+			if (wall[2] > 0)
+				tex_y = (y - wall[0]) * hit.txtr->height / wall[2];
+			else
+				tex_y = 0;
+			if (tex_y >= hit.txtr->height)
+				tex_y = hit.txtr->height - 1;
+			if (tex_y < 0)
+				tex_y = 0;
+			if (tex_x >= 0 && tex_x < hit.txtr->width)
+			{
+				color = *(int *)(hit.txtr->addr
+						+ (tex_y * hit.txtr->line_len + tex_x * (hit.txtr->bpp / 8)));
+				*(int *)(game->buffer.addr + (y * game->buffer.line_len
+							+ screen_x * (game->buffer.bpp / 8))) = color;
+			}
+		}
 		y++;
 	}
 }
@@ -89,8 +100,10 @@ void	draw_wall(t_game *game, int screen_x, t_hit hit)
 	int	wall_top;
 	int	wall_bottom;
 	int	wall_params[4];
+	int	tex_x;
 
-	if (!hit.txtr || !hit.txtr->addr || hit.dis <= 0.001)
+	if (!hit.txtr || !hit.txtr->addr || hit.dis <= 0.001 ||
+		screen_x < 0 || screen_x >= WIN_WIDTH)
 		return ;
 	wall_height = (int)(WIN_HEIGHT / hit.dis);
 	wall_top = (WIN_HEIGHT - wall_height) / 2;
@@ -99,9 +112,14 @@ void	draw_wall(t_game *game, int screen_x, t_hit hit)
 		wall_top = 0;
 	if (wall_bottom >= WIN_HEIGHT)
 		wall_bottom = WIN_HEIGHT - 1;
+	tex_x = (int)(hit.hit_p * hit.txtr->width);
+	if (tex_x < 0)
+		tex_x = 0;
+	if (tex_x >= hit.txtr->width)
+		tex_x = hit.txtr->width - 1;
 	wall_params[0] = wall_top;
 	wall_params[1] = wall_bottom;
 	wall_params[2] = wall_height;
-	wall_params[3] = (int)(hit.hit_p * hit.txtr->width) % hit.txtr->width;
+	wall_params[3] = tex_x;
 	wall_column(game, screen_x, hit, wall_params);
 }
