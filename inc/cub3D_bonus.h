@@ -87,8 +87,8 @@ typedef struct s_game
 	int			f_rgb;
 	int			c_rgb;
 	t_boss		boss;
-	int			player_health;
-	double		last_damage_time;
+	int			hp;
+	double		last_dmg_time;
 	double		*z_buffer;
 }				t_game;
 
