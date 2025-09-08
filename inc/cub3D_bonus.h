@@ -163,10 +163,12 @@ void	draw_minimap_entity(t_game *game, t_point pos, int color);
 int		init_boss(t_game *game);
 void	update_boss(t_game *game);
 void	render_boss(t_game *game);
-void	check_boss_collision(t_game *game);
+void	boss_collision(t_game *game);
+void	find_boss_position(t_game *game);
+int		load_boss_frame(t_game *game, int frame_num, char *path);
 void	draw_boss_sprite(t_game *game, t_point screen_data);
 double	get_current_time(void);
-void	move_boss_towards_player(t_game *game);
+void	move_boss(t_game *game);
 //utils
 void	cleanup(t_game *game);
 int		ft_error(char *msg);
