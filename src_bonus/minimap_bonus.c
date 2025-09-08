@@ -59,8 +59,8 @@ static void	draw_square(t_game *game, t_square sq)
 
 static int	get_cell_color(t_game *game, int map_y, int map_x)
 {
-	if (map_y < 0 || map_y >= game->map_height ||
-		map_x < 0 || map_x >= game->map_width)
+	if (map_y < 0 || map_y >= game->map_height
+		|| map_x < 0 || map_x >= game->map_width)
 		return (0x000000);
 	if (!game->map[map_y])
 		return (0x000000);
