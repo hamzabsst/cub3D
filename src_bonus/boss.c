@@ -19,6 +19,7 @@ void	move_boss_towards_player(t_game *game)
 	double	distance;
 	double	new_x;
 	double	new_y;
+	int		check_x, check_y;
 
 	dx = game->player_x - game->boss.x;
 	dy = game->player_y - game->boss.y;
@@ -29,9 +30,21 @@ void	move_boss_towards_player(t_game *game)
 	dy /= distance;
 	new_x = game->boss.x + dx * game->boss.speed;
 	new_y = game->boss.y + dy * game->boss.speed;
-	if (game->map[(int)new_y][(int)game->boss.x] != '1')
+
+	check_y = (int)new_y;
+	check_x = (int)game->boss.x;
+	if (check_y >= 0 && check_y < game->map_height &&
+		check_x >= 0 && check_x < game->map_width &&
+		game->map[check_y] && check_x < (int)ft_strlen(game->map[check_y]) &&
+		game->map[check_y][check_x] != '1')
 		game->boss.y = new_y;
-	if (game->map[(int)game->boss.y][(int)new_x] != '1')
+
+	check_y = (int)game->boss.y;
+	check_x = (int)new_x;
+	if (check_y >= 0 && check_y < game->map_height &&
+		check_x >= 0 && check_x < game->map_width &&
+		game->map[check_y] && check_x < (int)ft_strlen(game->map[check_y]) &&
+		game->map[check_y][check_x] != '1')
 		game->boss.x = new_x;
 }
 

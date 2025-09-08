@@ -14,9 +14,20 @@
 
 static void	set_texture(t_game *game, t_hit *result, t_ray *data, int side)
 {
-	if (game->map[data->map_y][data->map_x] == 'D')
+	char	cell;
+
+	cell = '1';
+	if (data->map_y >= 0 && data->map_y < game->map_height &&
+		data->map_x >= 0 && data->map_x < game->map_width &&
+		game->map[data->map_y] &&
+		data->map_x < (int)ft_strlen(game->map[data->map_y]))
+	{
+		cell = game->map[data->map_y][data->map_x];
+	}
+
+	if (cell == 'D')
 		result->txtr = &game->door_texture;
-	else if (game->map[data->map_y][data->map_x] == ' ')
+	else if (cell == ' ')
 		result->txtr = &game->no_texture;
 	else if (side == 0)
 	{
@@ -54,6 +65,18 @@ static int	perform_dda(t_game *game, t_ray *data)
 			data->side_y += data->delta_y;
 			data->map_y += data->step_y;
 			side = 1;
+		}
+		if (data->map_x < 0 || data->map_x >= game->map_width ||
+			data->map_y < 0 || data->map_y >= game->map_height)
+		{
+			hit = 1;
+			break;
+		}
+		if (!game->map[data->map_y] ||
+			data->map_x >= (int)ft_strlen(game->map[data->map_y]))
+		{
+			hit = 1;
+			break;
 		}
 		if (game->map[data->map_y][data->map_x] == '1')
 			hit = 1;
