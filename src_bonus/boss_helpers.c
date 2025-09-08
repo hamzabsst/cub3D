@@ -14,10 +14,20 @@
 
 static void	find_boss_position(t_game *game)
 {
+	int	boss_x, boss_y;
+
 	game->boss.x = game->map_width - 2.5;
 	game->boss.y = game->map_height - 2.5;
-	while (game->map[(int)game->boss.y][(int)game->boss.x] != '0')
+	while (1)
 	{
+		boss_x = (int)game->boss.x;
+		boss_y = (int)game->boss.y;
+		if (boss_y >= 0 && boss_y < game->map_height &&
+			boss_x >= 0 && boss_x < game->map_width &&
+			game->map[boss_y] &&
+			boss_x < (int)ft_strlen(game->map[boss_y]) &&
+			game->map[boss_y][boss_x] == '0')
+			break;
 		game->boss.x -= 1.0;
 		if (game->boss.x < 1.0)
 		{
