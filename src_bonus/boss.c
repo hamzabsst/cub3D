@@ -70,14 +70,10 @@ static void	draw_boss_pixel(t_game *game, t_image *frame,
 		tex_x = frame->width - 1;
 	if (tex_y >= frame->height)
 		tex_y = frame->height - 1;
-	if (tex_x < 0)
-		tex_x = 0;
-	if (tex_y < 0)
-		tex_y = 0;
 	color = *(int *)(frame->addr + (tex_y * frame->line_len
 				+ tex_x * (frame->bpp / 8)));
 	if ((unsigned int)color != 0x000000 && (unsigned int)color != 0xFF000000
-		&& screen_data.distance < game->z_buffer[pixel.screen_x])
+		&& screen_data.dist < game->z_buffer[pixel.screen_x])
 	{
 		*(int *)(game->buffer.addr + (pixel.screen_y * game->buffer.line_len
 					+ pixel.screen_x * (game->buffer.bpp / 8))) = color;
@@ -85,7 +81,7 @@ static void	draw_boss_pixel(t_game *game, t_image *frame,
 }
 
 static void	draw_boss_row(t_game *game, t_point screen_data,
-					t_pixel_data *pixel, int start_x)
+					t_pixel *pixel, int start_x)
 {
 	int	start_y;
 
@@ -106,9 +102,9 @@ static void	draw_boss_row(t_game *game, t_point screen_data,
 
 void	draw_boss_sprite(t_game *game, t_point screen_data)
 {
-	t_pixel_data	pixel;
-	int				start_x;
-	int				start_y;
+	t_pixel	pixel;
+	int		start_x;
+	int		start_y;
 
 	start_x = screen_data.x - screen_data.size / 2;
 	start_y = WIN_HEIGHT / 2 - screen_data.size / 2;
