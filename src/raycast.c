@@ -43,14 +43,8 @@ static int	perform_dda(t_game *game, t_ray *data)
 			data->map_y += data->step_y;
 			side = 1;
 		}
-		if (data->map_x < 0 || data->map_x >= game->map_width
-			|| data->map_y < 0 || data->map_y >= game->map_height
-			|| !game->map[data->map_y]
-			|| data->map_x >= (int)ft_strlen(game->map[data->map_y]))
+		if (is_wall_or_boundary(game, data))
 			break ;
-		if (game->map[data->map_y][data->map_x] == '1'
-			|| game->map[data->map_y][data->map_x] == ' ')
-			hit = 1;
 	}
 	return (side);
 }
