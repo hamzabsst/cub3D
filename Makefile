@@ -40,7 +40,8 @@ SRCS_BONUS 	=	src_bonus/main_bonus.c \
 				src_bonus/doors_bonus.c \
 				src_bonus/boss.c \
 				src_bonus/boss_helpers.c \
-				src_bonus/cleanup_bonus.c
+				src_bonus/cleanup_bonus.c \
+				src_bonus/raycast_utils.c 
 
 OBJS		= $(SRCS:.c=.o)
 OBJS_BONUS	= $(SRCS_BONUS:.c=.o)
