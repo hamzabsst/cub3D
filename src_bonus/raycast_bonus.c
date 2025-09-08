@@ -68,16 +68,10 @@ static int	perform_dda(t_game *game, t_ray *data)
 		}
 		if (data->map_x < 0 || data->map_x >= game->map_width ||
 			data->map_y < 0 || data->map_y >= game->map_height)
-		{
-			hit = 1;
 			break;
-		}
 		if (!game->map[data->map_y] ||
 			data->map_x >= (int)ft_strlen(game->map[data->map_y]))
-		{
-			hit = 1;
 			break;
-		}
 		if (game->map[data->map_y][data->map_x] == '1')
 			hit = 1;
 		else if (game->map[data->map_y][data->map_x] == 'D')
