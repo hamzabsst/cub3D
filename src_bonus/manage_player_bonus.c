@@ -14,6 +14,13 @@
 
 static int	is_pos_blocked(t_game *game, int map_x, int map_y)
 {
+	if (map_x < 0 || map_x >= game->map_width ||
+		map_y < 0 || map_y >= game->map_height)
+		return (1);
+	if (!game->map[map_y])
+		return (1);
+	if (map_x >= (int)ft_strlen(game->map[map_y]))
+		return (1);
 	if (game->map[map_y][map_x] == '1' || game->map[map_y][map_x] == ' ')
 		return (1);
 	if (game->map[map_y][map_x] == 'D' && door_closed(game, map_x, map_y))
