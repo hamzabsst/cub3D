@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abchaman <abchaman@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:00:31 by hbousset          #+#    #+#             */
-/*   Updated: 2025/09/01 15:52:31 by abchaman         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:16:16 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	setup_colors(t_game *game);
 int		run_game(t_game *game);
 void	manage_player(int keycode, t_game *game);
 void	raycast(t_game *game);
+void	set_texture(t_game *game, t_hit *result, t_ray *data, int side);
 void	draw_wall(t_game *game, int screen_x, t_hit hit);
 //utils
 void	cleanup(t_game *game);

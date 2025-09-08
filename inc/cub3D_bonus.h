@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:00:31 by hbousset          #+#    #+#             */
-/*   Updated: 2025/09/08 17:49:20 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:18:27 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,12 +154,15 @@ int		render_buffer(t_game *game);
 int		run_game(t_game *game);
 int		handle_keypress(int keycode, t_game *game);
 void	raycast(t_game *game);
+void	set_texture(t_game *game, t_hit *result, t_ray *data, int side);
 void	draw_wall(t_game *game, int screen_x, t_hit hit);
 void	draw_minimap(t_game *game);
 void	toggle_door(t_game *game);
 int		door_closed(t_game *game, int x, int y);
 void	draw_minimap_entity(t_game *game, t_point pos, int color);
 //boss
+int		load_boss_frames(t_game *game);
+int		calculate_boss_screen_pos(t_game *game, t_point *screen_data);
 int		init_boss(t_game *game);
 void	update_boss(t_game *game);
 void	render_boss(t_game *game);
