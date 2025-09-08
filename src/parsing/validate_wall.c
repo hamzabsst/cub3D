@@ -20,8 +20,13 @@ static int	check_walls(t_game *game)
 	i = 0;
 	while (i < game->map_height)
 	{
+		if (!game->map[i])
+		{
+			i++;
+			continue;
+		}
 		j = 0;
-		while (j < game->map_width)
+		while (j < game->map_width && j < (int)ft_strlen(game->map[i]))
 		{
 			if ((i == 0 || i == game->map_height - 1
 					|| j == 0 || j == game->map_width - 1)

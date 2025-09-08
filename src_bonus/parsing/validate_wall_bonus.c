@@ -17,13 +17,13 @@ static int	coun_walls(t_game *game, int i, int j)
 	int	wall_count;
 
 	wall_count = 0;
-	if (i > 0 && game->map[i - 1][j] == '1')
+	if (i > 0 && game->map[i - 1] && j < (int)ft_strlen(game->map[i - 1]) && game->map[i - 1][j] == '1')
 		wall_count++;
-	if (i < game->map_height - 1 && game->map[i + 1][j] == '1')
+	if (i < game->map_height - 1 && game->map[i + 1] && j < (int)ft_strlen(game->map[i + 1]) && game->map[i + 1][j] == '1')
 		wall_count++;
-	if (j > 0 && game->map[i][j - 1] == '1')
+	if (j > 0 && game->map[i] && j - 1 < (int)ft_strlen(game->map[i]) && game->map[i][j - 1] == '1')
 		wall_count++;
-	if (j < game->map_width - 1 && game->map[i][j + 1] == '1')
+	if (j < game->map_width - 1 && game->map[i] && j + 1 < (int)ft_strlen(game->map[i]) && game->map[i][j + 1] == '1')
 		wall_count++;
 	return (wall_count);
 }
@@ -37,8 +37,13 @@ static int	is_valid_door(t_game *game)
 	i = 0;
 	while (i < game->map_height)
 	{
+		if (!game->map[i])
+		{
+			i++;
+			continue;
+		}
 		j = 0;
-		while (j < game->map_width)
+		while (j < game->map_width && j < (int)ft_strlen(game->map[i]))
 		{
 			if (game->map[i][j] == 'D' || game->map[i][j] == 'd')
 			{
@@ -61,8 +66,13 @@ static int	check_walls(t_game *game)
 	i = 0;
 	while (i < game->map_height)
 	{
+		if (!game->map[i])
+		{
+			i++;
+			continue;
+		}
 		j = 0;
-		while (j < game->map_width)
+		while (j < game->map_width && j < (int)ft_strlen(game->map[i]))
 		{
 			if ((i == 0 || i == game->map_height - 1
 					|| j == 0 || j == game->map_width - 1)
