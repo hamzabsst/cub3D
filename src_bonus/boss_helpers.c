@@ -67,7 +67,7 @@ int	load_boss_frame(t_game *game, int frame_num, char *path)
 	return (0);
 }
 
-static int	load_boss_frames(t_game *game)
+int	load_boss_frames(t_game *game)
 {
 	char	*paths[6];
 	int		i;
