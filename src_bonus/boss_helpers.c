@@ -88,23 +88,6 @@ static int	load_boss_frames(t_game *game)
 	return (0);
 }
 
-int	init_boss(t_game *game)
-{
-	find_boss_position(game);
-	game->boss.speed = 0.01;
-	game->boss.frame = 0;
-	game->boss.counter = 0;
-	game->boss.delay = 8;
-	game->boss.active = 1;
-	game->boss.last_hit = 0;
-	game->player_health = 2;
-	game->last_damage_time = 0;
-	if (load_boss_frames(game))
-		return (1);
-	ft_printf("Player health: %d\n", game->player_health);
-	return (0);
-}
-
 void	update_boss(t_game *game)
 {
 	if (!game->boss.active)
@@ -115,6 +98,6 @@ void	update_boss(t_game *game)
 		game->boss.frame = (game->boss.frame + 1) % 6;
 		game->boss.counter = 0;
 	}
-	move_boss_towards_player(game);
-	check_boss_collision(game);
+	move_boss(game);
+	boss_collision(game);
 }
