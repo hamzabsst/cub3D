@@ -125,17 +125,17 @@ typedef struct s_point
 	int		x;
 	int		y;
 	int		scale;
-	double	distance;
+	double	dist;
 	int		size;
 }	t_point;
 
-typedef struct s_pixel_data
+typedef struct s_pixel
 {
 	int	screen_x;
 	int	screen_y;
 	int	sprite_x;
 	int	sprite_y;
-}	t_pixel_data;
+}	t_pixel;
 
 //parsing
 char	**load_file(char *filename);
