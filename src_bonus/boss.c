@@ -6,20 +6,36 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 00:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/09/08 13:16:23 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/09/08 17:48:17 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-void	move_boss_towards_player(t_game *game)
+static int	is_move_valid(t_game *game, double new_x, double new_y)
+{
+	int	check_x;
+	int	check_y;
+
+	check_x = (int)new_x;
+	check_y = (int)new_y;
+	if (check_y < 0 || check_y >= game->map_height
+		|| check_x < 0 || check_x >= game->map_width
+		|| !game->map[check_y] || check_x >= (int)ft_strlen(game->map[check_y]))
+		return (0);
+	if (game->map[check_y][check_x] == '1'
+		|| game->map[check_y][check_x] == 'D')
+		return (0);
+	return (1);
+}
+
+void	move_boss(t_game *game)
 {
 	double	dx;
 	double	dy;
 	double	distance;
 	double	new_x;
 	double	new_y;
-	int		check_x, check_y;
 
 	dx = game->player_x - game->boss.x;
 	dy = game->player_y - game->boss.y;
@@ -30,59 +46,21 @@ void	move_boss_towards_player(t_game *game)
 	dy /= distance;
 	new_x = game->boss.x + dx * game->boss.speed;
 	new_y = game->boss.y + dy * game->boss.speed;
-
-	check_y = (int)new_y;
-	check_x = (int)game->boss.x;
-	if (check_y >= 0 && check_y < game->map_height &&
-		check_x >= 0 && check_x < game->map_width &&
-		game->map[check_y] && check_x < (int)ft_strlen(game->map[check_y]) &&
-		game->map[check_y][check_x] != '1')
+	if (is_move_valid(game, game->boss.x, new_y))
 		game->boss.y = new_y;
-
-	check_y = (int)game->boss.y;
-	check_x = (int)new_x;
-	if (check_y >= 0 && check_y < game->map_height &&
-		check_x >= 0 && check_x < game->map_width &&
-		game->map[check_y] && check_x < (int)ft_strlen(game->map[check_y]) &&
-		game->map[check_y][check_x] != '1')
+	if (is_move_valid(game, new_x, game->boss.y))
 		game->boss.x = new_x;
 }
 
-void	check_boss_collision(t_game *game)
-{
-	double	dx;
-	double	dy;
-	double	distance;
-	double	current_time;
-
-	if (!game->boss.active || game->player_health <= 0)
-		return ;
-	dx = game->player_x - game->boss.x;
-	dy = game->player_y - game->boss.y;
-	distance = sqrt(dx * dx + dy * dy);
-	current_time = get_current_time();
-	if (distance < 0.8 && (current_time - game->last_damage_time) > 1.0)
-	{
-		game->player_health--;
-		game->last_damage_time = current_time;
-		ft_printf("Boss hit you! Health remaining: %d\n", game->player_health);
-		if (game->player_health <= 0)
-		{
-			ft_printf("Game Over! The boss has defeated you!\n");
-			exit(0);
-		}
-	}
-}
-
 static void	draw_boss_pixel(t_game *game, t_image *frame,
-					t_point screen_data, t_pixel_data pixel)
+					t_point screen_data, t_pixel pixel)
 {
 	int	tex_x;
 	int	tex_y;
 	int	color;
 
-	if (pixel.screen_x < 0 || pixel.screen_x >= WIN_WIDTH ||
-		pixel.screen_y < 0 || pixel.screen_y >= WIN_HEIGHT)
+	if (pixel.screen_x < 0 || pixel.screen_x >= WIN_WIDTH
+		|| pixel.screen_y < 0 || pixel.screen_y >= WIN_HEIGHT)
 		return ;
 	if (screen_data.size <= 0)
 		return ;
