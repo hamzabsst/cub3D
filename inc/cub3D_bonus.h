@@ -30,7 +30,7 @@
 # define MINIMAP_X 20
 # define MINIMAP_Y 20
 # define PLAYER_SIZE 2
-# define M_PI 3.14159265358979323846
+# define PI 3.14159265358979323846
 
 typedef struct s_image
 {
