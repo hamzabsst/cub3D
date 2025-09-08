@@ -6,11 +6,27 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 10:32:57 by hbousset          #+#    #+#             */
-/*   Updated: 2025/08/28 11:03:07 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/09/08 15:13:16 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+static int	is_pos_blocked(t_game *game, double x, double y)
+{
+	int	map_x;
+	int	map_y;
+
+	map_x = (int)x;
+	map_y = (int)y;
+	if (map_y < 0 || map_y >= game->map_height || map_x < 0 || map_x >= game->map_width)
+		return (1);
+	if (!game->map[map_y] || map_x >= (int)ft_strlen(game->map[map_y]))
+		return (1);
+	if (game->map[map_y][map_x] == '1' || game->map[map_y][map_x] == ' ')
+		return (1);
+	return (0);
+}
 
 static void	rotate_player(int keycode, t_game *game, double speed)
 {
@@ -46,8 +62,7 @@ static void	move_up_down(int keycode, t_game *game, double speed)
 	{
 		new_x = game->player_x + game->dir_x * speed;
 		new_y = game->player_y + game->dir_y * speed;
-		if (game->map[(int)new_y][(int)new_x] != '1'
-			&& game->map[(int)new_y][(int)new_x] != ' ')
+		if (!is_pos_blocked(game, new_x, new_y))
 		{
 			game->player_x = new_x;
 			game->player_y = new_y;
@@ -57,8 +72,7 @@ static void	move_up_down(int keycode, t_game *game, double speed)
 	{
 		new_x = game->player_x - game->dir_x * speed;
 		new_y = game->player_y - game->dir_y * speed;
-		if (game->map[(int)new_y][(int)new_x] != '1'
-			&& game->map[(int)new_y][(int)new_x] != ' ')
+		if (!is_pos_blocked(game, new_x, new_y))
 		{
 			game->player_x = new_x;
 			game->player_y = new_y;
@@ -75,8 +89,7 @@ static void	move_right_left(int keycode, t_game *game, double speed)
 	{
 		new_x = game->player_x - game->plane_x * speed;
 		new_y = game->player_y - game->plane_y * speed;
-		if (game->map[(int)new_y][(int)new_x] != '1'
-			&& game->map[(int)new_y][(int)new_x] != ' ')
+		if (!is_pos_blocked(game, new_x, new_y))
 		{
 			game->player_x = new_x;
 			game->player_y = new_y;
@@ -86,8 +99,7 @@ static void	move_right_left(int keycode, t_game *game, double speed)
 	{
 		new_x = game->player_x + game->plane_x * speed;
 		new_y = game->player_y + game->plane_y * speed;
-		if (game->map[(int)new_y][(int)new_x] != '1'
-			&& game->map[(int)new_y][(int)new_x] != ' ')
+		if (!is_pos_blocked(game, new_x, new_y))
 		{
 			game->player_x = new_x;
 			game->player_y = new_y;
