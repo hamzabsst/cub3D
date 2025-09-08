@@ -81,12 +81,21 @@ static void	draw_boss_pixel(t_game *game, t_image *frame,
 	int	tex_y;
 	int	color;
 
+	if (pixel.screen_x < 0 || pixel.screen_x >= WIN_WIDTH ||
+		pixel.screen_y < 0 || pixel.screen_y >= WIN_HEIGHT)
+		return ;
+	if (screen_data.size <= 0)
+		return ;
 	tex_x = pixel.sprite_x * frame->width / screen_data.size;
 	tex_y = pixel.sprite_y * frame->height / screen_data.size;
 	if (tex_x >= frame->width)
 		tex_x = frame->width - 1;
 	if (tex_y >= frame->height)
 		tex_y = frame->height - 1;
+	if (tex_x < 0)
+		tex_x = 0;
+	if (tex_y < 0)
+		tex_y = 0;
 	color = *(int *)(frame->addr + (tex_y * frame->line_len
 				+ tex_x * (frame->bpp / 8)));
 	if ((unsigned int)color != 0x000000 && (unsigned int)color != 0xFF000000
