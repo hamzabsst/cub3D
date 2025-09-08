@@ -6,46 +6,28 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 08:30:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/09/08 15:52:52 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:09:02 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-static void	set_texture(t_game *game, t_hit *result, t_ray *data, int side)
+static int	check_hit(t_game *game, t_ray *data)
 {
-	char	cell;
-
-	cell = '1';
-	if (data->map_y >= 0 && data->map_y < game->map_height &&
-		data->map_x >= 0 && data->map_x < game->map_width &&
-		game->map[data->map_y] &&
-		data->map_x < (int)ft_strlen(game->map[data->map_y]))
-	{
-		cell = game->map[data->map_y][data->map_x];
-	}
-
-	if (cell == 'D')
-		result->txtr = &game->door_texture;
-	else if (cell == ' ')
-		result->txtr = &game->no_texture;
-	else if (side == 0)
-	{
-		if (data->step_x > 0)
-			result->txtr = &game->ea_texture;
-		else
-			result->txtr = &game->we_texture;
-	}
-	else
-	{
-		if (data->step_y > 0)
-			result->txtr = &game->so_texture;
-		else
-			result->txtr = &game->no_texture;
-	}
+	if (data->map_x < 0 || data->map_x >= game->map_width
+		|| data->map_y < 0 || data->map_y >= game->map_height)
+		return (0);
+	if (!game->map[data->map_y]
+		|| data->map_x >= (int)ft_strlen(game->map[data->map_y]))
+		return (0);
+	if (game->map[data->map_y][data->map_x] == '1')
+		return (1);
+	else if (game->map[data->map_y][data->map_x] == 'D')
+		if (door_closed(game, data->map_x, data->map_y))
+			return (1);
+	return (0);
 }
 
-//i removed this || game->map[data->map_y][data->map_x] == ' '
 static int	perform_dda(t_game *game, t_ray *data)
 {
 	int	side;
@@ -66,17 +48,7 @@ static int	perform_dda(t_game *game, t_ray *data)
 			data->map_y += data->step_y;
 			side = 1;
 		}
-		if (data->map_x < 0 || data->map_x >= game->map_width ||
-			data->map_y < 0 || data->map_y >= game->map_height)
-			break;
-		if (!game->map[data->map_y] ||
-			data->map_x >= (int)ft_strlen(game->map[data->map_y]))
-			break;
-		if (game->map[data->map_y][data->map_x] == '1')
-			hit = 1;
-		else if (game->map[data->map_y][data->map_x] == 'D')
-			if (door_closed(game, data->map_x, data->map_y))
-				hit = 1;
+		hit = check_hit(game, data);
 	}
 	return (side);
 }
