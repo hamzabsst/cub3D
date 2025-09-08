@@ -6,47 +6,30 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 08:30:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/09/08 17:33:58 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:16:01 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static void	set_texture(t_game *game, t_hit *result, t_ray *data, int side)
+static int	is_wall_or_boundary(t_game *game, t_ray *data)
 {
-	char	cell;
-
-	cell = '1';
-	if (data->map_y >= 0 && data->map_y < game->map_height
-		&& data->map_x >= 0 && data->map_x < game->map_width
-		&& game->map[data->map_y]
-		&& data->map_x < (int)ft_strlen(game->map[data->map_y]))
-		cell = game->map[data->map_y][data->map_x];
-	if (cell == ' ')
-		result->txtr = &game->no_texture;
-	else if (side == 0)
-	{
-		if (data->step_x > 0)
-			result->txtr = &game->ea_texture;
-		else
-			result->txtr = &game->we_texture;
-	}
-	else
-	{
-		if (data->step_y > 0)
-			result->txtr = &game->so_texture;
-		else
-			result->txtr = &game->no_texture;
-	}
+	if (data->map_x < 0 || data->map_x >= game->map_width
+		|| data->map_y < 0 || data->map_y >= game->map_height
+		|| !game->map[data->map_y]
+		|| data->map_x >= (int)ft_strlen(game->map[data->map_y]))
+		return (1);
+	if (game->map[data->map_y][data->map_x] == '1'
+		|| game->map[data->map_y][data->map_x] == ' ')
+		return (1);
+	return (0);
 }
 
 static int	perform_dda(t_game *game, t_ray *data)
 {
 	int	side;
-	int	hit;
 
-	hit = 0;
-	while (hit == 0)
+	while (1)
 	{
 		if (data->side_x < data->side_y)
 		{
