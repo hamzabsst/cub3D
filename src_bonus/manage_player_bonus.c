@@ -14,8 +14,8 @@
 
 static int	is_pos_blocked(t_game *game, int map_x, int map_y)
 {
-	if (map_x < 0 || map_x >= game->map_width ||
-		map_y < 0 || map_y >= game->map_height)
+	if (map_x < 0 || map_x >= game->map_width
+		|| map_y < 0 || map_y >= game->map_height)
 		return (1);
 	if (!game->map[map_y])
 		return (1);
