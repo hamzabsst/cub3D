@@ -6,13 +6,13 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 07:31:07 by hbousset          #+#    #+#             */
-/*   Updated: 2025/09/08 17:54:00 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:19:04 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-static int	calculate_boss_screen_pos(t_game *game, t_point *screen_data)
+int	calculate_boss_screen_pos(t_game *game, t_point *screen_data)
 {
 	double	dx;
 	double	dy;
