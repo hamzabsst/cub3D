@@ -6,34 +6,18 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 09:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/09/08 18:12:51 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/09/10 17:51:30 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-void	draw_minimap_entity(t_game *game, t_point pos, int color)
+int	door_closed(t_game *game, int x, int y)
 {
-	int		x;
-	int		y;
-	int		*pixel;
-
-	y = pos.y - PLAYER_SIZE;
-	while (y <= pos.y + PLAYER_SIZE)
-	{
-		x = pos.x - PLAYER_SIZE;
-		while (x <= pos.x + PLAYER_SIZE)
-		{
-			if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
-			{
-				pixel = (int *)(game->buffer.addr + (y * game->buffer.line_len
-							+ x * (game->buffer.bpp / 8)));
-				*pixel = color;
-			}
-			x++;
-		}
-		y++;
-	}
+	if (y < 0 || y >= game->map_height || x < 0 || x >= game->map_width
+		|| !game->map[y] || x >= (int)ft_strlen(game->map[y]))
+		return (0);
+	return (game->map[y][x] == 'D');
 }
 
 static int	is_door_at(t_game *game, int x, int y)

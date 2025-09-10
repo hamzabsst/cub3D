@@ -1,23 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycast_utils.c                                    :+:      :+:    :+:   */
+/*   raycast_utils_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:08:26 by hbousset          #+#    #+#             */
-/*   Updated: 2025/09/08 18:13:03 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/09/10 17:51:26 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-int	door_closed(t_game *game, int x, int y)
+void	draw_minimap_entity(t_game *game, t_point pos, int color)
 {
-	if (y < 0 || y >= game->map_height || x < 0 || x >= game->map_width
-		|| !game->map[y] || x >= (int)ft_strlen(game->map[y]))
-		return (0);
-	return (game->map[y][x] == 'D');
+	int		x;
+	int		y;
+	int		*pixel;
+
+	y = pos.y - PLAYER_SIZE;
+	while (y <= pos.y + PLAYER_SIZE)
+	{
+		x = pos.x - PLAYER_SIZE;
+		while (x <= pos.x + PLAYER_SIZE)
+		{
+			if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
+			{
+				pixel = (int *)(game->buffer.addr + (y * game->buffer.line_len
+							+ x * (game->buffer.bpp / 8)));
+				*pixel = color;
+			}
+			x++;
+		}
+		y++;
+	}
 }
 
 static void	set_wall_texture(t_game *game, t_hit *result, t_ray *data, int side)
