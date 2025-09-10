@@ -6,52 +6,11 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 07:31:07 by hbousset          #+#    #+#             */
-/*   Updated: 2025/09/08 18:19:04 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/09/10 17:23:03 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
-
-int	calculate_boss_screen_pos(t_game *game, t_point *screen_data)
-{
-	double	dx;
-	double	dy;
-	double	angle;
-
-	if (!game->boss.active)
-		return (0);
-	dx = game->boss.x - game->player_x;
-	dy = game->boss.y - game->player_y;
-	screen_data->dist = sqrt(dx * dx + dy * dy);
-	if (screen_data->dist > 10.0)
-		return (0);
-	angle = atan2(dy, dx) - atan2(game->dir_y, game->dir_x);
-	while (angle > PI)
-		angle -= 2 * PI;
-	while (angle < -PI)
-		angle += 2 * PI;
-	if (angle > PI / 3 || angle < -PI / 3)
-		return (0);
-	screen_data->x = (int)(WIN_WIDTH / 2 * (1 + angle / (PI / 3)));
-	screen_data->size = (int)(WIN_HEIGHT / screen_data->dist * 0.5);
-	return (1);
-}
-
-int	render_buffer(t_game *game)
-{
-	game->buffer.img = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
-	if (!game->buffer.img)
-		return (ft_error("Failed to create render buffer"));
-	game->buffer.addr = mlx_get_data_addr(game->buffer.img,
-			&game->buffer.bpp,
-			&game->buffer.line_len,
-			&game->buffer.endian);
-	if (!game->buffer.addr)
-		return (ft_error("Failed to get buffer address"));
-	game->buffer.width = WIN_WIDTH;
-	game->buffer.height = WIN_HEIGHT;
-	return (0);
-}
 
 static void	calc_texture(t_hit hit, int wall[4], int y, int *tex_y)
 {
