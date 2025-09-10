@@ -42,24 +42,24 @@ static void	boss_collision(t_game *game)
 	double	dx;
 	double	dy;
 	double	distance;
-	double	current_time;
 
 	if (!game->boss.active || game->hp <= 0)
 		return ;
 	dx = game->player_x - game->boss.x;
 	dy = game->player_y - game->boss.y;
 	distance = sqrt(dx * dx + dy * dy);
-	current_time = get_current_time();
-	if (distance < 0.8 && (current_time - game->last_dmg_time) > 1.0)
+	if (distance < 0.8 && game->last_dmg_time == 0)
 	{
 		game->hp--;
-		game->last_dmg_time = current_time;
+		game->last_dmg_time = 60;
 		if (game->hp <= 0)
 		{
 			ft_printf("Game Over! The boss has defeated you!\n");
 			exit(0);
 		}
 	}
+	if (game->last_dmg_time > 0)
+		game->last_dmg_time--;
 }
 
 static int	is_move_valid(t_game *game, double new_x, double new_y)
