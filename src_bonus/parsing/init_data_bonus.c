@@ -84,7 +84,6 @@ void	init_var(t_game *game)
 	ft_bzero(game, sizeof(t_game));
 	game->player_x = -1.0;
 	game->player_y = -1.0;
-	game->prev_mouse_x = -1;
 	game->mouse_sens = 0.001;
 	game->hp = 3;
 	i = 0;

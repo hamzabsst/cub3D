@@ -54,7 +54,6 @@ int	init_boss(t_game *game)
 	game->boss.counter = 0;
 	game->boss.delay = 8;
 	game->boss.active = 1;
-	game->boss.last_hit = 0;
 	game->hp = 2;
 	game->last_dmg_time = 0;
 	if (load_boss_frames(game))

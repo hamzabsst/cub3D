@@ -53,7 +53,6 @@ typedef struct s_boss
 	int			delay;
 	t_image		frames[6];
 	int			active;
-	double		last_hit;
 }				t_boss;
 
 typedef struct s_game
@@ -71,7 +70,6 @@ typedef struct s_game
 	double		dir_y;
 	double		plane_x;
 	double		plane_y;
-	int			prev_mouse_x;
 	double		mouse_sens;
 	t_image		no_texture;
 	t_image		so_texture;
