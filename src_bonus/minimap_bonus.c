@@ -6,32 +6,11 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 11:35:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/09/08 17:54:33 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/09/10 17:49:16 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
-
-static int	minimap_scale(t_game *game)
-{
-	int	scale_x;
-	int	scale_y;
-	int	scale;
-
-	if (game->map_width == 0 || game->map_height == 0)
-		return (8);
-	scale_x = MINIMAP_SIZE / game->map_width;
-	scale_y = MINIMAP_SIZE / game->map_height;
-	if (scale_x < scale_y)
-		scale = scale_x;
-	else
-		scale = scale_y;
-	if (scale < 3)
-		scale = 3;
-	if (scale > 12)
-		scale = 12;
-	return (scale);
-}
 
 static void	draw_square(t_game *game, t_square sq)
 {
@@ -96,6 +75,27 @@ static void	draw_map_grid(t_game *game, int scale)
 		}
 		map_y++;
 	}
+}
+
+static int	minimap_scale(t_game *game)
+{
+	int	scale_x;
+	int	scale_y;
+	int	scale;
+
+	if (game->map_width == 0 || game->map_height == 0)
+		return (8);
+	scale_x = MINIMAP_SIZE / game->map_width;
+	scale_y = MINIMAP_SIZE / game->map_height;
+	if (scale_x < scale_y)
+		scale = scale_x;
+	else
+		scale = scale_y;
+	if (scale < 3)
+		scale = 3;
+	if (scale > 12)
+		scale = 12;
+	return (scale);
 }
 
 void	draw_minimap(t_game *game)
