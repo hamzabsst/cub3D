@@ -15,7 +15,7 @@ SRCS 		=	src/main.c \
 				src/parsing/load_file.c \
 				src/parsing/parse_file.c \
 				src/parsing/parse_identifiers.c \
-				src/parsing/validate_wall.c \
+				src/parsing/parse_wall.c \
 				src/parsing/parse_map.c \
 				src/parsing/extract_map.c \
 				src/parsing/init_data.c \
@@ -28,7 +28,7 @@ SRCS_BONUS 	=	src_bonus/main_bonus.c \
 				src_bonus/parsing/load_map_bonus.c \
 				src_bonus/parsing/parse_file_bonus.c \
 				src_bonus/parsing/parse_identifiers_bonus.c \
-				src_bonus/parsing/validate_wall_bonus.c \
+				src_bonus/parsing/parse_wall_bonus.c \
 				src_bonus/parsing/parse_map_bonus.c \
 				src_bonus/parsing/extract_map_bonus.c \
 				src_bonus/parsing/init_data_bonus.c \
