@@ -33,7 +33,8 @@ static int	game_loop(t_game *game)
 				*pixel = game->f_rgb;
 		}
 	}
-	(raycast(game), update_boss(game), render_boss(game));
+	raycast(game);
+	render_boss(game);
 	draw_minimap(game);
 	mlx_put_image_to_window(game->mlx, game->window,
 		game->buffer.img, 0, 0);
