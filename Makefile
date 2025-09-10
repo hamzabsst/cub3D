@@ -32,16 +32,18 @@ SRCS_BONUS 	=	src_bonus/main_bonus.c \
 				src_bonus/parsing/parse_map_bonus.c \
 				src_bonus/parsing/extract_map_bonus.c \
 				src_bonus/parsing/init_data_bonus.c \
+				src_bonus/parsing/render_game_bonus.c \
 				src_bonus/game_loop_bonus.c \
 				src_bonus/raycast_bonus.c \
 				src_bonus/draw_wall_bonus.c \
 				src_bonus/manage_player_bonus.c \
 				src_bonus/minimap_bonus.c \
 				src_bonus/doors_bonus.c \
-				src_bonus/boss.c \
-				src_bonus/boss_helpers.c \
+				src_bonus/boss_bonus.c \
+				src_bonus/boss_init_bonus.c \
+				src_bonus/boss_draw_bonus.c \
 				src_bonus/cleanup_bonus.c \
-				src_bonus/raycast_utils.c
+				src_bonus/raycast_utils_bonus.c
 
 OBJS		= $(SRCS:.c=.o)
 OBJS_BONUS	= $(SRCS_BONUS:.c=.o)
