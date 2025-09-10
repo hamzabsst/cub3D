@@ -16,7 +16,6 @@
 # include "../mylib/myLib.h"
 # include "/goinfre/minilibx/mlx.h"
 # include <math.h>
-# include <sys/time.h>
 
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
@@ -162,7 +161,6 @@ void	draw_minimap_entity(t_game *game, t_point pos, int color);
 int		init_boss(t_game *game);
 void	render_boss(t_game *game);
 void	draw_boss_sprite(t_game *game, t_point screen_data);
-double	get_current_time(void);
 //utils
 void	cleanup(t_game *game);
 int		ft_error(char *msg);

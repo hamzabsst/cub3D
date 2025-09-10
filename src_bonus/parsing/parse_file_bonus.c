@@ -6,19 +6,11 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 15:58:00 by hamza             #+#    #+#             */
-/*   Updated: 2025/08/30 11:44:44 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/09/10 17:46:59 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
-
-double	get_current_time(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec + tv.tv_usec / 1000000.0);
-}
 
 int	parse_texture(char *line, char **texture_path)
 {
