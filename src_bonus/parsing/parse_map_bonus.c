@@ -40,21 +40,21 @@ static int	validate_player(t_game *game)
 	char	c;
 
 	players = 0;
-	i = 0;
-	while (i < game->map_height)
+	i = -1;
+	while (++i < game->map_height)
 	{
 		j = 0;
 		while (j < game->map_width)
 		{
 			c = game->map[i][j];
 			if (c != '0' && c != '1' && c != 'N' && c != 'S'
-				&& c != 'E' && c != 'W' && c != 'D' && c != 'd' && c != ' ')
+				&& c != 'E' && c != 'W' && c != 'D'
+				&& c != 'd' && c != ' ' && c != 'X')
 				return (ft_error("Invalid character in map"));
 			if (process_player(game, c, i * 1000 + j, &players))
 				return (1);
 			j++;
 		}
-		i++;
 	}
 	if (players == 0)
 		return (ft_error("No player found"));
