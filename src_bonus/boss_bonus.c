@@ -6,13 +6,13 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 00:00:00 by hbousset          #+#    #+#             */
-/*   Updated: 2025/09/10 17:47:16 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/09/12 16:31:43 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-static int	calculate_boss_screen_pos(t_game *game, t_point *screen_data)
+static int	boss_pos(t_game *game, t_point *screen_data)
 {
 	double	dx;
 	double	dy;
@@ -116,6 +116,6 @@ void	render_boss(t_game *game)
 	}
 	move_boss(game);
 	boss_collision(game);
-	if (calculate_boss_screen_pos(game, &screen_data))
+	if (boss_pos(game, &screen_data))
 		draw_boss_sprite(game, screen_data);
 }
