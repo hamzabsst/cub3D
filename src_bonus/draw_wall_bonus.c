@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 07:31:07 by hbousset          #+#    #+#             */
-/*   Updated: 2025/11/10 15:25:45 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/11/10 15:43:41 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@ static void	wall_column(t_game *game, int screen_x, t_hit hit, int wall[4])
 	int		y;
 	int		tex_y;
 	int		color;
-	int		tex_x;
 	double	step;
 	double	tex_pos;
 
-	tex_x = wall[3];
 	step = (double)hit.txtr->height / wall[2];
 	tex_pos = (wall[0] - (WIN_HEIGHT - wall[2]) / 2) * step;
 	y = wall[0];
@@ -33,7 +31,7 @@ static void	wall_column(t_game *game, int screen_x, t_hit hit, int wall[4])
 		if (tex_y >= hit.txtr->height)
 			tex_y = hit.txtr->height - 1;
 		color = *(int *)(hit.txtr->addr
-				+ (tex_y * hit.txtr->line_len + tex_x * (hit.txtr->bpp / 8)));
+				+ (tex_y * hit.txtr->line_len + wall[3] * (hit.txtr->bpp / 8)));
 		*(int *)(game->buffer.addr + (y * game->buffer.line_len
 					+ screen_x * (game->buffer.bpp / 8))) = color;
 		tex_pos += step;
