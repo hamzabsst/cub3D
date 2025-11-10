@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wall Drawing Explained</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            color: #4CAF50;
+        }
+        .demo-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        canvas {
+            border: 2px solid #333;
+            background: #000;
+        }
+        .controls {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .slider-container {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #4CAF50;
+        }
+        input[type="range"] {
+            width: 200px;
+        }
+        .value-display {
+            display: inline-block;
+            width: 100px;
+            text-align: right;
+            font-family: monospace;
+            background: #333;
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+        .explanation {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .code-box {
+            background: #333;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: monospace;
+            border-left: 4px solid #4CAF50;
+            font-size: 14px;
+        }
+        .step-box {
+            background: #2a4a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #4CAF50;
+        }
+        .color-legend {
+            display: flex;
+            gap: 15px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .color-box {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Wall Drawing & Texture Mapping</h1>
+        
+        <div class="explanation">
+            <h2>🎯 What This Code Does</h2>
+            <p>After raycasting finds a wall, this code:</p>
+            <ul>
+                <li><strong>Calculates</strong> how tall the wall should appear on screen</li>
+                <li><strong>Maps</strong> a texture image onto that wall slice</li>
+                <li><strong>Draws</strong> one vertical column of pixels to the screen</li>
+            </ul>
+            <p>This happens for every column of your screen (800+ times per frame!)</p>
+        </div>
+
+        <div class="demo-container">
+            <canvas id="textureCanvas" width="300" height="300"></canvas>
+            <canvas id="wallCanvas" width="400" height="400"></canvas>
+            <canvas id="screenCanvas" width="800" height="400"></canvas>
+        </div>
+
+        <div class="color-legend">
+            <div class="legend-item">
+                <div class="color-box" style="background: #f00;"></div>
+                <span>Current column being drawn</span>
+            </div>
+            <div class="legend-item">
+                <div class="color-box" style="background: #ff0;"></div>
+                <span>Wall height on screen</span>
+            </div>
+            <div class="legend-item">
+                <div class="color-box" style="background: #0f0;"></div>
+                <span>Texture sampling column</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <h2>🎛️ Interactive Controls</h2>
+            <div class="slider-container">
+                <label for="distance">Wall Distance:</label>
+                <input type="range" id="distance" min="0.5" max="5.0" step="0.1" value="2.0">
+                <span class="value-display" id="distanceDisplay">2.0</span>
+            </div>
+            <div class="slider-container">
+                <label for="hitPoint">Hit Point (tex_x):</label>
+                <input type="range" id="hitPoint" min="0.0" max="1.0" step="0.01" value="0.3">
+                <span class="value-display" id="hitPointDisplay">0.30</span>
+            </div>
+            <div class="slider-container">
+                <label for="screenX">Screen Column:</label>
+                <input type="range" id="screenX" min="0" max="799" value="400">
+                <span class="value-display" id="screenXDisplay">400</span>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h2>📐 Step-by-Step Breakdown</h2>
+            
+            <div class="step-box">
+                <h3>Step 1: Calculate Wall Height</h3>
+                <div class="code-box">wall_height = (int)(WIN_HEIGHT / hit.distance);</div>
+                <p><strong>The Magic Formula!</strong> The farther the wall, the smaller it appears.</p>
+                <p>Distance = <span id="calcDistance">2.0</span> → Wall Height = <span id="calcHeight">200</span> pixels</p>
+            </div>
+
+            <div class="step-box">
+                <h3>Step 2: Center the Wall on Screen</h3>
+                <div class="code-box">
+wall_top = (WIN_HEIGHT - wall_height) / 2;<br>
+wall_bottom = wall_top + wall_height;
+                </div>
+                <p>Centers the wall vertically. Remaining space becomes sky/floor.</p>
+                <p>Wall Top = <span id="calcTop">100</span>, Wall Bottom = <span id="calcBottom">300</span></p>
+            </div>
+
+            <div class="step-box">
+                <h3>Step 3: Find Texture Column</h3>
+                <div class="code-box">tex_x = (int)(hit.hit_point * texture_width) % texture_width;</div>
+                <p><strong>Critical!</strong> Which column of the texture image to use?</p>
+                <p>Hit Point = <span id="calcHitPoint">0.30</span> → Texture X = <span id="calcTexX">19</span></p>
+            </div>
+
+            <div class="step-box">
+                <h3>Step 4: Stretch Texture Vertically</h3>
+                <div class="code-box">tex_y = (y - wall_top) * texture_height / wall_height;</div>
+                <p>Maps each screen pixel to the correct texture pixel.</p>
+                <p>As screen Y goes from <span id="calcTop2">100</span> to <span id="calcBottom2">300</span>, 
+                texture Y goes from 0 to 63.</p>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h2>🎨 The Texture Mapping Process</h2>
+            <p>Look at the visualization above:</p>
+            <ol>
+                <li><strong>Left:</strong> The original texture (64x64 brick pattern)</li>
+                <li><strong>Middle:</strong> One column extracted from the texture (the green line)</li>
+                <li><strong>Right:</strong> That column stretched to fit the wall height on screen</li>
+            </ol>
+            
+            <div class="code-box">
+// This is the pixel copying magic:<br>
+color = *(int *)(texture_address + texture_pixel_position);<br>
+*(int *)(screen_address + screen_pixel_position) = color;
+            </div>
+            
+            <p>Each pixel gets copied from texture → screen buffer, creating the illusion of a textured 3D wall!</p>
+        </div>
+
+        <div class="explanation">
+            <h2>🚀 Why This Creates 3D</h2>
+            <ul>
+                <li><strong>Distance Scaling:</strong> Far walls = short columns, Near walls = tall columns</li>
+                <li><strong>Texture Mapping:</strong> Makes flat surfaces look detailed and realistic</li>
+                <li><strong>Perspective:</strong> The human eye interprets different column heights as depth</li>
+            </ul>
+            <p><strong>The result:</strong> Your brain sees a 3D corridor, but it's really just hundreds of stretched texture columns!</p>
+        </div>
+    </div>
+
+    <script>
+        // Create a simple brick texture
+        function createBrickTexture(canvas) {
+            const ctx = canvas.getContext('2d');
+            const size = 64;
+            
+            // Create brick pattern
+            ctx.fillStyle = '#8B4513'; // Brown
+            ctx.fillRect(0, 0, size, size);
+            
+            // Draw mortar lines
+            ctx.strokeStyle = '#696969';
+            ctx.lineWidth = 2;
+            
+            // Horizontal lines
+            for (let y = 0; y < size; y += 16) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(size, y);
+                ctx.stroke();
+            }
+            
+            // Vertical lines (offset every other row)
+            for (let y = 0; y < size; y += 16) {
+                const offset = (Math.floor(y / 16) % 2) * 16;
+                for (let x = offset; x < size; x += 32) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(x, y + 16);
+                    ctx.stroke();
+                }
+            }
+            
+            // Add some texture variation
+            for (let i = 0; i < 50; i++) {
+                ctx.fillStyle = `rgba(${100 + Math.random() * 50}, ${30 + Math.random() * 20}, ${10 + Math.random() * 10}, 0.3)`;
+                ctx.fillRect(Math.random() * size, Math.random() * size, 2, 2);
+            }
+        }
+
+        let distance = 2.0;
+        let hitPoint = 0.3;
+        let screenX = 400;
+        const WIN_HEIGHT = 400;
+        const textureSize = 64;
+
+        function updateCalculations() {
+            const wallHeight = Math.floor(WIN_HEIGHT / distance);
+            const wallTop = Math.floor((WIN_HEIGHT - wallHeight) / 2);
+            const wallBottom = wallTop + wallHeight;
+            const texX = Math.floor(hitPoint * textureSize) % textureSize;
+            
+            document.getElementById('calcDistance').textContent = distance.toFixed(1);
+            document.getElementById('calcHeight').textContent = wallHeight;
+            document.getElementById('calcTop').textContent = wallTop;
+            document.getElementById('calcBottom').textContent = wallBottom;
+            document.getElementById('calcTop2').textContent = wallTop;
+            document.getElementById('calcBottom2').textContent = wallBottom;
+            document.getElementById('calcHitPoint').textContent = hitPoint.toFixed(2);
+            document.getElementById('calcTexX').textContent = texX;
+            document.getElementById('distanceDisplay').textContent = distance.toFixed(1);
+            document.getElementById('hitPointDisplay').textContent = hitPoint.toFixed(2);
+            document.getElementById('screenXDisplay').textContent = screenX;
+        }
+
+        function drawVisualization() {
+            const textureCanvas = document.getElementById('textureCanvas');
+            const wallCanvas = document.getElementById('wallCanvas');
+            const screenCanvas = document.getElementById('screenCanvas');
+            
+            // Create texture
+            createBrickTexture(textureCanvas);
+            const textureCtx = textureCanvas.getContext('2d');
+            const textureData = textureCtx.getImageData(0, 0, textureSize, textureSize);
+            
+            // Draw texture with highlight
+            const texX = Math.floor(hitPoint * textureSize) % textureSize;
+            textureCtx.strokeStyle = '#0f0';
+            textureCtx.lineWidth = 2;
+            textureCtx.beginPath();
+            textureCtx.moveTo(texX, 0);
+            textureCtx.lineTo(texX, textureSize);
+            textureCtx.stroke();
+            
+            // Draw wall column
+            const wallCtx = wallCanvas.getContext('2d');
+            wallCtx.fillStyle = '#000';
+            wallCtx.fillRect(0, 0, 400, 400);
+            
+            const wallHeight = Math.floor(WIN_HEIGHT / distance);
+            const wallTop = Math.floor((WIN_HEIGHT - wallHeight) / 2);
+            const wallBottom = wallTop + wallHeight;
+            
+            // Draw the extracted column
+            const columnWidth = 50;
+            const columnX = (400 - columnWidth) / 2;
+            
+            for (let y = wallTop; y <= wallBottom && y < WIN_HEIGHT; y++) {
+                let texY = Math.floor((y - wallTop) * textureSize / wallHeight);
+                if (texY >= textureSize) texY = textureSize - 1;
+                
+                const pixelIndex = (texY * textureSize + texX) * 4;
+                const r = textureData.data[pixelIndex];
+                const g = textureData.data[pixelIndex + 1];
+                const b = textureData.data[pixelIndex + 2];
+                
+                wallCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+                wallCtx.fillRect(columnX, y, columnWidth, 1);
+            }
+            
+            // Highlight the wall area
+            wallCtx.strokeStyle = '#ff0';
+            wallCtx.lineWidth = 2;
+            wallCtx.strokeRect(columnX, wallTop, columnWidth, wallBottom - wallTop);
+            
+            // Draw screen view
+            const screenCtx = screenCanvas.getContext('2d');
+            screenCtx.fillStyle = '#87CEEB'; // Sky
+            screenCtx.fillRect(0, 0, 800, WIN_HEIGHT / 2);
+            screenCtx.fillStyle = '#228B22'; // Ground
+            screenCtx.fillRect(0, WIN_HEIGHT / 2, 800, WIN_HEIGHT / 2);
+            
+            // Draw multiple wall columns to show the full effect
+            for (let x = 0; x < 800; x++) {
+                const localHitPoint = (x / 800.0) % 1.0; // Vary texture position
+                const localTexX = Math.floor(localHitPoint * textureSize) % textureSize;
+                
+                for (let y = wallTop; y <= wallBottom && y < WIN_HEIGHT; y++) {
+                    let texY = Math.floor((y - wallTop) * textureSize / wallHeight);
+                    if (texY >= textureSize) texY = textureSize - 1;
+                    
+                    const pixelIndex = (texY * textureSize + localTexX) * 4;
+                    const r = textureData.data[pixelIndex];
+                    const g = textureData.data[pixelIndex + 1];
+                    const b = textureData.data[pixelIndex + 2];
+                    
+                    screenCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+                    screenCtx.fillRect(x, y, 1, 1);
+                }
+            }
+            
+            // Highlight current column
+            screenCtx.strokeStyle = '#f00';
+            screenCtx.lineWidth = 3;
+            screenCtx.beginPath();
+            screenCtx.moveTo(screenX, 0);
+            screenCtx.lineTo(screenX, WIN_HEIGHT);
+            screenCtx.stroke();
+        }
+
+        // Event listeners
+        document.getElementById('distance').addEventListener('input', (e) => {
+            distance = parseFloat(e.target.value);
+            updateCalculations();
+            drawVisualization();
+        });
+        
+        document.getElementById('hitPoint').addEventListener('input', (e) => {
+            hitPoint = parseFloat(e.target.value);
+            updateCalculations();
+            drawVisualization();
+        });
+        
+        document.getElementById('screenX').addEventListener('input', (e) => {
+            screenX = parseInt(e.target.value);
+            updateCalculations();
+            drawVisualization();
+        });
+
+        // Initial draw
+        updateCalculations();
+        setTimeout(drawVisualization, 100); // Small delay to ensure canvas is ready
+    </script>
+</body>
+</html>
