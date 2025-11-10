@@ -6,7 +6,7 @@
 /*   By: abchaman <abchaman@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 08:04:47 by abchaman          #+#    #+#             */
-/*   Updated: 2025/11/10 20:37:39 by abchaman         ###   ########.fr       */
+/*   Updated: 2025/09/24 04:17:38 by abchaman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int	init_game(t_game *game)
 		return (ft_error("failed to load west texture"));
 	if (load_texture_image(game, &game->ea_texture, game->ea_path))
 		return (ft_error("failed to load east texture"));
-	if (game->start_dir == 'S')
+	if (game->start_dir == 'N')
 		set_direction(game, 0, -1, 0.66);
-	else if (game->start_dir == 'N')
+	else if (game->start_dir == 'S')
 		set_direction(game, 0, 1, -0.66);
 	else if (game->start_dir == 'E')
 		set_direction(game, 1, 0, 0);

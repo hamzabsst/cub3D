@@ -6,7 +6,7 @@
 /*   By: abchaman <abchaman@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 09:29:05 by abchaman          #+#    #+#             */
-/*   Updated: 2025/11/10 21:59:23 by abchaman         ###   ########.fr       */
+/*   Updated: 2025/09/24 04:21:17 by abchaman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,20 +96,24 @@ static int	flood_fill(t_game *game, char **temp_map, int x, int y)
 {
 	if (x < 0 || y < 0 || x >= game->map_width
 		|| y >= game->map_height)
-		return (1);
-	if (temp_map[y][x] == '1' || temp_map[y][x] == 'V')
+		return (0);
+	if (temp_map[y][x] == '1' || temp_map[y][x] == 'V' ||
+		temp_map[y][x] == 'D' || temp_map[y][x] == 'd')
 		return (0);
 	if (temp_map[y][x] == ' ')
-		return (1);
+	{
+		temp_map[y][x] = 'V';
+		flood_fill(game, temp_map, x + 1, y);
+		flood_fill(game, temp_map, x - 1, y);
+		flood_fill(game, temp_map, x, y + 1);
+		flood_fill(game, temp_map, x, y - 1);
+		return (0);
+	}
 	temp_map[y][x] = 'V';
-	if (flood_fill(game, temp_map, x + 1, y))
-		return (1);
-	if (flood_fill(game, temp_map, x - 1, y))
-		return (1);
-	if (flood_fill(game, temp_map, x, y + 1))
-		return (1);
-	if (flood_fill(game, temp_map, x, y - 1))
-		return (1);
+	flood_fill(game, temp_map, x + 1, y);
+	flood_fill(game, temp_map, x - 1, y);
+	flood_fill(game, temp_map, x, y + 1);
+	flood_fill(game, temp_map, x, y - 1);
 	return (0);
 }
 
@@ -119,14 +123,12 @@ int	validate_wall(t_game *game)
 
 	if (check_walls(game))
 		return (1);
+	if (is_valid_door(game))
+		return (1);
 	temp_map = dup_map(game);
 	if (!temp_map)
 		return (ft_error("Memory allocation failed"));
-	if (flood_fill(game, temp_map, (int)game->player_x, (int)game->player_y))
-	{
-		ft_free(temp_map);
-		return (ft_error("Map not properly enclosed by walls"));
-	}
+	flood_fill(game, temp_map, (int)game->player_x, (int)game->player_y);
 	ft_free(temp_map);
 	return (0);
 }
