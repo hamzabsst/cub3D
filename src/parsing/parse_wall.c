@@ -6,7 +6,7 @@
 /*   By: abchaman <abchaman@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 09:29:05 by abchaman          #+#    #+#             */
-/*   Updated: 2025/09/24 04:19:33 by abchaman         ###   ########.fr       */
+/*   Updated: 2025/11/10 21:03:52 by abchaman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,23 +43,20 @@ static int	flood_fill(t_game *game, char **temp_map, int x, int y)
 {
 	if (x < 0 || y < 0 || x >= game->map_width
 		|| y >= game->map_height)
-		return (0);
+		return (1);
 	if (temp_map[y][x] == '1' || temp_map[y][x] == 'V')
 		return (0);
 	if (temp_map[y][x] == ' ')
-	{
-		temp_map[y][x] = 'V';
-		flood_fill(game, temp_map, x + 1, y);
-		flood_fill(game, temp_map, x - 1, y);
-		flood_fill(game, temp_map, x, y + 1);
-		flood_fill(game, temp_map, x, y - 1);
-		return (0);
-	}
+		return (1);
 	temp_map[y][x] = 'V';
-	flood_fill(game, temp_map, x + 1, y);
-	flood_fill(game, temp_map, x - 1, y);
-	flood_fill(game, temp_map, x, y + 1);
-	flood_fill(game, temp_map, x, y - 1);
+	if (flood_fill(game, temp_map, x + 1, y))
+		return (1);
+	if (flood_fill(game, temp_map, x - 1, y))
+		return (1);
+	if (flood_fill(game, temp_map, x, y + 1))
+		return (1);
+	if (flood_fill(game, temp_map, x, y - 1))
+		return (1);
 	return (0);
 }
 
