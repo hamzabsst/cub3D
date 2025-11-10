@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_file_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abchaman <abchaman@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:01:09 by abchaman          #+#    #+#             */
-/*   Updated: 2025/09/24 04:20:49 by abchaman         ###   ########.fr       */
+/*   Updated: 2025/11/10 22:37:44 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,42 @@ static int	parse_identifiers(char **lines, t_game *game)
 		return (0);
 	else
 		return (1);
+}
+
+static int	is_valid_neighbor(t_game *game, char **temp_map, int x, int y)
+{
+	if (x < 0 || y < 0 || x >= game->map_width || y >= game->map_height)
+		return (1);
+	if (y >= game->map_height || x >= (int)ft_strlen(game->map[y]))
+		return (1);
+	if (temp_map[y][x] == ' ')
+		return (1);
+	return (0);
+}
+
+int	flood_fill(t_game *game, char **temp_map, int x, int y)
+{
+	if (x < 0 || y < 0 || x >= game->map_width
+		|| y >= game->map_height)
+		return (1);
+	if (y >= game->map_height || x >= (int)ft_strlen(game->map[y]))
+		return (1);
+	if (temp_map[y][x] == '1' || temp_map[y][x] == 'V')
+		return (0);
+	if (temp_map[y][x] == ' ')
+		return (1);
+	temp_map[y][x] = 'V';
+	if (is_valid_neighbor(game, temp_map, x + 1, y)
+		|| is_valid_neighbor(game, temp_map, x - 1, y)
+		|| is_valid_neighbor(game, temp_map, x, y + 1)
+		|| is_valid_neighbor(game, temp_map, x, y - 1))
+		return (1);
+	if (flood_fill(game, temp_map, x + 1, y)
+		|| flood_fill(game, temp_map, x - 1, y)
+		|| flood_fill(game, temp_map, x, y + 1)
+		|| flood_fill(game, temp_map, x, y - 1))
+		return (1);
+	return (0);
 }
 
 int	parse_file(char **lines, t_game *game)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_wall_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abchaman <abchaman@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 09:29:05 by abchaman          #+#    #+#             */
-/*   Updated: 2025/09/24 04:21:17 by abchaman         ###   ########.fr       */
+/*   Updated: 2025/11/10 22:37:31 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,34 +92,10 @@ static int	check_walls(t_game *game)
 	return (0);
 }
 
-static int	flood_fill(t_game *game, char **temp_map, int x, int y)
-{
-	if (x < 0 || y < 0 || x >= game->map_width
-		|| y >= game->map_height)
-		return (0);
-	if (temp_map[y][x] == '1' || temp_map[y][x] == 'V' ||
-		temp_map[y][x] == 'D' || temp_map[y][x] == 'd')
-		return (0);
-	if (temp_map[y][x] == ' ')
-	{
-		temp_map[y][x] = 'V';
-		flood_fill(game, temp_map, x + 1, y);
-		flood_fill(game, temp_map, x - 1, y);
-		flood_fill(game, temp_map, x, y + 1);
-		flood_fill(game, temp_map, x, y - 1);
-		return (0);
-	}
-	temp_map[y][x] = 'V';
-	flood_fill(game, temp_map, x + 1, y);
-	flood_fill(game, temp_map, x - 1, y);
-	flood_fill(game, temp_map, x, y + 1);
-	flood_fill(game, temp_map, x, y - 1);
-	return (0);
-}
-
 int	validate_wall(t_game *game)
 {
 	char	**temp_map;
+	int		result;
 
 	if (check_walls(game))
 		return (1);
@@ -128,7 +104,10 @@ int	validate_wall(t_game *game)
 	temp_map = dup_map(game);
 	if (!temp_map)
 		return (ft_error("Memory allocation failed"));
-	flood_fill(game, temp_map, (int)game->player_x, (int)game->player_y);
+	result = flood_fill(game, temp_map, (int)game->player_x,
+			(int)game->player_y);
 	ft_free(temp_map);
+	if (result)
+		return (ft_error("Map not closed walkable area touches space"));
 	return (0);
 }

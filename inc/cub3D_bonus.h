@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:00:31 by hbousset          #+#    #+#             */
-/*   Updated: 2025/11/10 20:44:32 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/11/10 22:37:57 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ int		process_identifier(char *trimmed, t_game *game);
 int		parse_texture(char *line, char **texture_path);
 int		validate_wall(t_game *game);
 int		parse_map(char **lines, t_game *game);
+int		flood_fill(t_game *game, char **temp_map, int x, int y);
 int		extract_map(char **lines, int start, t_game *game);
 char	**dup_map(t_game *game);
 int		init_game(t_game *game);
