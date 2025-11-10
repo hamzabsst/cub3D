@@ -6,7 +6,7 @@
 /*   By: abchaman <abchaman@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 09:29:05 by abchaman          #+#    #+#             */
-/*   Updated: 2025/11/10 21:03:52 by abchaman         ###   ########.fr       */
+/*   Updated: 2025/11/10 21:14:20 by abchaman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,11 @@ int	validate_wall(t_game *game)
 	temp_map = dup_map(game);
 	if (!temp_map)
 		return (ft_error("Memory allocation failed"));
-	flood_fill(game, temp_map, (int)game->player_x, (int)game->player_y);
+	 if (flood_fill(game, temp_map, (int)game->player_x, (int)game->player_y))
+	{
+		ft_free(temp_map);
+		return (ft_error("Map not properly enclosed by walls"));
+	}
 	ft_free(temp_map);
 	return (0);
 }
