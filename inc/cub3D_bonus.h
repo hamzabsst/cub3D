@@ -6,7 +6,7 @@
 /*   By: hbousset <hbousset@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:00:31 by hbousset          #+#    #+#             */
-/*   Updated: 2025/11/10 15:58:04 by hbousset         ###   ########.fr       */
+/*   Updated: 2025/11/10 20:44:32 by hbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB3D_BONUS_H
 
 # include "../mylib/myLib.h"
-# include "/goinfre/minilibx/mlx.h"
+# include "/usr/include/minilibx-linux/mlx.h"
 # include <math.h>
 
 # define WIN_WIDTH 1920
